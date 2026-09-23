@@ -28,7 +28,7 @@ To visualize a previous capture without running Lean again, click the **folder**
 
 Editor decorations cannot receive ordinary clicks in VS Code: the clickable control is the timing CodeLens above the statement, or the **Inspect** action in the bar's hover. Multi-line tactics receive one annotation on their first line; selecting it highlights the complete recorded range.
 
-VS Code hides CodeLens when **Editor: Code Lens** is disabled or screen-reader mode is active. In that case, use the **Lean Profile** tree, the details view's source-statement list, or the bar's hover action. The extension respects your accessibility settings.
+If the bars above lines are missing, check **Editor: Code Lens**. We also observed hidden CodeLens in **Screen Reader Optimized** mode during UI testing. The **Lean Profile** tree, the details view's source-statement list, and the bar's hover action provide alternative navigation. The extension respects your accessibility settings.
 
 ## Command line
 
