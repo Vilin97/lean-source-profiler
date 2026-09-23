@@ -1,0 +1,64 @@
+{
+  "name": "lean-source-profiler",
+  "displayName": "Lean Source Profiler",
+  "description": "Profile Lean elaboration and explore timing bars directly in your source code.",
+  "version": "0.1.0",
+  "publisher": "local-lean-tools",
+  "license": "MIT",
+  "engines": { "vscode": "^1.96.0" },
+  "categories": ["Programming Languages", "Visualization", "Other"],
+  "keywords": ["lean", "profiler", "performance", "proof"],
+  "main": "./out/extension.js",
+  "activationEvents": ["onUri", "onLanguage:lean4", "onLanguage:lean"],
+  "capabilities": { "untrustedWorkspaces": { "supported": "limited", "description": "View saved recordings; profiling requires a trusted workspace." } },
+  "contributes": {
+    "commands": [
+      { "command": "leanSourceProfiler.profile", "title": "Lean Source Profiler: Profile Current File", "icon": "$(pulse)" },
+      { "command": "leanSourceProfiler.open", "title": "Lean Source Profiler: Open Profile", "icon": "$(folder-opened)" },
+      { "command": "leanSourceProfiler.inspectNode", "title": "Lean Source Profiler: Inspect Operation" },
+      { "command": "leanSourceProfiler.openSource", "title": "Lean Source Profiler: Go to Profile Source" },
+      { "command": "leanSourceProfiler.openSymbol", "title": "Lean Source Profiler: Go to Definition" },
+      { "command": "leanSourceProfiler.toggleOverlay", "title": "Lean Source Profiler: Toggle Timing Bars", "icon": "$(color-mode)" },
+      { "command": "leanSourceProfiler.clear", "title": "Lean Source Profiler: Clear Profile", "icon": "$(clear-all)" }
+    ],
+    "viewsContainers": { "activitybar": [{ "id": "leanSourceProfiler", "title": "Lean Profile", "icon": "media/icon.svg" }] },
+    "views": { "leanSourceProfiler": [{ "id": "leanSourceProfiler.profile", "name": "Profile" }] },
+    "viewsWelcome": [{ "view": "leanSourceProfiler.profile", "contents": "Explore Lean elaboration timings in your source.\n[Profile Current Lean File](command:leanSourceProfiler.profile)\n[Open a Recording](command:leanSourceProfiler.open)\nCapture uses this project's Lake environment and requires a trusted workspace.", "when": "!leanSourceProfiler.hasProfile" }],
+    "menus": {
+      "editor/title": [
+        { "command": "leanSourceProfiler.profile", "when": "resourceExtname == .lean", "group": "navigation@8" },
+        { "command": "leanSourceProfiler.open", "when": "resourceExtname == .lean", "group": "navigation@9" }
+      ],
+      "view/title": [
+        { "command": "leanSourceProfiler.profile", "when": "view == leanSourceProfiler.profile", "group": "navigation@1" },
+        { "command": "leanSourceProfiler.open", "when": "view == leanSourceProfiler.profile", "group": "navigation@2" },
+        { "command": "leanSourceProfiler.toggleOverlay", "when": "view == leanSourceProfiler.profile && leanSourceProfiler.hasProfile", "group": "navigation@3" },
+        { "command": "leanSourceProfiler.clear", "when": "view == leanSourceProfiler.profile && leanSourceProfiler.hasProfile", "group": "navigation@4" }
+      ]
+    },
+    "configuration": {
+      "title": "Lean Source Profiler",
+      "properties": {
+        "leanSourceProfiler.thresholdMs": { "type": "integer", "default": 1, "minimum": 0, "description": "Minimum duration for internal trace events in milliseconds. Source-level events are retained separately." },
+        "leanSourceProfiler.lakePath": { "type": "string", "default": "lake", "description": "Lake executable path. Uses ~/.elan/bin/lake when lake is not on PATH." }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "tsc --noEmit",
+    "test": "npm run build && node --test test/*.test.cjs",
+    "test:extension": "node test/run-extension.cjs",
+    "test:accuracy": "npm run build && node test/capture.integration.cjs",
+    "package": "npm run build && vsce package --allow-missing-repository --no-rewrite-relative-links --out dist/lean-source-profiler-0.1.0.vsix",
+    "vscode:prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.96.0",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.6.2",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.8.0"
+  }
+}

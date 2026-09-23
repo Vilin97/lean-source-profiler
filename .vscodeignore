@@ -1,0 +1,12 @@
+.git/**
+.vscode-test/**
+node_modules/**
+src/**
+test/**
+scripts/**
+dist/**
+tsconfig.json
+package-lock.json
+lean/**/*.olean
+lean/**/*.ilean
+**/.DS_Store

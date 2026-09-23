@@ -1,0 +1,12 @@
+node_modules/
+out/
+dist/
+.vscode-test/
+test/results/
+*.olean
+*.ilean
+*.c
+.DS_Store
+.lake/
+.leanprofiles/
+.vscode/

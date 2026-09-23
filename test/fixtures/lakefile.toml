@@ -1,0 +1,6 @@
+name = "source-profile-fixtures"
+version = "0.1.0"
+defaultTargets = ["SourceProfileFixtures"]
+
+[[lean_lib]]
+name = "SourceProfileFixtures"

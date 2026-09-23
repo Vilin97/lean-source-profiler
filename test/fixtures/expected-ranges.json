@@ -1,0 +1,265 @@
+{
+  "coordinateConvention": "Zero-based lines, UTF-16 code units; end exclusive. UTF-8 offsets are independently recorded for Lean source positions.",
+  "tactics": [
+    {
+      "id": "two-tactics-funext",
+      "declaration": "SourceProfileFixtures.twoTactics",
+      "file": "SourceProfileFixtures/Accuracy.lean",
+      "text": "funext n",
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      },
+      "utf8Offset": 230,
+      "utf8EndOffset": 238
+    },
+    {
+      "id": "two-tactics-exact",
+      "declaration": "SourceProfileFixtures.twoTactics",
+      "file": "SourceProfileFixtures/Accuracy.lean",
+      "text": "exact Nat.add_zero (f n)",
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 2
+        },
+        "end": {
+          "line": 8,
+          "character": 26
+        }
+      },
+      "utf8Offset": 241,
+      "utf8EndOffset": 265
+    },
+    {
+      "id": "duplicate-first",
+      "declaration": "SourceProfileFixtures.repeatedTactics",
+      "file": "SourceProfileFixtures/Accuracy.lean",
+      "text": "exact True.intro",
+      "range": {
+        "start": {
+          "line": 13,
+          "character": 4
+        },
+        "end": {
+          "line": 13,
+          "character": 20
+        }
+      },
+      "utf8Offset": 409,
+      "utf8EndOffset": 425
+    },
+    {
+      "id": "duplicate-second",
+      "declaration": "SourceProfileFixtures.repeatedTactics",
+      "file": "SourceProfileFixtures/Accuracy.lean",
+      "text": "exact True.intro",
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 4
+        },
+        "end": {
+          "line": 14,
+          "character": 20
+        }
+      },
+      "utf8Offset": 431,
+      "utf8EndOffset": 447
+    },
+    {
+      "id": "multiline",
+      "declaration": "SourceProfileFixtures.multilineTactic",
+      "file": "SourceProfileFixtures/Accuracy.lean",
+      "text": "exact\n    Eq.trans\n      (Eq.refl n)\n      (Eq.refl n)",
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 2
+        },
+        "end": {
+          "line": 21,
+          "character": 17
+        }
+      },
+      "utf8Offset": 555,
+      "utf8EndOffset": 609
+    },
+    {
+      "id": "unicode-utf16",
+      "declaration": "SourceProfileFixtures.unicodeColumns",
+      "file": "SourceProfileFixtures/Accuracy.lean",
+      "text": "exact Eq.refl x",
+      "range": {
+        "start": {
+          "line": 26,
+          "character": 13
+        },
+        "end": {
+          "line": 26,
+          "character": 28
+        }
+      },
+      "utf8Offset": 855,
+      "utf8EndOffset": 870
+    },
+    {
+      "id": "nested-parent",
+      "declaration": "SourceProfileFixtures.nestedTactics",
+      "file": "SourceProfileFixtures/Accuracy.lean",
+      "text": "have h : n = n := by\n    exact Eq.refl n",
+      "range": {
+        "start": {
+          "line": 30,
+          "character": 2
+        },
+        "end": {
+          "line": 31,
+          "character": 19
+        }
+      },
+      "utf8Offset": 1004,
+      "utf8EndOffset": 1044
+    },
+    {
+      "id": "nested-child",
+      "declaration": "SourceProfileFixtures.nestedTactics",
+      "file": "SourceProfileFixtures/Accuracy.lean",
+      "text": "exact Eq.refl n",
+      "range": {
+        "start": {
+          "line": 31,
+          "character": 4
+        },
+        "end": {
+          "line": 31,
+          "character": 19
+        }
+      },
+      "utf8Offset": 1029,
+      "utf8EndOffset": 1044
+    },
+    {
+      "id": "nested-sibling",
+      "declaration": "SourceProfileFixtures.nestedTactics",
+      "file": "SourceProfileFixtures/Accuracy.lean",
+      "text": "exact h",
+      "range": {
+        "start": {
+          "line": 32,
+          "character": 2
+        },
+        "end": {
+          "line": 32,
+          "character": 9
+        }
+      },
+      "utf8Offset": 1047,
+      "utf8EndOffset": 1054
+    },
+    {
+      "id": "imported-reduction",
+      "declaration": "SourceProfileFixtures.importedReduction",
+      "file": "SourceProfileFixtures/Accuracy.lean",
+      "text": "exact Eq.refl n",
+      "range": {
+        "start": {
+          "line": 36,
+          "character": 2
+        },
+        "end": {
+          "line": 36,
+          "character": 17
+        }
+      },
+      "utf8Offset": 1206,
+      "utf8EndOffset": 1221
+    },
+    {
+      "id": "recursive-reduction",
+      "declaration": "SourceProfileFixtures.reductionWork",
+      "file": "SourceProfileFixtures/Accuracy.lean",
+      "text": "exact Eq.refl n",
+      "range": {
+        "start": {
+          "line": 41,
+          "character": 2
+        },
+        "end": {
+          "line": 41,
+          "character": 17
+        }
+      },
+      "utf8Offset": 1402,
+      "utf8EndOffset": 1417
+    },
+    {
+      "id": "imported-proof",
+      "declaration": "SourceProfileFixtures.importedProof",
+      "file": "SourceProfileFixtures/Accuracy.lean",
+      "text": "exact importedAdd_zero n",
+      "range": {
+        "start": {
+          "line": 45,
+          "character": 2
+        },
+        "end": {
+          "line": 45,
+          "character": 26
+        }
+      },
+      "utf8Offset": 1562,
+      "utf8EndOffset": 1586
+    }
+  ],
+  "declarations": [
+    {
+      "name": "SourceProfileFixtures.importedAdd",
+      "file": "SourceProfileFixtures/Imported.lean",
+      "selectionRange": {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 15
+        }
+      }
+    },
+    {
+      "name": "SourceProfileFixtures.transparentIteration",
+      "file": "SourceProfileFixtures/Imported.lean",
+      "selectionRange": {
+        "start": {
+          "line": 8,
+          "character": 4
+        },
+        "end": {
+          "line": 8,
+          "character": 24
+        }
+      }
+    },
+    {
+      "name": "SourceProfileFixtures.importedAdd_zero",
+      "file": "SourceProfileFixtures/Imported.lean",
+      "selectionRange": {
+        "start": {
+          "line": 12,
+          "character": 8
+        },
+        "end": {
+          "line": 12,
+          "character": 24
+        }
+      }
+    }
+  ]
+}
