@@ -38,6 +38,7 @@ export interface Profile {
   captureWallMs?: number;
   thresholdMs?: number;
   captureMethod?: string;
+  declarations?: Array<{ name: string; source: SourceRange; kind?: string; generated?: boolean }>;
 }
 
 function fail(message: string): never { throw new Error(`Invalid Lean profile: ${message}`); }
@@ -168,6 +169,17 @@ export function normalizeProfile(input: unknown): Profile {
     diagnostics: Array.isArray(p.diagnostics) ? p.diagnostics : [],
     captureWallMs: p.captureWallMs === undefined ? undefined : number(p.captureWallMs, 'captureWallMs'),
     thresholdMs: p.thresholdMs === undefined ? undefined : number(p.thresholdMs, 'thresholdMs'),
-    captureMethod: p.captureMethod === undefined ? undefined : string(p.captureMethod, 'captureMethod')
+    captureMethod: p.captureMethod === undefined ? undefined : string(p.captureMethod, 'captureMethod'),
+    declarations: p.declarations == null ? undefined : (() => {
+      if (!Array.isArray(p.declarations) || p.declarations.length > 100_000) fail('declarations must be an array with at most 100,000 entries');
+      return p.declarations.map(raw => {
+        const d = object(raw, 'declaration'), s = object(d.source, 'declaration source');
+        const source = { file: filename(s.file), ...range(s) };
+        const lines = sourceLines.get(source.file);
+        if (lines && [source.start, source.end].some(pos => pos.line >= lines.length || pos.character > lines[pos.line].length)) fail('declaration range lies outside its snapshot');
+        return { name: string(d.name, 'declaration name'), source,
+          kind: d.kind === undefined ? undefined : string(d.kind, 'declaration kind'), generated: d.generated === true };
+      });
+    })()
   };
 }

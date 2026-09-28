@@ -18,8 +18,10 @@ The driver parses and imports the source once, instruments the in-memory term an
 elaborator registries, then invokes Lean's incremental command frontend. The original
 elaborator functions run with their original inputs and expected types. Additional
 `Source.tactic` and `Source.term` trace scopes retain their actual `Syntax` using
-`MessageData.ofOriginatingSyntax`. These scopes are recorded even below the threshold;
-internal `Meta`, `Elab`, and `Kernel` scopes use the requested threshold.
+`MessageData.ofOriginatingSyntax`. These scopes are recorded even below the threshold.
+Declaration dispatch, asynchronous workers, declaration headers, and declaration bodies
+are also always retained. Other internal `Meta`, `Elab`, and `Kernel` scopes use the
+requested threshold.
 
 Macro expansion roots retain the original invocation range. This prevents generated
 `apply`/`intro` calls for `funext` from borrowing the range of an entire proof block.
@@ -32,6 +34,23 @@ The node tree, thread IDs, and monotonic intervals are preserved. Seconds are co
 milliseconds; UTF-8 syntax offsets are converted using Lean's LSP UTF-16 conversion.
 `elapsedMs` measures frontend work including imports, before message formatting/export.
 The host additionally records the wall time of the entire capture process.
+
+The optional `declarations` array contains `{ name, source, kind, generated }` for constants
+defined in the target module that have Lean declaration-range metadata. Names are the
+actual kernel names, including private-name prefixes; source ranges cover the full
+declaration and use zero-based UTF-16 positions. Imported declarations are excluded.
+Names Lean classifies as internal details (after removing private-name prefixes), and
+recursors, are marked `generated`; absence of source metadata causes an entry to be omitted.
+User-written private declarations remain ordinary entries.
+
+These records deliberately contain no fabricated declaration duration. To compute recorded
+active wall time, collect trace intervals whose source spans lie inside a declaration's
+range and take their temporal union across threads. This includes separately recorded
+asynchronous proof and kernel workers. Timing only `Elab.command` would measure mostly
+dispatch/header work for an asynchronous theorem. Nested intervals must not be added;
+untraced work and gaps are not supplied by this union. Declarations sharing a source range
+must be presented as sharing attribution, not as independently measured costs. A
+declaration with no associated intervals has unavailable timing, not a measured zero.
 
 Symbols come from semantic InfoTrees and semantic pretty-printer annotations. Their files
 and declaration ranges come from the environment's declaration metadata and source path.
@@ -82,3 +101,7 @@ tactic (UTF-16), and imported declaration navigation. The OAI and LeanPool
 `meanField_add` reproductions retain separate `funext` and `exact` spans and the nested
 definitional-equality/reduction scopes. Driver errors return a nonzero exit status;
 completed captures also carry `success` and compiler diagnostics.
+
+`node test/declarations.capture.cjs` separately verifies all eight named declarations in
+`Accuracy.lean`, private names and declaration kinds, exclusion of imported declarations,
+and retention of asynchronous proof/body intervals with a 50 ms internal threshold.

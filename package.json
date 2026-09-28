@@ -1,46 +1,197 @@
 {
   "name": "lean-source-profiler",
   "displayName": "Lean Source Profiler",
-  "description": "Profile Lean elaboration and explore timing bars directly in your source code.",
-  "version": "0.1.0",
+  "description": "Profile Lean files, folders, and projects; explore repository costs and source overlays.",
+  "version": "0.2.0",
   "publisher": "local-lean-tools",
   "license": "MIT",
-  "engines": { "vscode": "^1.96.0" },
-  "categories": ["Programming Languages", "Visualization", "Other"],
-  "keywords": ["lean", "profiler", "performance", "proof"],
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "lean",
+    "profiler",
+    "performance",
+    "proof"
+  ],
   "main": "./out/extension.js",
-  "activationEvents": ["onUri", "onLanguage:lean4", "onLanguage:lean"],
-  "capabilities": { "untrustedWorkspaces": { "supported": "limited", "description": "View saved recordings; profiling requires a trusted workspace." } },
+  "activationEvents": [
+    "onUri",
+    "onLanguage:lean4",
+    "onLanguage:lean"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "View saved recordings; profiling requires a trusted workspace."
+    }
+  },
   "contributes": {
     "commands": [
-      { "command": "leanSourceProfiler.profile", "title": "Lean Source Profiler: Profile Current File", "icon": "$(pulse)" },
-      { "command": "leanSourceProfiler.open", "title": "Lean Source Profiler: Open Profile", "icon": "$(folder-opened)" },
-      { "command": "leanSourceProfiler.inspectNode", "title": "Lean Source Profiler: Inspect Operation" },
-      { "command": "leanSourceProfiler.openSource", "title": "Lean Source Profiler: Go to Profile Source" },
-      { "command": "leanSourceProfiler.openSymbol", "title": "Lean Source Profiler: Go to Definition" },
-      { "command": "leanSourceProfiler.toggleOverlay", "title": "Lean Source Profiler: Toggle Timing Bars", "icon": "$(color-mode)" },
-      { "command": "leanSourceProfiler.clear", "title": "Lean Source Profiler: Clear Profile", "icon": "$(clear-all)" }
+      {
+        "command": "leanSourceProfiler.profile",
+        "title": "Lean Source Profiler: Profile Current File",
+        "icon": "$(pulse)"
+      },
+      {
+        "command": "leanSourceProfiler.open",
+        "title": "Lean Source Profiler: Open Profile",
+        "icon": "$(folder-opened)"
+      },
+      {
+        "command": "leanSourceProfiler.inspectNode",
+        "title": "Lean Source Profiler: Inspect Operation"
+      },
+      {
+        "command": "leanSourceProfiler.openSource",
+        "title": "Lean Source Profiler: Go to Profile Source"
+      },
+      {
+        "command": "leanSourceProfiler.openSymbol",
+        "title": "Lean Source Profiler: Go to Definition"
+      },
+      {
+        "command": "leanSourceProfiler.toggleOverlay",
+        "title": "Lean Source Profiler: Toggle Timing Bars",
+        "icon": "$(color-mode)"
+      },
+      {
+        "command": "leanSourceProfiler.clear",
+        "title": "Lean Source Profiler: Clear Profile",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "leanSourceProfiler.profileFolder",
+        "title": "Lean Source Profiler: Profile Folder",
+        "icon": "$(folder-active)"
+      },
+      {
+        "command": "leanSourceProfiler.profileProject",
+        "title": "Lean Source Profiler: Profile Project",
+        "icon": "$(root-folder)"
+      },
+      {
+        "command": "leanSourceProfiler.chooseSessionFile",
+        "title": "Lean Source Profiler: Browse Session Sources",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "leanSourceProfiler.view",
+        "title": "Lean Source Profiler: Open Standalone Viewer",
+        "icon": "$(browser)"
+      }
     ],
-    "viewsContainers": { "activitybar": [{ "id": "leanSourceProfiler", "title": "Lean Profile", "icon": "media/icon.svg" }] },
-    "views": { "leanSourceProfiler": [{ "id": "leanSourceProfiler.profile", "name": "Profile" }] },
-    "viewsWelcome": [{ "view": "leanSourceProfiler.profile", "contents": "Explore Lean elaboration timings in your source.\n[Profile Current Lean File](command:leanSourceProfiler.profile)\n[Open a Recording](command:leanSourceProfiler.open)\nCapture uses this project's Lake environment and requires a trusted workspace.", "when": "!leanSourceProfiler.hasProfile" }],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "leanSourceProfiler",
+          "title": "Lean Profile",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "leanSourceProfiler": [
+        {
+          "id": "leanSourceProfiler.profile",
+          "name": "Profile"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "leanSourceProfiler.profile",
+        "contents": "Explore Lean costs by source or repository.\n[Profile Current File](command:leanSourceProfiler.profile)\n[Profile Folder](command:leanSourceProfiler.profileFolder)\n[Profile Project](command:leanSourceProfiler.profileProject)\n[Open a Recording or Session](command:leanSourceProfiler.open)\n[Open Standalone Viewer](command:leanSourceProfiler.view)",
+        "when": "!leanSourceProfiler.hasProfile"
+      }
+    ],
     "menus": {
       "editor/title": [
-        { "command": "leanSourceProfiler.profile", "when": "resourceExtname == .lean", "group": "navigation@8" },
-        { "command": "leanSourceProfiler.open", "when": "resourceExtname == .lean", "group": "navigation@9" }
+        {
+          "command": "leanSourceProfiler.profile",
+          "when": "resourceExtname == .lean",
+          "group": "navigation@8"
+        },
+        {
+          "command": "leanSourceProfiler.open",
+          "when": "resourceExtname == .lean",
+          "group": "navigation@9"
+        }
       ],
       "view/title": [
-        { "command": "leanSourceProfiler.profile", "when": "view == leanSourceProfiler.profile", "group": "navigation@1" },
-        { "command": "leanSourceProfiler.open", "when": "view == leanSourceProfiler.profile", "group": "navigation@2" },
-        { "command": "leanSourceProfiler.toggleOverlay", "when": "view == leanSourceProfiler.profile && leanSourceProfiler.hasProfile", "group": "navigation@3" },
-        { "command": "leanSourceProfiler.clear", "when": "view == leanSourceProfiler.profile && leanSourceProfiler.hasProfile", "group": "navigation@4" }
+        {
+          "command": "leanSourceProfiler.profile",
+          "when": "view == leanSourceProfiler.profile",
+          "group": "navigation@1"
+        },
+        {
+          "command": "leanSourceProfiler.open",
+          "when": "view == leanSourceProfiler.profile",
+          "group": "navigation@2"
+        },
+        {
+          "command": "leanSourceProfiler.toggleOverlay",
+          "when": "view == leanSourceProfiler.profile && leanSourceProfiler.hasProfile",
+          "group": "navigation@3"
+        },
+        {
+          "command": "leanSourceProfiler.clear",
+          "when": "view == leanSourceProfiler.profile && leanSourceProfiler.hasProfile",
+          "group": "navigation@4"
+        },
+        {
+          "command": "leanSourceProfiler.chooseSessionFile",
+          "when": "view == leanSourceProfiler.profile",
+          "group": "navigation@5"
+        },
+        {
+          "command": "leanSourceProfiler.view",
+          "when": "view == leanSourceProfiler.profile",
+          "group": "navigation@6"
+        },
+        {
+          "command": "leanSourceProfiler.profileFolder",
+          "when": "view == leanSourceProfiler.profile"
+        },
+        {
+          "command": "leanSourceProfiler.profileProject",
+          "when": "view == leanSourceProfiler.profile"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "leanSourceProfiler.profileFolder",
+          "when": "explorerResourceIsFolder",
+          "group": "leanProfile"
+        },
+        {
+          "command": "leanSourceProfiler.profile",
+          "when": "resourceExtname == .lean",
+          "group": "leanProfile"
+        }
       ]
     },
     "configuration": {
       "title": "Lean Source Profiler",
       "properties": {
-        "leanSourceProfiler.thresholdMs": { "type": "integer", "default": 1, "minimum": 0, "description": "Minimum duration for internal trace events in milliseconds. Source-level events are retained separately." },
-        "leanSourceProfiler.lakePath": { "type": "string", "default": "lake", "description": "Lake executable path. Uses ~/.elan/bin/lake when lake is not on PATH." }
+        "leanSourceProfiler.thresholdMs": {
+          "type": "integer",
+          "default": 1,
+          "minimum": 0,
+          "description": "Minimum duration for internal trace events in milliseconds. Source-level events are retained separately.",
+          "scope": "resource"
+        },
+        "leanSourceProfiler.lakePath": {
+          "type": "string",
+          "default": "lake",
+          "description": "Lake executable path. Uses ~/.elan/bin/lake when lake is not on PATH.",
+          "scope": "resource"
+        }
       }
     }
   },
@@ -50,7 +201,7 @@
     "test": "npm run build && node --test test/*.test.cjs",
     "test:extension": "node test/run-extension.cjs",
     "test:accuracy": "npm run build && node test/capture.integration.cjs",
-    "package": "npm run build && vsce package --allow-missing-repository --no-rewrite-relative-links --out dist/lean-source-profiler-0.1.0.vsix",
+    "package": "npm run build && vsce package --allow-missing-repository --no-rewrite-relative-links --out dist/lean-source-profiler-0.2.0.vsix",
     "vscode:prepublish": "npm run build"
   },
   "devDependencies": {
@@ -60,5 +211,8 @@
     "@vscode/vsce": "^3.6.2",
     "esbuild": "^0.25.0",
     "typescript": "^5.8.0"
+  },
+  "bin": {
+    "lean-profile": "out/cli.js"
   }
 }

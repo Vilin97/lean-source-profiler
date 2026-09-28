@@ -1,12 +1,14 @@
 import * as vscode from 'vscode';
 import * as path from 'node:path';
-import { capture, readProfile } from './capture';
+import { capture } from './capture';
 import { ProfileUI } from './ui';
+import { SessionUI } from './sessionUi';
 
 export function activate(context: vscode.ExtensionContext) {
   const ui = new ProfileUI(context);
   const output = vscode.window.createOutputChannel('Lean Source Profiler');
-  let running: AbortController | undefined;
+  const captureState: { running?: AbortController } = {};
+  const sessions = new SessionUI(context, ui, output, captureState);
   async function openProfile(file?: string | vscode.Uri) {
     try {
       // Editor-title menu commands receive the current .lean URI; that is not the recording to open.
@@ -14,15 +16,14 @@ export function activate(context: vscode.ExtensionContext) {
       const uri = typeof file === 'string' ? vscode.Uri.file(file) : file ?? (await vscode.window.showOpenDialog({ canSelectMany: false, filters: { 'Lean source profile': ['json'] }, title: 'Open Lean source profile' }))?.[0];
       if (!uri) return;
       if (uri.scheme !== 'file') throw new Error('Choose a local recording file.');
-      const profile = await readProfile(uri.fsPath);
-      await ui.showProfile(profile);
+      const profile = await sessions.open(uri.fsPath);
       await context.workspaceState.update('lastProfile', uri.fsPath);
       return profile;
     } catch (error) { await vscode.window.showErrorMessage(String(error instanceof Error ? error.message : error)); }
   }
   async function profileFile(uri?: vscode.Uri) {
     if (!vscode.workspace.isTrusted) { await vscode.window.showWarningMessage('Trust this workspace before running its Lean code. Saved profiles can still be viewed.'); return; }
-    if (running) { await vscode.window.showInformationMessage('A Lean capture is already running. Cancel it in the progress notification before starting another.'); return; }
+    if (captureState.running) { await vscode.window.showInformationMessage('A Lean capture is already running. Cancel it in the progress notification before starting another.'); return; }
     const editor = vscode.window.activeTextEditor ?? vscode.window.visibleTextEditors.find(e => path.extname(e.document.uri.fsPath) === '.lean');
     uri ??= editor?.document.uri;
     if (!uri || uri.scheme !== 'file' || path.extname(uri.fsPath) !== '.lean') { await vscode.window.showInformationMessage('Open a saved Lean file, then choose Profile Current File.'); return; }
@@ -32,7 +33,9 @@ export function activate(context: vscode.ExtensionContext) {
       if (!(await doc.save())) return;
     }
     const file = uri.fsPath;
-    const controller = new AbortController(); running = controller;
+    // Recheck after save/editor prompts: another capture may have acquired the shared slot.
+    if (captureState.running) { void vscode.window.showInformationMessage('A Lean capture is already running.'); return; }
+    const controller = new AbortController(); captureState.running = controller;
     output.clear();
     try {
       const config = vscode.workspace.getConfiguration('leanSourceProfiler', uri);
@@ -58,18 +61,23 @@ export function activate(context: vscode.ExtensionContext) {
       output.appendLine(message);
       if (controller.signal.aborted) await vscode.window.showInformationMessage('Lean profile capture cancelled.');
       else if (await vscode.window.showErrorMessage(message.slice(0, 1500), 'Show Capture Log') === 'Show Capture Log') output.show();
-    } finally { running = undefined; }
+    } finally { captureState.running = undefined; }
   }
-  context.subscriptions.push(ui, output,
+  const guarded = (action: () => Promise<unknown>) => action().catch(error => vscode.window.showErrorMessage(error instanceof Error ? error.message : String(error)));
+  context.subscriptions.push(ui, output, sessions,
     vscode.commands.registerCommand('leanSourceProfiler.profile', profileFile),
     vscode.commands.registerCommand('leanSourceProfiler.open', openProfile),
+    vscode.commands.registerCommand('leanSourceProfiler.profileFolder', (uri?: vscode.Uri) => guarded(() => sessions.captureFolder(uri))),
+    vscode.commands.registerCommand('leanSourceProfiler.profileProject', () => guarded(() => sessions.captureFolder(undefined, true))),
+    vscode.commands.registerCommand('leanSourceProfiler.chooseSessionFile', () => guarded(() => sessions.selectFile())),
+    vscode.commands.registerCommand('leanSourceProfiler.view', () => guarded(() => sessions.view())),
     vscode.window.registerUriHandler({ async handleUri(uri) {
       if (uri.path !== '/open') return;
       const file = new URLSearchParams(uri.query).get('file');
       if (file && path.isAbsolute(file)) await openProfile(file);
     } }),
-    { dispose() { running?.abort(); } }
+    { dispose() { captureState.running?.abort(); } }
   );
-  return { openProfile, profileFile };
+  return { openProfile, profileFile, sessions };
 }
 export function deactivate() {}

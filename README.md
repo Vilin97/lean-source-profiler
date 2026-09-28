@@ -1,6 +1,6 @@
 # Lean Source Profiler
 
-See which Lean statements take time, then inspect the elaboration and reduction work behind them.
+Profile a Lean file, folder, or project. Browse repository costs in a standalone viewer, overlay timings in VS Code, and query the slowest files, declarations, tactics, or folders.
 
 The extension puts clickable timing bars above source statements, with a companion bar beside the code. A details view shows the expressions being compared, inclusive and self time, nested calls, source locations, and links to definitions in other Lean files.
 
@@ -9,7 +9,7 @@ The extension puts clickable timing bars above source statements, with a compani
 Install the release `.vsix` using VS Code's **Extensions → … → Install from VSIX…**, or run:
 
 ```sh
-code --install-extension dist/lean-source-profiler-0.1.0.vsix
+code --install-extension dist/lean-source-profiler-0.2.0.vsix
 ```
 
 The macOS release also includes **Install Lean Source Profiler.command** beside the VSIX; double-click it to install. No npm install, separate Node installation, or Lean rebuild is needed for the editor workflow. Lake/elan and already-built project imports are required.
@@ -30,6 +30,14 @@ Editor decorations cannot receive ordinary clicks in VS Code: the clickable cont
 
 If the bars above lines are missing, check **Editor: Code Lens**. We also observed hidden CodeLens in **Screen Reader Optimized** mode during UI testing. The **Lean Profile** tree, the details view's source-statement list, and the bar's hover action provide alternative navigation. The extension respects your accessibility settings.
 
+## Folders and projects
+
+Run **Lean Source Profiler: Profile Folder** or **Profile Project** from the Command Palette. You can also right-click a folder in Explorer and choose **Profile Folder**. Each successful file is saved in a session, with failures recorded and completed work retained when you cancel.
+
+Open `session.json` with the existing folder button to browse the captured repository and select a file for source overlays. **Browse Session Sources** switches files. **Open Standalone Viewer** opens the same data in your browser: start with folder percentages, drill into files and source, or switch to ranked declarations and tactics.
+
+The standalone viewer runs locally and loads individual traces as needed. File/folder percentages use the sum of isolated file processing times, including repeated import loading; capture wall time is shown separately. This is not a Lake build critical-path profile.
+
 ## Command line
 
 From this repository, with Node.js 20 or newer:
@@ -37,9 +45,25 @@ From this repository, with Node.js 20 or newer:
 ```sh
 node out/cli.js profile /absolute/path/to/Project/File.lean --output /tmp/file.leanprofile.json
 node out/cli.js open /tmp/file.leanprofile.json
+
+# Capture a folder or an entire project (imports must already be built).
+node out/cli.js profile /absolute/path/to/Project/Subfolder --output /tmp/folder-session
+node out/cli.js profile --project /absolute/path/to/Project --output /tmp/project-session
+
+# The same session works in either viewer.
+node out/cli.js view /tmp/project-session
+node out/cli.js open /tmp/project-session
+
+# Machine-readable rankings for agents.
+node out/cli.js query /tmp/project-session --kind file --limit 1 --json
+node out/cli.js query /tmp/project-session --kind declaration --limit 10 --json
+node out/cli.js query /tmp/project-session --kind tactic --limit 10 --json
+node out/cli.js query /tmp/project-session --kind folder --limit 10 --json
 ```
 
-`profile` finds the file's Lake project automatically. `open` invokes VS Code and the installed extension. The same CLI is bundled at `out/cli.js` inside the installed extension directory.
+`profile` finds the Lake project automatically. Use `--list` to inspect discovered source files first. `open` invokes VS Code; `view` starts a loopback-only browser viewer until Ctrl-C. The same CLI is bundled at `out/cli.js` inside the installed extension directory. `npm link` in this repository optionally installs the shorter `lean-profile` command.
+
+Sessions include `session.json`, per-file recordings, and `index.jsonl`. Queries read the compact index without loading every trace. See [session schema, accounting rules, and query examples](docs/SESSION-FORMAT.md).
 
 Optional arguments: `--threshold 1` sets the internal trace threshold in whole milliseconds; `--lake /path/to/lake` chooses Lake. Ctrl-C cancels capture. The extension has equivalent `leanSourceProfiler.thresholdMs` and `leanSourceProfiler.lakePath` settings.
 
@@ -73,10 +97,12 @@ npm run check
 npm test
 node test/capture.integration.cjs --skip-ns
 node test/stale-import.integration.cjs
+node test/declarations.capture.cjs
+node test/collection.integration.cjs
 npm run test:extension
 npm run package
 ```
 
 For NS integration tests, set `NS_BENCHMARK_ROOT` if the benchmark repository is not the sibling `ns-formalization-benchmark`, then run `node test/capture.integration.cjs`. These tests create and remove their own temporary source copies; they do not modify the original proofs. Extension-host tests use an isolated VS Code user-data directory. On systems other than this Mac, set `VSCODE_EXECUTABLE_PATH` to your VS Code executable.
 
-See [the implementation plan](docs/PLAN.md), [acceptance tests](docs/TEST-PLAN.md), [capture internals](lean/README.md), and [validation results](docs/TEST-RESULTS.md).
+See [the project profiling plan](docs/PROJECT-PROFILING-PLAN.md), [project validation results](docs/PROJECT-PROFILING-RESULTS.md), [the original implementation plan](docs/PLAN.md), [acceptance tests](docs/TEST-PLAN.md), [capture internals](lean/README.md), and [validation results](docs/TEST-RESULTS.md).

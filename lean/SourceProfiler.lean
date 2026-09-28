@@ -49,6 +49,45 @@ structure Source where
   «end» : Lsp.Position
   deriving ToJson
 
+/-- Semantic declaration identities and locations, independent of trace display text. -/
+structure Declaration where
+  name : String
+  source : Source
+  kind : String
+  generated : Bool := false
+  deriving ToJson
+
+def declarationKind : ConstantKind → String
+  | .defn => "definition"
+  | .thm => "theorem"
+  | .axiom => "axiom"
+  | .opaque => "opaque"
+  | .quot => "quotient"
+  | .induct => "inductive"
+  | .ctor => "constructor"
+  | .recursor => "recursor"
+
+/-- Only local constants with genuine declaration-range metadata are exported. -/
+def collectDeclarations (env : Environment) (file : String) : BaseIO (Array Declaration) := do
+  let mut declarations := #[]
+  for info in ← env.getLocalConstantInfos do
+    if env.getModuleIdxFor? info.name |>.isSome then continue
+    let ranges := declRangeExt.find? env info.name <|>
+      declRangeExt.find? (level := .server) env info.name
+    let some ranges := ranges | continue
+    let r := ranges.range
+    if r.pos.line == 0 || r.endPos.line == 0 then continue
+    declarations := declarations.push {
+      name := info.name.toString
+      source := {
+        file := file
+        start := ⟨r.pos.line - 1, r.charUtf16⟩
+        «end» := ⟨r.endPos.line - 1, r.endCharUtf16⟩ }
+      kind := declarationKind info.kind
+      generated := (privateToUserName info.name).isInternalDetail || info.kind == .recursor
+    }
+  return declarations
+
 structure Symbol where
   name : String
   file : Option String := none
@@ -262,6 +301,13 @@ def run (inputFile outputFile : String) (threshold : Nat) : IO UInt32 := do
     |>.set `trace.profiler.threshold threshold
     |>.setBool `trace.Source.tactic true
     |>.setBool `trace.Source.term true
+    -- Retain declaration dispatch and async proof/kernel scopes even for fast declarations.
+    -- Consumers union these intervals by semantic declaration range; dispatch alone omits
+    -- asynchronous theorem bodies and does not measure the declaration's elapsed work.
+    |>.setBool `trace.Elab.command true
+    |>.setBool `trace.Elab.async true
+    |>.setBool `trace.Elab.definition.header true
+    |>.setBool `trace.Elab.definition.value true
     |>.setBool `trace.Meta.isDefEq.delta.unfoldLeft true
     |>.setBool `trace.Meta.isDefEq.delta.unfoldRight true
     |>.setBool `trace.Meta.isDefEq.delta.unfoldLeftRight true
@@ -285,6 +331,7 @@ def run (inputFile outputFile : String) (threshold : Nat) : IO UInt32 := do
   let stopTime := (← IO.monoNanosNow).toFloat / 1000000000
   IO.eprintln "Elaboration finished; formatting source traces and resolving declarations…"
   let sourcePaths ← getSrcSearchPath
+  let declarations ← collectDeclarations result.commandState.env path.toString
   let references := result.commandState.infoState.trees.foldl (fun refs tree =>
     collectReferences inputCtx.fileMap tree refs) #[]
   let ctx : ExportContext := {
@@ -303,6 +350,7 @@ def run (inputFile outputFile : String) (threshold : Nat) : IO UInt32 := do
     ("schemaVersion", toJson (1 : Nat)), ("leanVersion", toJson Lean.versionString),
     ("sourceFile", toJson path.toString), ("sourceText", toJson input),
     ("elapsedMs", toJson ((stopTime - startTime) * 1000)),
+    ("declarations", toJson declarations),
     ("nodes", toJson exported.nodes), ("diagnostics", toJson diagnostics),
     ("success", toJson (!hasErrors)), ("thresholdMs", toJson threshold),
     ("captureMethod", toJson "structured-elaborator-wrappers")]
