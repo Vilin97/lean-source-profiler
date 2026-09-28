@@ -34,7 +34,9 @@ File runs are sequential and may repeatedly load the same imports. Folder percen
 
 ## CLI
 
-From the repository root (or replace `node out/cli.js` with `lean-profile` after `npm link`):
+For a source checkout, first run `npm ci && npm run build` from the repository root.
+Then run the commands below, or use `npm link` and replace `node out/cli.js` with
+`lean-profile`. The [prebuilt release package](INSTALL.md) needs no build.
 
 ```sh
 node out/cli.js profile --project /path/to/project --output /tmp/my-session

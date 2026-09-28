@@ -102,6 +102,10 @@ tactic (UTF-16), and imported declaration navigation. The OAI and LeanPool
 definitional-equality/reduction scopes. Driver errors return a nonzero exit status;
 completed captures also carry `success` and compiler diagnostics.
 
+From a source checkout, run `npm ci && npm run build` and
+`(cd test/fixtures && lake build)` before running standalone capture checks or
+`npm run test:extension`.
+
 `node test/declarations.capture.cjs` separately verifies all eight named declarations in
 `Accuracy.lean`, private names and declaration kinds, exclusion of imported declarations,
 and retention of asynchronous proof/body intervals with a 50 ms internal threshold.

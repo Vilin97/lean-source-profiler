@@ -4,9 +4,10 @@
   "description": "Profile Lean files, folders, and projects; explore repository costs and source overlays.",
   "version": "0.2.0",
   "publisher": "local-lean-tools",
-  "license": "MIT",
+  "license": "MIT AND Apache-2.0",
   "engines": {
-    "vscode": "^1.96.0"
+    "vscode": "^1.96.0",
+    "node": ">=20"
   },
   "categories": [
     "Programming Languages",
@@ -201,8 +202,9 @@
     "test": "npm run build && node --test test/*.test.cjs",
     "test:extension": "node test/run-extension.cjs",
     "test:accuracy": "npm run build && node test/capture.integration.cjs",
-    "package": "npm run build && vsce package --allow-missing-repository --no-rewrite-relative-links --out dist/lean-source-profiler-0.2.0.vsix",
-    "vscode:prepublish": "npm run build"
+    "package": "node scripts/package-release.mjs --vsix-only",
+    "vscode:prepublish": "npm run build",
+    "release": "node scripts/package-release.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
@@ -210,9 +212,34 @@
     "@vscode/test-electron": "^2.5.2",
     "@vscode/vsce": "^3.6.2",
     "esbuild": "^0.25.0",
-    "typescript": "^5.8.0"
+    "typescript": "^5.8.0",
+    "yazl": "^2.5.1"
   },
   "bin": {
     "lean-profile": "out/cli.js"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Vilin97/lean-source-profiler.git"
+  },
+  "homepage": "https://github.com/Vilin97/lean-source-profiler#readme",
+  "bugs": {
+    "url": "https://github.com/Vilin97/lean-source-profiler/issues"
+  },
+  "files": [
+    "out/*.js",
+    "out/*.js.map",
+    "lean/SourceProfiler.lean",
+    "lean/README.md",
+    "README.md",
+    "LICENSE",
+    "docs/INSTALL.md",
+    "docs/SESSION-FORMAT.md",
+    "media/*.js",
+    "media/*.css",
+    "media/*.svg",
+    "docs/screenshots/*.png",
+    "THIRD_PARTY_NOTICES.md",
+    "LICENSES/Apache-2.0.txt"
+  ]
 }

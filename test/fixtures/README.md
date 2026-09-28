@@ -20,15 +20,15 @@ The two NS fixtures intentionally are not part of this project's default build.
 Run them inside the existing benchmark's Lake environments:
 
 ```sh
-cd /Users/vasil/Github/ns-formalization-benchmark/oai
+cd /path/to/ns-formalization-benchmark/oai
 lake env lean -j1 \
-  --root=/Users/vasil/Github/lean-source-profiler/test/fixtures/ns \
-  /Users/vasil/Github/lean-source-profiler/test/fixtures/ns/OaiMeanField.lean
+  --root=/path/to/lean-source-profiler/test/fixtures/ns \
+  /path/to/lean-source-profiler/test/fixtures/ns/OaiMeanField.lean
 
-cd /Users/vasil/Github/ns-formalization-benchmark/leanpool
+cd /path/to/ns-formalization-benchmark/leanpool
 lake env lean -j1 \
-  --root=/Users/vasil/Github/lean-source-profiler/test/fixtures/ns \
-  /Users/vasil/Github/lean-source-profiler/test/fixtures/ns/LeanPoolMeanField.lean
+  --root=/path/to/lean-source-profiler/test/fixtures/ns \
+  /path/to/lean-source-profiler/test/fixtures/ns/LeanPoolMeanField.lean
 ```
 
 Each NS fixture contains the original `meanField_add` proof and the proof with

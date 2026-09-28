@@ -22,3 +22,12 @@ theorem meanField_add_explicit (B N0 : ℕ) (degree : ℝ)
     (PhysicalMeanJetBounds.physicalPoint h w)
 
 end SourceProfileFixtureOai
+
+/-
+SPDX-License-Identifier: Apache-2.0
+Adapted from OpenAI's NavierStokesAndEuler, commit
+8937a8f4cbc7abaab5e9e97d1cc7f5d2319d9538, ActualCandidateConstruction.meanField_add.
+Modified by Lean Source Profiler contributors: isolated imports/namespace,
+renamed theorem, reformatted arguments, and an explicit-reduction comparison.
+See THIRD_PARTY_NOTICES.md and LICENSES/Apache-2.0.txt at the repository root.
+-/

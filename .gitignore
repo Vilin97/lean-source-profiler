@@ -10,3 +10,4 @@ test/results/
 .lake/
 .leanprofiles/
 .vscode/
+*.capture
