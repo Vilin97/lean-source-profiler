@@ -4,7 +4,7 @@ const fs = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const http = require('node:http');
-const { intervalUnion, sourceLineTimings, folderTotals, folderChildren, aggregateOperations, percent } = require('../media/viewer.js');
+const { intervalUnion, sourceLineTimings, folderTotals, folderChildren, aggregateOperations, percent, apiRoute } = require('../media/viewer.js');
 const { startViewer, renderViewerHtml } = require('../out/viewer.js');
 
 const source = (line, endLine = line) => ({ file: '/repo/Main.lean', start: { line, character: 2 }, end: { line: endLine, character: 12 } });
@@ -128,4 +128,19 @@ test('viewer shell embeds no recording text or executable inline scripts', () =>
   assert.match(html, /<script src="\/viewer.js" defer><\/script>/);
   assert.ok(!html.includes('onclick='));
   assert.ok(!html.includes('<style>'));
+});
+
+test('published viewer works below a repository URL and does not advertise local access', () => {
+  const html = renderViewerHtml({ published: true });
+  assert.match(html, /data-recording-mode="static"/);
+  assert.match(html, /src="\.\/viewer.js"/);
+  assert.match(html, /href="\.\/viewer.css"/);
+  assert.match(html, /Published recording · read-only/);
+  assert.ok(!html.includes('No source leaves this laptop'));
+  const base = 'https://example.org/repository/examples/leanpool/';
+  for (const [route, suffix] of [['/api/session', 'session.json'], ['/api/index', 'index.json'], ['/api/file?id=12', 'files/12.json.gz']]) {
+    assert.equal(new URL(apiRoute(route, true), base).href, base + 'data/' + suffix);
+    assert.equal(apiRoute(route), route);
+  }
+  for (const route of ['/api/file?id=../secret', '/api/file?id=%2e%2e', '/api/file?id=1&path=secret', '/api/unknown']) assert.throws(() => apiRoute(route, true));
 });

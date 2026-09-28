@@ -1,6 +1,12 @@
 # Screenshots
 
-These are unaltered application captures of the included test fixtures, recorded with Lean 4.34.0-rc2. The displayed measurements come from real profiling runs and will vary between runs. Screenshot files were converted to PNG without changing their content.
+These are unaltered application captures of the actual LeanPool example and included test fixtures, recorded with Lean 4.34.0-rc2. The displayed measurements come from real profiling runs and will vary between runs. Screenshot files were converted to PNG without changing their content.
+
+## LeanPool example
+
+![Actual LeanPool meanField_add proof and nested operations](leanpool-example.png)
+
+This is the [interactive public example](https://vilin97.github.io/lean-source-profiler/examples/leanpool/#file=0&event=2356), captured from the actual LeanPool `ActualCandidateAssembly.lean` module. The `exact` tactic takes 24.1 ms of recorded elapsed time; its nested term elaboration and `Meta.isDefEq` calls are shown beside the original source. See [provenance](../LEANPOOL-EXAMPLE.md) for the revision and capture settings.
 
 ## VS Code overlay
 

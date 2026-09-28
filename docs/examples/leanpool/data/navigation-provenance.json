@@ -1,0 +1,17 @@
+{
+  "method": "Exact semantic (source file, declaration name) lookup across successfully captured profiles.",
+  "conditions": [
+    "Exactly one non-generated declaration in the target profile.",
+    "Caller imported snapshot equals target sourceText byte for byte.",
+    "Original symbol has no range and is not marked stale."
+  ],
+  "enrichedReferences": 3477,
+  "pairs": [
+    {
+      "fromFile": "/LeanPool/LeanPool/NavierStokesAndEuler/NavierStokes/ActualCandidateAssembly.lean",
+      "toFile": "/LeanPool/LeanPool/NavierStokesAndEuler/NavierStokes/ActualMeanPhysicalData.lean",
+      "references": 3477
+    }
+  ],
+  "note": "Enrichment adds declaration navigation only. All events, source ranges and timings are unchanged; caller costs are never assigned to an imported definition."
+}

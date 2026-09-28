@@ -1,0 +1,20 @@
+LeanPool Navier–Stokes source snapshots
+
+Copyright (c) 2026 OpenAI. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: OpenAI
+
+Lean Pool
+=========
+Copyright the Lean Pool contributors and the respective project authors.
+Lean Pool is licensed under the Apache License, Version 2.0.
+
+LeanPool/NavierStokesAndEuler was imported from
+https://github.com/openai/NavierStokesAndEuler under Apache 2.0.
+These unchanged source snapshots were recorded from LeanPool revision
+bb74ee07fc23bc81358d75a9c40303e5e27fced8.
+Only source-path metadata is changed for public redistribution.
+See LICENSE-Apache-2.0.txt and provenance.json.
+
+The Lean Source Profiler viewer is MIT licensed:
+https://github.com/Vilin97/lean-source-profiler/blob/main/LICENSE

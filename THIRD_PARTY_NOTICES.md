@@ -7,6 +7,33 @@ Version 2.0**. Their upstream license is preserved in
 [LICENSES/Apache-2.0.txt](LICENSES/Apache-2.0.txt); the repository's MIT license does
 not replace it.
 
+## Published LeanPool example
+
+The static recording in `docs/examples/leanpool` also includes unchanged Lean
+source snapshots from the three profiled LeanPool modules. These
+snapshots retain their copyright headers and are redistributed under their
+upstream Apache 2.0 license. The profiler's MIT license does not replace those
+licenses. Only source-path metadata is virtualized for publication; the source
+text is preserved.
+
+- LeanPool: [Vilin97/lean-pool](https://github.com/Vilin97/lean-pool), commit
+  `bb74ee07fc23bc81358d75a9c40303e5e27fced8`. The OpenAI and Lean Pool notices below
+  apply to its NS sources.
+- Mathlib: [leanprover-community/mathlib4](https://github.com/leanprover-community/mathlib4),
+  commit `85e3a25e006c35636f0e53b0e9296caca2685bc0`; copyright its respective authors.
+- Batteries: [leanprover-community/batteries](https://github.com/leanprover-community/batteries),
+  commit `d54dddc581e08be364c278052863524bff7a99a9`; copyright its respective authors.
+- Lean: [leanprover/lean4](https://github.com/leanprover/lean4), release
+  `v4.34.0-rc2`; copyright Microsoft Corporation, Lean FRO, and the respective
+  source authors as recorded in the included file headers.
+
+Mathlib, Batteries, and Lean are the recorded dependency/toolchain versions;
+their source snapshots are not included in this public example.
+
+The [example provenance](docs/LEANPOOL-EXAMPLE.md) links its per-source inventory,
+hashes, and pinned source URLs. A copy of the Apache 2.0 license accompanies the
+static example as well as this repository.
+
 ## Navier–Stokes accuracy fixtures
 
 ### `test/fixtures/ns/OaiMeanField.lean`

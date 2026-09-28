@@ -6,7 +6,12 @@ Profile a **file, folder, or project**, then explore the same recording in VS Co
 
 **[Download the VS Code extension](https://github.com/Vilin97/lean-source-profiler/releases/latest/download/lean-source-profiler.vsix)** · **[Installation guide](docs/INSTALL.md)** · **[Latest release](https://github.com/Vilin97/lean-source-profiler/releases/latest)**
 
-![Repository viewer with nested folders, elapsed times, and percentage bars](docs/screenshots/repository-view.png)
+[**Try the interactive LeanPool example →**](https://vilin97.github.io/lean-source-profiler/examples/leanpool/)
+Real Navier–Stokes recordings, with source timing bars and nested operations. Opens directly in your browser; no installation needed. [Recording provenance and query data](docs/LEANPOOL-EXAMPLE.md).
+
+[Start at `meanField_add`'s `exact` tactic](https://vilin97.github.io/lean-source-profiler/examples/leanpool/#file=0&event=2356), then follow `physical_add` into its source and its own recording.
+
+![LeanPool source timing bars and nested operations](docs/screenshots/leanpool-example.png)
 
 ## Install in VS Code
 
@@ -39,6 +44,8 @@ You can also right-click a folder in Explorer and choose **Profile Folder**. Cap
 ## Explore the repository
 
 The standalone viewer starts with the repository structure. Click folders to see their children and their shares of the recorded time. Switch to declaration or tactic rankings, then drill into a source statement and its contributing operations.
+
+![Repository viewer with nested folders, elapsed times, and percentage bars](docs/screenshots/repository-view.png)
 
 ![Source snapshot and a declaration's contributing operation roots](docs/screenshots/source-view.png)
 

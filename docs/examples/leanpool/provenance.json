@@ -1,0 +1,51 @@
+{
+  "repository": "https://github.com/Vilin97/lean-pool",
+  "commit": "bb74ee07fc23bc81358d75a9c40303e5e27fced8",
+  "toolchain": "leanprover/lean4:v4.34.0-rc2",
+  "mathlibCommit": "85e3a25e006c35636f0e53b0e9296caca2685bc0",
+  "thresholdMs": "1 for ActualSignedCurrentSupport and ActualMeanPhysicalData; 10 for ActualCandidateAssembly. All source wrapper/declaration scopes retained regardless of threshold.",
+  "sourceModifications": "None. Source SHA-256 hashes match the pinned upstream source manifest byte for byte.",
+  "configurationChanges": "Original LeanPool Lean 4.34.0-rc1 and Mathlib pins replaced by Lean 4.34.0-rc2 and matching Mathlib; module build configuration narrowed to NS target closure.",
+  "scope": "Three explicitly selected real LeanPool modules, compiled individually and sequentially against prebuilt imports. Profiling overhead and repeated import loading are included. This is not a project-wide build benchmark.",
+  "files": [
+    {
+      "path": "LeanPool/NavierStokesAndEuler/NavierStokes/ActualCandidateAssembly.lean",
+      "sha256": "61a635d7776a8f4ce0d6c72f1085e566b505c02406af786784fbd71abadcf82f",
+      "sourceURL": "https://github.com/Vilin97/lean-pool/blob/bb74ee07fc23bc81358d75a9c40303e5e27fced8/LeanPool/NavierStokesAndEuler/NavierStokes/ActualCandidateAssembly.lean",
+      "status": "ok",
+      "thresholdMs": 10,
+      "elapsedMs": 5963.591833,
+      "captureWallMs": 97149.486958,
+      "eventCount": 27306,
+      "previousAttempt": {
+        "thresholdMs": 1,
+        "error": "Error: Recording exceeds the 150 MB viewing limit. Capture with a larger internal trace threshold."
+      }
+    },
+    {
+      "path": "LeanPool/NavierStokesAndEuler/NavierStokes/ActualSignedCurrentSupport.lean",
+      "sha256": "13f5a8c7288bd07c0f0b7d53829fe9013c971a064223d60f18093025eeda12ad",
+      "sourceURL": "https://github.com/Vilin97/lean-pool/blob/bb74ee07fc23bc81358d75a9c40303e5e27fced8/LeanPool/NavierStokesAndEuler/NavierStokes/ActualSignedCurrentSupport.lean",
+      "status": "ok",
+      "elapsedMs": 3475.223958,
+      "captureWallMs": 7930.104916000011,
+      "eventCount": 2230,
+      "thresholdMs": 1
+    },
+    {
+      "path": "LeanPool/NavierStokesAndEuler/NavierStokes/ActualMeanPhysicalData.lean",
+      "sha256": "e2b985b66a3e807c5cedd19ff5666421f7e21aca914a4535764855aed0fd1df0",
+      "sourceURL": "https://github.com/Vilin97/lean-pool/blob/bb74ee07fc23bc81358d75a9c40303e5e27fced8/LeanPool/NavierStokesAndEuler/NavierStokes/ActualMeanPhysicalData.lean",
+      "status": "ok",
+      "elapsedMs": 5368.25575,
+      "captureWallMs": 98760.47341700003,
+      "eventCount": 36477,
+      "thresholdMs": 1
+    }
+  ],
+  "publication": {
+    "format": "Static viewer with lossless gzip-compressed profile JSON",
+    "changes": "Machine paths virtualized; local logs/editor URIs and non-navigable dependency snapshots omitted. Source text, event tree, trace expressions and timings preserved.",
+    "navigation": "Missing imported declaration ranges are enriched only by exact file/name matches in the other captured module, with unique non-generated metadata and byte-identical source snapshots. No times are transferred. See data/navigation-provenance.json."
+  }
+}
