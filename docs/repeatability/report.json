@@ -1,0 +1,152 @@
+{
+  "kind": "leanpool-repeatability-sample",
+  "commit": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+  "design": {
+    "files": 5,
+    "warmupCapturesPerFile": 1,
+    "measuredCapturesPerFile": 5,
+    "sameSourcesSetupAndDriverHashes": true,
+    "thresholdMs": 1,
+    "shortMediumFilesOnly": true,
+    "conditions": "Sequential captures on the same WSL machine with prebuilt imports; one warm-up per file excluded. No deliberate parallel Lean workload.",
+    "pairDifferenceDefinition": "100 * abs(a - b) / ((a + b) / 2)",
+    "CVDefinition": "sample standard deviation / mean * 100",
+    "declarationAndLineMinimumMedianMs": 50
+  },
+  "fileSource": {
+    "groups": 5,
+    "medianPairDifferencePercent": 1.8458663439709635,
+    "p95PairDifferencePercent": 11.495955297402057,
+    "maxPairDifferencePercent": 13.514638617119761,
+    "minCVPercent": 1.1980557086467067,
+    "maxCVPercent": 5.890186983836594
+  },
+  "fileFrontend": {
+    "groups": 5,
+    "medianPairDifferencePercent": 1.8069332785314596,
+    "p95PairDifferencePercent": 8.299423382768973,
+    "maxPairDifferencePercent": 9.566656384736413,
+    "minCVPercent": 1.3569149702236523,
+    "maxCVPercent": 4.147622466091352
+  },
+  "declarations": {
+    "groups": 27,
+    "medianPairDifferencePercent": 2.357553183421948,
+    "p95PairDifferencePercent": 17.693473268863052,
+    "maxPairDifferencePercent": 27.66699979779109,
+    "minCVPercent": 0.3993741513774767,
+    "maxCVPercent": 12.781267459982638
+  },
+  "sourceLines": {
+    "groups": 23,
+    "medianPairDifferencePercent": 2.500030333576963,
+    "p95PairDifferencePercent": 14.154966615912208,
+    "maxPairDifferencePercent": 35.72046492294403,
+    "minCVPercent": 1.1806133533322405,
+    "maxCVPercent": 16.80487338859941
+  },
+  "files": [
+    {
+      "path": "LeanPool/AndersonConjecture/Jensen/CloseUp/IntersectionStep.lean",
+      "sourceMs": [
+        1599.3893010000002,
+        1579.2269849999998,
+        1615.5111149999996,
+        1644.550789,
+        1646.7140839999997
+      ],
+      "frontendMs": [
+        3437.667208,
+        3461.843626,
+        3436.789153,
+        3329.719427,
+        3370.131808
+      ],
+      "sourceCVPercent": 1.7979088654128195,
+      "originalSourceMs": 1437.8005750000004,
+      "medianDifferenceFromOriginalPercent": 12.35988794899454
+    },
+    {
+      "path": "LeanPool/InfinitaryLogic/Methods/Henkin/CountableCompletion/GeneratedUniverse.lean",
+      "sourceMs": [
+        1635.8655050000007,
+        1637.4656809999994,
+        1629.4777449999997,
+        1695.8856170000004,
+        1648.4479950000004
+      ],
+      "frontendMs": [
+        3159.960389,
+        3213.93855,
+        3150.253353,
+        3360.913526,
+        3197.478651
+      ],
+      "sourceCVPercent": 1.6280148027441406,
+      "originalSourceMs": 1551.3196040000005,
+      "medianDifferenceFromOriginalPercent": 5.553083760295152
+    },
+    {
+      "path": "LeanPool/Monlib4/LinearAlgebra/Matrix/IncludeBlock.lean",
+      "sourceMs": [
+        2363.1040760000005,
+        2705.6135080000026,
+        2395.1010279999996,
+        2431.650875999999,
+        2364.9966139999997
+      ],
+      "frontendMs": [
+        4357.181625,
+        4794.958525,
+        4387.775088,
+        4443.707375,
+        4362.006791
+      ],
+      "sourceCVPercent": 5.890186983836594,
+      "originalSourceMs": 2257.6877919999993,
+      "medianDifferenceFromOriginalPercent": 6.086458742741896
+    },
+    {
+      "path": "LeanPool/NavierStokesAndEuler/Euler/CorrectionEnergyScalar.lean",
+      "sourceMs": [
+        3210.9284060000005,
+        3240.73794,
+        3278.9103229999996,
+        3193.4506719999995,
+        3184.157764999999
+      ],
+      "frontendMs": [
+        5257.146841,
+        5295.484772,
+        5354.810633,
+        5227.647791,
+        5164.744794
+      ],
+      "sourceCVPercent": 1.1980557086467067,
+      "originalSourceMs": 3222.9012540000003,
+      "medianDifferenceFromOriginalPercent": -0.37149285865151205
+    },
+    {
+      "path": "LeanPool/Erdos97ConvexOctagon/CoverageCertificateFacts29.lean",
+      "sourceMs": [
+        4538.328662,
+        4586.423472,
+        4509.30283,
+        4888.770666,
+        4625.855391
+      ],
+      "frontendMs": [
+        6210.765756,
+        6301.995669,
+        6210.644509,
+        6557.554607,
+        6248.098694
+      ],
+      "sourceCVPercent": 3.273045328187046,
+      "originalSourceMs": 4479.410391,
+      "medianDifferenceFromOriginalPercent": 2.388999257915958
+    }
+  ],
+  "wholePoolErrorBoundEstablished": false,
+  "profilingOverheadMeasured": false
+}

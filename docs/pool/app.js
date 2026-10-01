@@ -3,6 +3,13 @@ const $=id=>document.getElementById(id);
 let root,current,overview,metric='sourceValue',sequence=0;
 const loaded=new Map();
 const duration=n=>n>=3600000?(n/3600000).toFixed(2)+' h':n>=60000?(n/60000).toFixed(2)+' min':n>=1000?(n/1000).toFixed(2)+' s':n.toFixed(2)+' ms';
+const radar=()=>overview?.kind==='radar-benchmark';
+function formatValue(n){
+  if(!radar())return duration(n);
+  if(metric==='lines')return n.toLocaleString()+' lines';
+  for(const [scale,unit] of [[1e12,'T'],[1e9,'G'],[1e6,'M'],[1e3,'K']])if(n>=scale)return (n/scale).toFixed(2)+' '+unit+' instructions';
+  return n.toLocaleString()+' instructions';
+}
 const weight=n=>n[metric]||0;
 function element(tag,text,className){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(className)el.className=className;return el;}
 async function api(route){
@@ -17,6 +24,7 @@ async function api(route){
 }
 function attach(parent,child){child.parent=parent;parent.children.push(child);return child;}
 function buildTree(data){
+  if(radar())return buildRadarTree(data);
   const pool={name:'LeanPool',kind:'pool',children:[],value:0,sourceValue:0};
   const projects=new Map();
   for(const item of data.inventory){const project=attach(pool,{name:item.name,kind:'project',children:[],value:0,sourceValue:0,planned:item.files,lines:item.lines,completed:0});projects.set(item.name,project);}
@@ -29,6 +37,20 @@ function buildTree(data){
   }
   return pool;
 }
+function buildRadarTree(data){
+  const library={name:data.name,kind:'pool',children:[],instructions:0,lines:0,fileCount:0};
+  for(const [path,file] of Object.entries(data.files)){
+    const pieces=path.split('/');let parent=library;
+    for(const folder of pieces.slice(1,-1)){
+      let next=parent.children.find(n=>n.kind==='folder'&&n.name===folder);
+      if(!next)next=attach(parent,{name:folder,kind:'folder',children:[],instructions:0,lines:0,fileCount:0});
+      parent=next;
+    }
+    attach(parent,{...file,name:pieces.at(-1),kind:'file',path,children:[],loaded:true});
+    for(let ancestor=parent;ancestor;ancestor=ancestor.parent){ancestor.instructions+=file.instructions;ancestor.lines+=file.lines;ancestor.fileCount++;}
+  }
+  return library;
+}
 async function loadFile(file){
   if(file.loaded)return;
   let data=loaded.get(file.id);if(!data){data=await api('file?id='+encodeURIComponent(file.id));loaded.set(file.id,data);}
@@ -37,17 +59,17 @@ async function loadFile(file){
   file.loaded=true;
 }
 function ancestry(node){const list=[];for(let n=node;n;n=n.parent)list.unshift(n);return list;}
-function tip(event,node){const tooltip=$('tooltip');tooltip.textContent=`${node.name}\n${duration(weight(node))} · ${root&&weight(root)?(100*weight(node)/weight(root)).toFixed(2):0}% of recorded pool\n${node.kind==='line'?'Attributed to this line’s source anchor':node.kind}`;tooltip.hidden=false;tooltip.style.left=Math.min(event.clientX+12,innerWidth-320)+'px';tooltip.style.top=Math.min(event.clientY+14,innerHeight-110)+'px';}
+function tip(event,node){const tooltip=$('tooltip');tooltip.textContent=`${node.name}\n${formatValue(weight(node))} · ${root&&weight(root)?(100*weight(node)/weight(root)).toFixed(2):0}% of recorded ${radar()?'Mathlib':'pool'}\n${node.kind==='line'?'Attributed to this line’s source anchor':node.kind}`;tooltip.hidden=false;tooltip.style.left=Math.min(event.clientX+12,innerWidth-320)+'px';tooltip.style.top=Math.min(event.clientY+14,innerHeight-110)+'px';}
 function drawFlame(){
   const chart=$('flame');chart.replaceChildren();const total=weight(current);let deepest=0;
   function draw(node,left,width,level){
     if(chart.clientWidth*width/100<3||level>6||weight(node)<=0)return;deepest=Math.max(deepest,level);
-    const button=element('button',node.name+' · '+duration(weight(node)));button.dataset.kind=node.kind;button.setAttribute('aria-label',node.kind+' '+node.name+' '+duration(weight(node)));button.style.cssText=`left:${left}%;width:calc(${width}% - 2px);top:${level*36}px`;
+    const button=element('button',node.name+' · '+formatValue(weight(node)));button.dataset.kind=node.kind;button.setAttribute('aria-label',node.kind+' '+node.name+' '+formatValue(weight(node)));button.style.cssText=`left:${left}%;width:calc(${width}% - 2px);top:${level*36}px`;
     button.onclick=()=>navigate(node);button.onmousemove=e=>tip(e,node);button.onmouseleave=()=>{$('tooltip').hidden=true;};chart.append(button);
     let x=left;for(const child of [...node.children].sort((a,b)=>weight(b)-weight(a))){const w=weight(node)?width*weight(child)/weight(node):0;draw(child,x,w,level+1);x+=w;}
   }
   if(total>0)draw(current,0,100,0);else chart.append(element('p','No measured time at this level yet.'));
-  chart.style.height=(deepest+1)*36+'px';$('graph-note').textContent='Click a bar to descend. Files load declarations and source lines on demand; narrow bars are also listed below.';
+  chart.style.height=(deepest+1)*36+'px';$('graph-note').textContent=radar()?'Click a bar to descend through folders to files. Radar measurements stop at files; narrow bars are also listed below.':'Click a bar to descend. Files load declarations and source lines on demand; narrow bars are also listed below.';
 }
 function renderList(){
   const filter=$('search').value.toLowerCase(),list=$('children');list.replaceChildren();
@@ -55,22 +77,24 @@ function renderList(){
   for(const node of children){
     const button=element('button',undefined,'row'),label=element('span',node.name,'label');
     if(node.kind==='project')label.append(element('small',`${node.completed.toLocaleString()} / ${node.planned.toLocaleString()} files · ${node.lines.toLocaleString()} source lines`));
+    if(radar()&&node.kind==='folder')label.append(element('small',`${node.fileCount.toLocaleString()} measured files · ${node.lines.toLocaleString()} lines`));
     if(node.kind==='file')label.append(element('small',node.path));
-    const time=element('span',node.attributionStatus==='no-separate-timing'?'No separate timing':duration(weight(node)),'time');button.append(label,time);button.onclick=()=>navigate(node);list.append(button);
+    const time=element('span',node.attributionStatus==='no-separate-timing'?'No separate timing':formatValue(weight(node)),'time');button.append(label,time);button.onclick=()=>navigate(node);list.append(button);
   }
-  if(!children.length)list.append(element('p',current.kind==='line'?'Selected source line.':current.kind==='project'?'This project is queued for capture.':'No child entries for this selection.','muted'));
-  $('children-title').textContent=current.kind==='pool'?'Projects':current.kind==='file'?'Declarations':current.kind==='declaration'?'Source lines':'Within '+current.name;
+  if(!children.length)list.append(element('p',radar()?'Radar provides whole-file measurements; declarations and individual lines were not timed.':current.kind==='line'?'Selected source line.':current.kind==='project'?'This project is queued for capture.':'No child entries for this selection.','muted'));
+  $('children-title').textContent=current.kind==='pool'?(radar()?'Folders and root files':'Projects'):current.kind==='file'?(radar()?'File measurements':'Declarations'):current.kind==='declaration'?'Source lines':'Within '+current.name;
 }
 function render(){
   $('tooltip').hidden=true;const breadcrumbs=$('breadcrumbs');breadcrumbs.replaceChildren();
   ancestry(current).forEach((node,i)=>{if(i)breadcrumbs.append(element('span','/'));const b=element('button',node.name);b.onclick=()=>navigate(node);breadcrumbs.append(b);});
-  $('selection').replaceChildren(element('strong',current.name),element('span',current.attributionStatus==='no-separate-timing'?'No separate timing':`${duration(weight(current))} · ${weight(root)?(100*weight(current)/weight(root)).toFixed(2):0}% of recorded pool`));
+  $('selection').replaceChildren(element('strong',current.name),element('span',current.attributionStatus==='no-separate-timing'?'No separate timing':`${formatValue(weight(current))} · ${weight(root)?(100*weight(current)/weight(root)).toFixed(2):0}% of recorded ${radar()?'Mathlib':'pool'}`));
   drawFlame();renderList();renderDetail();
 }
 async function navigate(node){const request=++sequence;try{if(node.kind==='file')await loadFile(node);if(request!==sequence)return;current=node;$('search').value='';render();}catch(error){if(request===sequence)showError(error);}}
 function sourceFile(node){return node.kind==='file'?node:node.file;}
 function renderDetail(){
   const detail=$('detail'),file=sourceFile(current);detail.replaceChildren();
+  if(radar()){renderRadarDetail(detail,file);return;}
   if(!file){detail.append(element('h2','Recording coverage'),element('p',`${overview.session.files.filter(f=>f.status==='ok').length} successful files of ${overview.session.plannedFileCount}. All inventoried projects, folders, files, declarations and source-line timing anchors are included. Source snapshots retain their original headers and attribution.`));
     for(const f of overview.session.files.filter(f=>f.status==='error'))detail.append(element('p',f.path+': '+f.error,'error'));return;}
   detail.append(element('h2',file.path),element('p',`${duration(file.value)} frontend · ${duration(file.sourceValue)} source-attributed · ${duration(file.captureWallMs||0)} capture wall time`));
@@ -91,6 +115,17 @@ function renderDetail(){
   const operationBox=element('div');operationBox.id='operations';detail.append(operationBox);
   if(current.kind==='line')operations(file,current.line);
 }
+function renderRadarDetail(detail,file){
+  const selected=file||current;
+  detail.append(element('h2',file?file.path:'Benchmark coverage'));
+  detail.append(element('p',`${selected.instructions.toLocaleString()} CPU instructions · ${selected.lines.toLocaleString()} source lines${file?'':` · ${selected.fileCount.toLocaleString()} measured files`}`));
+  if(file&&file.lines)detail.append(element('p',Math.round(file.instructions/file.lines).toLocaleString()+' instructions per source line (a whole-file average).'));
+  detail.append(element('p','CPU instructions are hardware performance-counter measurements of the file compilation. They are distinct from Lean heartbeats and from source-attributed wall time. Folder widths sum their files; dependency builds and whole-build aggregate metrics are excluded.'));
+  detail.append(element('p','Radar does not provide declaration or source-line measurements in this dataset. Obtaining that detail would require a separate source-profile capture.'));
+  if(file){const source=element('a','Open this file at the measured Mathlib commit');source.href=file.sourceUrl;detail.append(source);}
+  const benchmark=element('p'),link=element('a','Open original Radar benchmark');link.href=overview.radarUrl;benchmark.append(link);detail.append(benchmark);
+  detail.append(element('p',`Coverage verified against the Git source inventory: ${Object.keys(overview.files).length.toLocaleString()} / ${Object.keys(overview.files).length.toLocaleString()} files, including Mathlib.lean. The benchmark finished successfully.`));
+}
 function operations(file,line){
   const target=$('operations');if(!target)return;
   const value=file.children.flatMap(d=>d.children||[]).filter(n=>n.line===line).reduce((total,n)=>total+n.sourceValue,0);
@@ -99,7 +134,16 @@ function operations(file,line){
 function showError(error){$('progress').textContent='Could not load recording: '+error.message;$('progress').className='error';}
 async function refresh(){
   const request=++sequence;
-  try{const data=await api('overview');if(request!==sequence)return;overview=data;root=buildTree(overview);current=root;
+  try{const data=await api('overview');if(request!==sequence)return;overview=data;
+    if(radar()){
+      const previous=metric;$('metric').replaceChildren(...[['instructions','CPU instructions'],['lines','Source line count']].map(([value,label])=>{const option=element('option',label);option.value=value;return option;}));
+      metric=['instructions','lines'].includes(previous)?previous:'instructions';$('metric').value=metric;
+      root=buildTree(overview);current=root;
+      $('progress').textContent=`${Object.keys(overview.files).length.toLocaleString()} files measured · successful Radar benchmark · ${new Date(overview.capturedAt).toLocaleString()}`;$('progress').className='';
+      $('provenance').textContent=`Mathlib ${overview.commit} · ${overview.leanVersion} · Radar ${overview.run.runner} · Snapshot of whole-file instruction counts and line counts. No declaration or line timings.`;
+      render();return;
+    }
+    root=buildTree(overview);current=root;
     const s=overview.session,ok=s.files.filter(f=>f.status==='ok').length,bad=s.files.filter(f=>f.status==='error').length;
     $('progress').textContent=`${ok.toLocaleString()} / ${s.plannedFileCount.toLocaleString()} files captured · ${bad} failures · ${s.status} · updated ${new Date(s.completedAt).toLocaleString()}`;$('progress').className='';
     $('provenance').textContent=`LeanPool ${overview.commit} · lean-source-profiler ${overview.profilerCommit} · Lean ${s.leanVersions?.join(', ')} · Timings include profiler overhead. Isolated files reload imports; totals are not a parallel build duration.`;

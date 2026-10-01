@@ -49,6 +49,11 @@ expression can have timing on its first line without separate timing on later
 lines. These are attributed wall times with instrumentation overhead, rather
 than independently sampled per-line CPU times or heartbeat counts.
 
+A [repeatability experiment](REPEATABILITY.md) with five files and five measured
+captures each found a median pairwise difference of 1.85% for file source time,
+with a 95th percentile of 11.50%. This is a small sample, not a whole-pool error
+bound. Declaration and line-anchor timings had larger outliers.
+
 Internal operations were captured at per-file thresholds of 1, 10, or 100 ms;
 source scopes were retained below the threshold. Twelve files needed a larger
 profiling heartbeat allowance to accommodate instrumentation overhead. Those

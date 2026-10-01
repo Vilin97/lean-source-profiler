@@ -1,0 +1,20 @@
+{
+  "result": "PASS",
+  "commit": "726a7f1e86c481739c97cb90f5acb25f311f5ec8",
+  "trackedFiles": 8556,
+  "measuredFiles": 8556,
+  "missing": [],
+  "unknown": [],
+  "metrics": [
+    "instructions",
+    "lines"
+  ],
+  "totals": {
+    "instructions": 130279453598200,
+    "lines": 2343682
+  },
+  "rootModuleIncluded": true,
+  "dependenciesIncluded": false,
+  "declarationMeasurements": false,
+  "sourceLineMeasurements": false
+}

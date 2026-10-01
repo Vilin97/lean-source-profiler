@@ -1,0 +1,40 @@
+{
+  "result": "PASS",
+  "commit": "726a7f1e86c481739c97cb90f5acb25f311f5ec8",
+  "trackedFiles": 8556,
+  "measuredFiles": 8556,
+  "missing": [],
+  "unknown": [],
+  "metrics": [
+    "instructions",
+    "lines"
+  ],
+  "totals": {
+    "instructions": 130279453598200,
+    "lines": 2343682
+  },
+  "rootModuleIncluded": true,
+  "dependenciesIncluded": false,
+  "declarationMeasurements": false,
+  "sourceLineMeasurements": false,
+  "kind": "radar-benchmark",
+  "run": {
+    "name": "main",
+    "script": "bench.sh",
+    "runner": "runner-mathlib1",
+    "active": null,
+    "finished": {
+      "startTime": 1790866319.6429667,
+      "endTime": 1790866995.802716,
+      "exitCode": 0
+    }
+  },
+  "leanVersion": "leanprover/lean4:v4.35.0-rc3",
+  "benchmarkTime": "2026-10-01T15:03:15.802716+00:00",
+  "radarUrl": "https://radar.lean-lang.org/repos/mathlib4/commits/726a7f1e86c481739c97cb90f5acb25f311f5ec8",
+  "measurementApi": "https://radar.lean-lang.org/api/compare/mathlib4/726a7f1e86c481739c97cb90f5acb25f311f5ec8/726a7f1e86c481739c97cb90f5acb25f311f5ec8/",
+  "assets": {
+    "data/overview.json.gz": "d9879f20edce12172b9ec80e6f59cb3676bf3f5465d6bd37c61c7f73b3617d23",
+    "data/radar-measurements.json.gz": "dac5578eda252f3326977b632eb2e19981257bee5129e4b58db6a129b22a9297"
+  }
+}
