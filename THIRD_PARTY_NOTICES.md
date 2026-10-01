@@ -9,6 +9,15 @@ not replace it.
 
 ## Published LeanPool example
 
+The separate whole-pool snapshot in `docs/pool` contains unchanged source text
+from every inventoried LeanPool module at commit
+`38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f`. Its source headers remain intact;
+`docs/pool/LEANPOOL-LICENSE`, `docs/pool/LEANPOOL-NOTICE`, and
+`docs/pool/projects.yml` retain the pool and upstream project attribution.
+Repository-relative source paths replace local machine paths in the timing
+metadata. See [whole-pool provenance](docs/WHOLE-POOL.md). The profiler's MIT
+license does not replace the original source licenses.
+
 The static recording in `docs/examples/leanpool` also includes unchanged Lean
 source snapshots from the three profiled LeanPool modules. These
 snapshots retain their copyright headers and are redistributed under their
