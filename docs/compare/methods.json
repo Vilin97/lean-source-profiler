@@ -1,0 +1,1670 @@
+{
+  "kind": "source-profiler-radar-comparison-methods",
+  "datasets": {
+    "mathlib-hosted": {
+      "sourceAudit": {
+        "commit": "726a7f1e86c481739c97cb90f5acb25f311f5ec8",
+        "files": 8556,
+        "auditSha256": "2cfc1cc30ca0f6ccca2d5bcd3fcf3672d2f6d31b4235d3f51751907aad75bcfa",
+        "auditCheckedAt": "2026-10-02T15:07:57.064542+00:00",
+        "inventorySha256": "2cdeebbb58964f1e2077ae46fa562a5f11db819a153e9ce378ff72422bbb3d48",
+        "overviewSha256": "f6fb7000c370e2d7229dac73990d0a78155a8c78dbac3f403c696cf258c9e991",
+        "captureConfiguration": {
+          "fileCount": 8556,
+          "driverSha256Counts": {
+            "58b6405822e1b39b062163b9177be652b6c15fad3fcf7231309b8810db9838e6": 1,
+            "ea0ad06acf1fd426e48ee191f1862fdf009260f5ca582b2dcd73633acfe5de6f": 8555
+          },
+          "profilingOptionsFileCount": 1,
+          "profilingOptionsVariants": [
+            {
+              "options": {
+                "maxHeartbeats": 2000000,
+                "synthInstance.maxHeartbeats": 200000
+              },
+              "files": [
+                "Mathlib/CategoryTheory/Abelian/GrothendieckCategory/EnoughInjectives.lean"
+              ],
+              "fileCount": 1,
+              "nativeValidationWithoutOverridesPassed": true
+            }
+          ],
+          "scope": "Profiling-only allowances are recorded per file. Each affected source passed native compilation with its original setup before the tracing retry. These options were not used for native Radar measurements."
+        },
+        "allSourceHashesVerified": true,
+        "fullyCheckedNow": 8556
+      },
+      "reference": {
+        "url": "https://radar.lean-lang.org/repos/mathlib4/commits/726a7f1e86c481739c97cb90f5acb25f311f5ec8",
+        "run": {
+          "name": "main",
+          "script": "bench.sh",
+          "runner": "runner-mathlib1",
+          "active": null,
+          "finished": {
+            "startTime": 1790866319.6429667,
+            "endTime": 1790866995.802716,
+            "exitCode": 0
+          }
+        },
+        "instructionsSha256": "d9879f20edce12172b9ec80e6f59cb3676bf3f5465d6bd37c61c7f73b3617d23",
+        "moduleWallTimesSha256": "3a7bd7a452d15eedb6b7ef44933ddc0cb67f23c64de85a4e88c7ea923720aaf4",
+        "criticalPathDuplicateTrackExcluded": true
+      }
+    },
+    "mathlib-local": {
+      "sourceAudit": {
+        "commit": "726a7f1e86c481739c97cb90f5acb25f311f5ec8",
+        "files": 8556,
+        "auditSha256": "2cfc1cc30ca0f6ccca2d5bcd3fcf3672d2f6d31b4235d3f51751907aad75bcfa",
+        "auditCheckedAt": "2026-10-02T15:07:57.064542+00:00",
+        "inventorySha256": "2cdeebbb58964f1e2077ae46fa562a5f11db819a153e9ce378ff72422bbb3d48",
+        "overviewSha256": "f6fb7000c370e2d7229dac73990d0a78155a8c78dbac3f403c696cf258c9e991",
+        "captureConfiguration": {
+          "fileCount": 8556,
+          "driverSha256Counts": {
+            "58b6405822e1b39b062163b9177be652b6c15fad3fcf7231309b8810db9838e6": 1,
+            "ea0ad06acf1fd426e48ee191f1862fdf009260f5ca582b2dcd73633acfe5de6f": 8555
+          },
+          "profilingOptionsFileCount": 1,
+          "profilingOptionsVariants": [
+            {
+              "options": {
+                "maxHeartbeats": 2000000,
+                "synthInstance.maxHeartbeats": 200000
+              },
+              "files": [
+                "Mathlib/CategoryTheory/Abelian/GrothendieckCategory/EnoughInjectives.lean"
+              ],
+              "fileCount": 1,
+              "nativeValidationWithoutOverridesPassed": true
+            }
+          ],
+          "scope": "Profiling-only allowances are recorded per file. Each affected source passed native compilation with its original setup before the tracing retry. These options were not used for native Radar measurements."
+        },
+        "allSourceHashesVerified": true,
+        "fullyCheckedNow": 8556
+      },
+      "reference": {
+        "referenceSha256": "8899cb1a3107e18dd0609a6f39dc499c45086339aa2ff7c98a3ba1f359dfb03d",
+        "jobs": null,
+        "scheduling": "Pinned Lake default scheduler with LEAN_NUM_THREADS=4; actual job concurrency depends on the runtime",
+        "kernel": "6.18.33.2-microsoft-standard-WSL2",
+        "machine": {
+          "observedAt": "2026-10-02T15:08:13.752777+00:00",
+          "kernel": "6.18.33.2-microsoft-standard-WSL2",
+          "architecture": "x86_64",
+          "cpuModels": [
+            "AMD Ryzen 9 9955HX 16-Core Processor"
+          ],
+          "logicalCpus": 32,
+          "allowedLogicalCpus": 32,
+          "totalMemoryKiB": 48125624,
+          "availableMemoryKiB": 46334372,
+          "loadAverage": [
+            1.1787109375,
+            1.32275390625,
+            1.34716796875
+          ],
+          "leanNumThreadsEnvironment": "4",
+          "unsetThreadMeaning": "null means the pinned Lean toolchain default; no thread-count override"
+        },
+        "hardwareEvidence": {
+          "sourceFingerprintRecorded": true,
+          "sourceMachine": {
+            "observedAt": "2026-10-01T18:12:28.751285+00:00",
+            "kernel": "6.18.33.2-microsoft-standard-WSL2",
+            "architecture": "x86_64",
+            "cpuModels": [
+              "AMD Ryzen 9 9955HX 16-Core Processor"
+            ],
+            "logicalCpus": 32,
+            "allowedLogicalCpus": 32,
+            "totalMemoryKiB": 48125624,
+            "availableMemoryKiB": 44193756,
+            "loadAverage": [
+              1.5224609375,
+              1.37353515625,
+              1.30810546875
+            ],
+            "leanNumThreadsEnvironment": null,
+            "unsetThreadMeaning": "null means the pinned Lean toolchain default; no thread-count override"
+          },
+          "nativeMachine": {
+            "observedAt": "2026-10-02T15:08:13.752777+00:00",
+            "kernel": "6.18.33.2-microsoft-standard-WSL2",
+            "architecture": "x86_64",
+            "cpuModels": [
+              "AMD Ryzen 9 9955HX 16-Core Processor"
+            ],
+            "logicalCpus": 32,
+            "allowedLogicalCpus": 32,
+            "totalMemoryKiB": 48125624,
+            "availableMemoryKiB": 46334372,
+            "loadAverage": [
+              1.1787109375,
+              1.32275390625,
+              1.34716796875
+            ],
+            "leanNumThreadsEnvironment": "4",
+            "unsetThreadMeaning": "null means the pinned Lean toolchain default; no thread-count override"
+          },
+          "recordedHardwareFieldsAgree": {
+            "cpuModels": true,
+            "architecture": true,
+            "kernel": true,
+            "logicalCpus": true,
+            "allowedLogicalCpus": true
+          },
+          "allRecordedHardwareFieldsAgree": true,
+          "scope": "Recorded hardware facts from the same workspace; runtime settings are reported separately"
+        },
+        "targetScope": {
+          "targetPolicy": "Request every inventory source file explicitly; do not rely on aggregate imports",
+          "targetCount": 8556,
+          "targetManifestSha256": "aae3aa11ce5cc3c6dcc0b4e6821f2f2bc89631c76d2966c42add2ac1ae90166e"
+        },
+        "sourceHashesVerifiedAfterBuild": true,
+        "coverage": "PASS",
+        "completedAt": "2026-10-02T16:11:34.694335+00:00",
+        "localVersusHostedInstructionControl": {
+          "agreement": {
+            "ours": "instructions",
+            "reference": "hostedInstructions",
+            "files": 8556,
+            "oursTotal": 130855705092488,
+            "referenceTotal": 130279453598200,
+            "spearman": 0.999984786664902,
+            "pearsonLog1p": 0.9999868679583805,
+            "costShareTotalVariationPercent": 0.14088284956963898,
+            "costShareRatio": {
+              "count": 8556,
+              "median": 1.0012876148462042,
+              "p05": 0.9968579118250714,
+              "p95": 1.0136272631955634,
+              "maximum": 1.0437150627143548
+            },
+            "top20Overlap": 20,
+            "topListSize": 20,
+            "largestShareDifferences": [
+              {
+                "path": "Mathlib/Analysis/Fourier/FourierTransform.lean",
+                "ours": 164884156751,
+                "reference": 165712920000,
+                "oursSharePercent": 0.12600456100439864,
+                "referenceSharePercent": 0.1271980465247281,
+                "differencePercentagePoints": -0.0011934855203294802
+              },
+              {
+                "path": "Mathlib/AlgebraicGeometry/Modules/Tilde.lean",
+                "ours": 322456269721,
+                "reference": 322027400000,
+                "oursSharePercent": 0.2464212542304441,
+                "referenceSharePercent": 0.24718203147610476,
+                "differencePercentagePoints": -0.0007607772456606678
+              },
+              {
+                "path": "Mathlib/AlgebraicGeometry/Modules/Sheaf.lean",
+                "ours": 264993081699,
+                "reference": 264720470000,
+                "oursSharePercent": 0.20250785513073696,
+                "referenceSharePercent": 0.20319433547551932,
+                "differencePercentagePoints": -0.0006864803447823552
+              },
+              {
+                "path": "Mathlib/CategoryTheory/LocallyCartesianClosed/ChosenPullbacksAlong.lean",
+                "ours": 172555499833,
+                "reference": 172500040000,
+                "oursSharePercent": 0.13186700550124186,
+                "referenceSharePercent": 0.1324077091480704,
+                "differencePercentagePoints": -0.000540703646828523
+              },
+              {
+                "path": "Mathlib/AlgebraicGeometry/AffineTransitionLimit.lean",
+                "ours": 215830480652,
+                "reference": 215573990000,
+                "oursSharePercent": 0.1649377690483211,
+                "referenceSharePercent": 0.16547044376226835,
+                "differencePercentagePoints": -0.0005326747139472411
+              },
+              {
+                "path": "Mathlib/Analysis/InnerProductSpace/Adjoint.lean",
+                "ours": 198630177899,
+                "reference": 198408290000,
+                "oursSharePercent": 0.1517932884612172,
+                "referenceSharePercent": 0.15229438297455472,
+                "differencePercentagePoints": -0.0005010945133375163
+              },
+              {
+                "path": "Mathlib/RingTheory/Polynomial/UniversalFactorizationRing.lean",
+                "ours": 182118580129,
+                "reference": 181953480000,
+                "oursSharePercent": 0.1391751165914239,
+                "referenceSharePercent": 0.1396639876623753,
+                "differencePercentagePoints": -0.0004888710709514011
+              },
+              {
+                "path": "Mathlib/AlgebraicGeometry/EllipticCurve/Projective/Formula.lean",
+                "ours": 148687677982,
+                "reference": 148641300000,
+                "oursSharePercent": 0.11362720324414473,
+                "referenceSharePercent": 0.11409419973346718,
+                "differencePercentagePoints": -0.0004669964893224462
+              },
+              {
+                "path": "Mathlib/CategoryTheory/Monoidal/Internal/FunctorCategory.lean",
+                "ours": 150508650051,
+                "reference": 150441980000,
+                "oursSharePercent": 0.11501879107572836,
+                "referenceSharePercent": 0.1154763670286675,
+                "differencePercentagePoints": -0.0004575759529391356
+              },
+              {
+                "path": "Mathlib/RingTheory/Etale/QuasiFinite.lean",
+                "ours": 191131265325,
+                "reference": 190880270000,
+                "oursSharePercent": 0.14606261545104937,
+                "referenceSharePercent": 0.1465160197775325,
+                "differencePercentagePoints": -0.0004534043264831219
+              },
+              {
+                "path": "Mathlib/Analysis/Fourier/FourierTransformDeriv.lean",
+                "ours": 166734195235,
+                "reference": 166586420000,
+                "oursSharePercent": 0.12741836140591142,
+                "referenceSharePercent": 0.12786852830514298,
+                "differencePercentagePoints": -0.00045016689923156085
+              },
+              {
+                "path": "Mathlib/Analysis/Calculus/FDeriv/ContinuousAlternatingMap.lean",
+                "ours": 122209078406,
+                "reference": 122256670000,
+                "oursSharePercent": 0.09339224324963392,
+                "referenceSharePercent": 0.09384186579186662,
+                "differencePercentagePoints": -0.00044962254223270643
+              },
+              {
+                "path": "Mathlib/RingTheory/ZariskisMainTheorem.lean",
+                "ours": 152233341486,
+                "reference": 152135450000,
+                "oursSharePercent": 0.11633680119518093,
+                "referenceSharePercent": 0.11677624199223843,
+                "differencePercentagePoints": -0.0004394407970575087
+              },
+              {
+                "path": "Mathlib/Analysis/Distribution/ContDiffMapSupportedIn.lean",
+                "ours": 175010469696,
+                "reference": 174786400000,
+                "oursSharePercent": 0.13374309478696683,
+                "referenceSharePercent": 0.13416267505931184,
+                "differencePercentagePoints": -0.0004195802723450017
+              },
+              {
+                "path": "Mathlib/Analysis/Distribution/SchwartzSpace/Basic.lean",
+                "ours": 156157404568,
+                "reference": 155933520000,
+                "oursSharePercent": 0.11933557230663265,
+                "referenceSharePercent": 0.11969156739091086,
+                "differencePercentagePoints": -0.00035599508427820985
+              },
+              {
+                "path": "Mathlib/RingTheory/Unramified/LocalStructure.lean",
+                "ours": 132586351823,
+                "reference": 132463880000,
+                "oursSharePercent": 0.10132256115947622,
+                "referenceSharePercent": 0.10167672364403452,
+                "differencePercentagePoints": -0.00035416248455829615
+              },
+              {
+                "path": "Mathlib/Geometry/Manifold/MFDeriv/SpecificFunctions.lean",
+                "ours": 140918678732,
+                "reference": 140754580000,
+                "oursSharePercent": 0.10769012985135006,
+                "referenceSharePercent": 0.10804050532335417,
+                "differencePercentagePoints": -0.0003503754720041207
+              },
+              {
+                "path": "Mathlib/CategoryTheory/Monoidal/DayConvolution.lean",
+                "ours": 116793083574,
+                "reference": 116730760000,
+                "oursSharePercent": 0.08925333709481859,
+                "referenceSharePercent": 0.0896002836794311,
+                "differencePercentagePoints": -0.00034694658461251063
+              },
+              {
+                "path": "Mathlib/AlgebraicGeometry/Normalization.lean",
+                "ours": 145135095068,
+                "reference": 144945450000,
+                "oursSharePercent": 0.11091231747627618,
+                "referenceSharePercent": 0.11125733643850855,
+                "differencePercentagePoints": -0.00034501896223235965
+              },
+              {
+                "path": "Mathlib/MeasureTheory/VectorMeasure/Integral.lean",
+                "ours": 142122743220,
+                "reference": 141943200000,
+                "oursSharePercent": 0.10861027657873114,
+                "referenceSharePercent": 0.10895286714800988,
+                "differencePercentagePoints": -0.0003425905692787303
+              }
+            ]
+          },
+          "localToHostedInstructionRatio": {
+            "count": 8556,
+            "median": 1.0057165057290807,
+            "p05": 1.0012672092654311,
+            "p95": 1.0181107347556217,
+            "maximum": 1.0483316184941707
+          },
+          "hostedReference": "https://radar.lean-lang.org/repos/mathlib4/commits/726a7f1e86c481739c97cb90f5acb25f311f5ec8",
+          "hostedSnapshotSha256": "d9879f20edce12172b9ec80e6f59cb3676bf3f5465d6bd37c61c7f73b3617d23"
+        }
+      }
+    },
+    "leanpool-local": {
+      "sourceAudit": {
+        "commit": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+        "files": 7060,
+        "auditSha256": "94c08d1fb2b6ce79257dcb5e046afdd21ef4ba097934a45f6e10f3ef04295409",
+        "auditCheckedAt": "2026-09-30T19:08:10.921208+00:00",
+        "inventorySha256": "03f841293c216037d3b3046d2c67fd94c019fe0cfe1482e444eb606a83827117",
+        "overviewSha256": "2f18bb5cc10eaa0d0fd07038e1ac16cc42a04d992dc7e03307fac61fd72a5e77",
+        "captureConfiguration": {
+          "fileCount": 7060,
+          "driverSha256Counts": {
+            "10f1a3c9d9c5a7388eafc932923f8fe7661bf914e4af83b63678be8108f9645e": 10,
+            "58b6405822e1b39b062163b9177be652b6c15fad3fcf7231309b8810db9838e6": 2,
+            "ea0ad06acf1fd426e48ee191f1862fdf009260f5ca582b2dcd73633acfe5de6f": 7048
+          },
+          "profilingOptionsFileCount": 12,
+          "profilingOptionsVariants": [
+            {
+              "options": {
+                "maxHeartbeats": 2000000,
+                "synthInstance.maxHeartbeats": 200000
+              },
+              "files": [
+                "LeanPool/MassFormula/First.lean",
+                "LeanPool/Monlib4/QuantumGraph/PiMat.lean"
+              ],
+              "fileCount": 2,
+              "nativeValidationWithoutOverridesPassed": true
+            },
+            {
+              "options": {
+                "maxHeartbeats": 2000000
+              },
+              "files": [
+                "LeanPool/ClassificationOfSurfaces/Moise/AdaptiveFanAffine.lean",
+                "LeanPool/InfinitaryLogic/Methods/SchemaTermTruth.lean",
+                "LeanPool/MassFormula/Discriminant.lean",
+                "LeanPool/MassFormula/RootLifting.lean",
+                "LeanPool/PDL/Interpolation/SingletonCluster.lean",
+                "LeanPool/PentagonalNumberTheoremAnalytic/QSeries/JTPCore.lean",
+                "LeanPool/PoincareThreeBody/AnalyticNormalization.lean",
+                "LeanPool/PoincareThreeBody/ParameterizedAnalyticDivision.lean",
+                "LeanPool/RiemannRochFunctionFields/SeparableRelNorm.lean",
+                "LeanPool/ZFLean/Isomorphisms.lean"
+              ],
+              "fileCount": 10,
+              "nativeValidationWithoutOverridesPassed": true
+            }
+          ],
+          "scope": "Profiling-only allowances are recorded per file. Each affected source passed native compilation with its original setup before the tracing retry. These options were not used for native Radar measurements."
+        },
+        "allSourceHashesVerified": true,
+        "fullyCheckedNow": 7060
+      },
+      "reference": {
+        "referenceSha256": "7daaee5f7479f28a92272da7210e9f4da12cd1cb4ffe0f2eb0da993197beb708",
+        "jobs": null,
+        "scheduling": "Pinned Lake default scheduler with LEAN_NUM_THREADS=4; actual job concurrency depends on the runtime",
+        "kernel": "6.18.33.2-microsoft-standard-WSL2",
+        "machine": {
+          "observedAt": "2026-10-02T17:09:21.221674+00:00",
+          "kernel": "6.18.33.2-microsoft-standard-WSL2",
+          "architecture": "x86_64",
+          "cpuModels": [
+            "AMD Ryzen 9 9955HX 16-Core Processor"
+          ],
+          "logicalCpus": 32,
+          "allowedLogicalCpus": 32,
+          "totalMemoryKiB": 48125624,
+          "availableMemoryKiB": 46387312,
+          "loadAverage": [
+            0.6005859375,
+            0.8271484375,
+            1.1240234375
+          ],
+          "leanNumThreadsEnvironment": "4",
+          "unsetThreadMeaning": "null means the pinned Lean toolchain default; no thread-count override"
+        },
+        "hardwareEvidence": {
+          "sourceFingerprintRecorded": false,
+          "nativeMachine": {
+            "observedAt": "2026-10-02T17:09:21.221674+00:00",
+            "kernel": "6.18.33.2-microsoft-standard-WSL2",
+            "architecture": "x86_64",
+            "cpuModels": [
+              "AMD Ryzen 9 9955HX 16-Core Processor"
+            ],
+            "logicalCpus": 32,
+            "allowedLogicalCpus": 32,
+            "totalMemoryKiB": 48125624,
+            "availableMemoryKiB": 46387312,
+            "loadAverage": [
+              0.6005859375,
+              0.8271484375,
+              1.1240234375
+            ],
+            "leanNumThreadsEnvironment": "4",
+            "unsetThreadMeaning": "null means the pinned Lean toolchain default; no thread-count override"
+          },
+          "sourceLeanNumThreadsEnvironment": "4",
+          "sourceRuntimeEvidence": "Original LeanPool capture log records LEAN_NUM_THREADS=4",
+          "allRecordedHardwareFieldsAgree": null,
+          "scope": "The earlier LeanPool capture has no independent CPU/kernel fingerprint; hardware identity is not established"
+        },
+        "targetScope": {
+          "targetPolicy": "Request every inventory source file explicitly; do not rely on aggregate imports",
+          "targetCount": 7060,
+          "targetManifestSha256": "0db501e3f93f8545a7dbf11f028fe9b33384b4cf0a2b3c56c5730299b28e72fa"
+        },
+        "sourceHashesVerifiedAfterBuild": true,
+        "coverage": "PASS",
+        "completedAt": "2026-10-02T18:30:17.445286+00:00"
+      }
+    }
+  },
+  "currentClockObservation": {
+    "kind": "current-profiling-clock-observation",
+    "checkedAt": "2026-10-02T16:03:31.619648+00:00",
+    "kernel": "6.18.33.2-microsoft-standard-WSL2",
+    "clocksource": "tsc",
+    "observedLinuxMonotonicToWindowsHrtimeRatio": 1.0445339352962077,
+    "observedLinuxMonotonicScaleDifferencePercent": 4.453393529620775,
+    "observedLinuxRawToWindowsHrtimeRatio": 0.9998884810623148,
+    "scope": "Observed after Mathlib source capture, during its native Radar run. This cannot retrospectively calibrate earlier captures or establish a clock error bound for either whole corpus. Original timing values remain unrescaled.",
+    "steadyClockApiEvidence": {
+      "leanVersion": "4.35.0-rc3",
+      "compilerCommit": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+      "frontendTimer": "IO.monoNanosNow -> std::chrono::steady_clock::now; pinned Linux runtime disassembly calls clock_gettime with CLOCK_MONOTONIC (1)",
+      "leanRuntimeSource": "https://github.com/leanprover/lean4/blob/470d5ce1400764999581fd26d5d72b00d990b0f4/src/runtime/io.cpp",
+      "lakeprofLogTimer": "Python time.monotonic(); verified in pinned installed lakeprof.py",
+      "linuxClockSemantics": "https://man7.org/linux/man-pages/man2/clock_gettime.2.html"
+    },
+    "realtimeStepObservation": {
+      "realtimeSeconds": 3.574583163,
+      "monotonicSeconds": 5.000378608,
+      "differenceSeconds": -1.4257954450000003,
+      "scope": "One observed five-second interval; UTC timestamps can step while the monotonic timer continues."
+    },
+    "windowsProbe": {
+      "checkedAt": "2026-10-02T16:00:10.775233+00:00",
+      "scope": "Current simultaneous Windows QPC/Date and Linux monotonic/raw/realtime probe; asynchronous pipe delivery introduces small endpoint latency; not a retrospective calibration",
+      "samples": [
+        {
+          "windows": {
+            "dateMs": 1790956790620,
+            "hrtimeNs": "1459677403268100"
+          },
+          "linux": {
+            "realtimeNs": 1790956789867889692,
+            "monotonicNs": 1487714157964310,
+            "rawNs": 1429906939540845,
+            "datetimeUtc": "2026-10-02T15:59:49.867901+00:00"
+          }
+        },
+        {
+          "windows": {
+            "dateMs": 1790956810625,
+            "hrtimeNs": "1459697408067700"
+          },
+          "linux": {
+            "realtimeNs": 1790956810763581972,
+            "monotonicNs": 1487735053656361,
+            "rawNs": 1429926942109531,
+            "datetimeUtc": "2026-10-02T16:00:10.763611+00:00"
+          }
+        }
+      ],
+      "windowsHrtimeSeconds": 20.0047996,
+      "windowsDateSeconds": 20.005,
+      "linuxElapsedSeconds": {
+        "realtimeNs": 20.89569228,
+        "monotonicNs": 20.895692051,
+        "rawNs": 20.002568686
+      },
+      "linuxMonotonicToWindowsHrtimeRatio": 1.0445339352962077,
+      "linuxRawToWindowsHrtimeRatio": 0.9998884810623148
+    },
+    "linuxClockProbe": {
+      "kernel": "6.18.33.2-microsoft-standard-WSL2",
+      "clocksource": "tsc",
+      "start": {
+        "realtimeNs": 1790956329099163221,
+        "monotonicNs": 1487232642898428,
+        "monotonicRawNs": 1429446071290958,
+        "boottimeNs": 1487232642899589
+      },
+      "end": {
+        "realtimeNs": 1790956349099409648,
+        "monotonicNs": 1487252643147628,
+        "monotonicRawNs": 1429465226754152,
+        "boottimeNs": 1487252643152135
+      },
+      "elapsedSeconds": {
+        "realtimeNs": 20.000246427,
+        "monotonicNs": 20.0002492,
+        "monotonicRawNs": 19.155463194,
+        "boottimeNs": 20.000252546
+      },
+      "monotonicToRealtimeRatio": 1.0000001386482915,
+      "rawToRealtimeRatio": 0.9577613587870819,
+      "scope": "Current low-load clock probe during native Mathlib run, not retrospective calibration of the source capture or either entire corpus",
+      "readOnlyAdjtimex": {
+        "readOnlyModes": 0,
+        "returnStatus": 0,
+        "errno": 0,
+        "structBytes": 208,
+        "freqScaledPpm": 8075196,
+        "freqPpm": 123.21771240234375,
+        "tickMicroseconds": 10441,
+        "status": 8192,
+        "offset": 0,
+        "maxerror": 110076,
+        "esterror": 78309,
+        "tolerancePpm": 500.0
+      }
+    },
+    "logClockSamples": {
+      "scope": "Current clock samples with native log timestamps; no retrospective scale correction",
+      "samples": [
+        {
+          "datetimeNowNs": 1790956604601644032,
+          "timeNs": 1790956604601662590,
+          "monotonicNs": 1487519153688696,
+          "rawNs": 1429720308752752,
+          "latestLakeprofElapsed": 3035.941
+        },
+        {
+          "datetimeNowNs": 1790956608176233984,
+          "timeNs": 1790956608176245753,
+          "monotonicNs": 1487524154067304,
+          "rawNs": 1429725100169477,
+          "latestLakeprofElapsed": 3040.582
+        },
+        {
+          "datetimeNowNs": 1790956613177007872,
+          "timeNs": 1790956613177020098,
+          "monotonicNs": 1487529154841471,
+          "rawNs": 1429729889084574,
+          "latestLakeprofElapsed": 3045.945
+        }
+      ]
+    },
+    "probeFileSha256": {
+      "clock-probe.json": "66af15590e0cced18dd412d30c6c418c31c1a5b65f680d701820fa9b059bfa45",
+      "clock-host-comparison.json": "8f6a9415e5b4a91eb4c3da92c7424afdbdd4248c88154b24055d77a6b9b9cee5",
+      "clock-log-probe.json": "bfae030672040f29b213d3bcc9f65ef67edf6af38154a973ba76881056e384f8"
+    },
+    "retrospectiveCalibration": false,
+    "timingValuesRescaled": false
+  },
+  "localMathlibLauncherObservation": {
+    "scope": "Observed live native Mathlib measurement wrapper environment",
+    "elanLauncherIncluded": true,
+    "sourceFrontendWindowExcludesDriverStartup": true
+  },
+  "mathlibSourceCaptureMachine": {
+    "commit": "726a7f1e86c481739c97cb90f5acb25f311f5ec8",
+    "machine": {
+      "observedAt": "2026-10-01T18:12:28.751285+00:00",
+      "kernel": "6.18.33.2-microsoft-standard-WSL2",
+      "architecture": "x86_64",
+      "cpuModels": [
+        "AMD Ryzen 9 9955HX 16-Core Processor"
+      ],
+      "logicalCpus": 32,
+      "allowedLogicalCpus": 32,
+      "totalMemoryKiB": 48125624,
+      "availableMemoryKiB": 44193756,
+      "loadAverage": [
+        1.5224609375,
+        1.37353515625,
+        1.30810546875
+      ],
+      "leanNumThreadsEnvironment": null,
+      "unsetThreadMeaning": "null means the pinned Lean toolchain default; no thread-count override"
+    },
+    "observedSuccessfulCaptures": 738,
+    "scope": "Mathlib source capture, observed while its verified runner was live; not a retroactive hardware fingerprint for the original LeanPool recording"
+  },
+  "measurementCode": {
+    "repository": "https://github.com/leanprover-community/mathlib4",
+    "commit": "726a7f1e86c481739c97cb90f5acb25f311f5ec8",
+    "directory": "scripts/bench",
+    "codeHashes": {
+      "scripts/bench/measure.py": "198a004db97be9dc188a5ca2d783eea7f8ceb7796571e3a34466805d14b6485e",
+      "scripts/bench/README.md": "b5ed188701e96a799502af6475728097b0a709389791e844a4aa3e2336c7c5d2",
+      "scripts/bench/build/lakeprof_report_upload.py": "e11ed9dcbd336df18ef61c9eaae1c4651b4a491aedbc4bbe2a3c8a87c0822ae5",
+      "scripts/bench/build/run": "8090767e4b0173d28b43e5f97c249a4d95c26abd9fb855793251f3527d4c8c75",
+      "scripts/bench/build/lakeprof_measurements.py": "7236c597af2e2d47ee13ba78c525f1abacba5ba7221eaf23eb795c9c5cd62495",
+      "scripts/bench/build/fake-root/bin/lean": "ab98a2fcf00c288793e9080d916ce966625823306e4b71c5fd54531bf068391c"
+    },
+    "radarRepository": "https://github.com/leanprover/radar"
+  },
+  "measurementDefinitions": {
+    "frontendMs": "Instrumented imports and frontend work; excludes trace export and output compilation.",
+    "sourceMs": "Source-attributed elapsed time; overlapping trace events allocated without double counting.",
+    "instructions": "Userspace CPU instructions for native Lean file compilation, including imports and output work.",
+    "radarBuildWallMs": "Hosted lakeprof module wall time; critical-path duplicate track excluded.",
+    "nativeBuildWallMs": "Local lakeprof module wall time; Lake scheduler with LEAN_NUM_THREADS=4; includes task/wrapper startup and output compilation; read from Lake's rounded printed durations.",
+    "spearman": "Pearson correlation of average tied ranks.",
+    "costShareTotalVariationPercent": "Half the sum of absolute normalized share differences, multiplied by 100."
+  },
+  "frontendControls": {
+    "complete": true,
+    "planSha256": "fd76a80c9e38708921bd4e4c036deb2ea922d8f14fa20c01779e1573e05e7d0e",
+    "runsSha256": "2a40268a5fe84f4366925c81f70c57387c15616ca978011db3e62ea680542b83",
+    "report": {
+      "completedFiles": 21,
+      "files": [
+        {
+          "path": "Mathlib/Algebra/Algebra/Subalgebra/Directed.lean",
+          "baselineFrontendMs": 2173.3472105,
+          "instrumentedFrontendMs": 2283.42300875,
+          "frontendOverheadPercent": 5.064805003001616
+        },
+        {
+          "path": "Mathlib/Algebra/Group/Units/Defs.lean",
+          "baselineFrontendMs": 2197.508584,
+          "instrumentedFrontendMs": 2488.2787012500003,
+          "frontendOverheadPercent": 13.23180802874171
+        },
+        {
+          "path": "Mathlib/AlgebraicGeometry/Modules/Sheaf.lean",
+          "baselineFrontendMs": 21299.06857325,
+          "instrumentedFrontendMs": 27033.4513655,
+          "frontendOverheadPercent": 26.92316226190261
+        },
+        {
+          "path": "Mathlib/AlgebraicGeometry/Modules/Tilde.lean",
+          "baselineFrontendMs": 21550.4933305,
+          "instrumentedFrontendMs": 27252.695355750002,
+          "frontendOverheadPercent": 26.459728498093284
+        },
+        {
+          "path": "Mathlib/Analysis/Analytic/CPolynomialDef.lean",
+          "baselineFrontendMs": 4508.4399375,
+          "instrumentedFrontendMs": 5805.935642750001,
+          "frontendOverheadPercent": 28.77926119094496
+        },
+        {
+          "path": "Mathlib/Analysis/Calculus/Deriv/Linear.lean",
+          "baselineFrontendMs": 2072.767398,
+          "instrumentedFrontendMs": 2134.823766,
+          "frontendOverheadPercent": 2.993889621183632
+        },
+        {
+          "path": "Mathlib/Analysis/Normed/Algebra/Basic.lean",
+          "baselineFrontendMs": 2299.01884675,
+          "instrumentedFrontendMs": 2356.934633,
+          "frontendOverheadPercent": 2.5191523041175667
+        },
+        {
+          "path": "Mathlib/Analysis/Normed/Order/UpperLower.lean",
+          "baselineFrontendMs": 2171.773862,
+          "instrumentedFrontendMs": 2290.7425252499997,
+          "frontendOverheadPercent": 5.477948939879074
+        },
+        {
+          "path": "Mathlib/Analysis/SpecialFunctions/Complex/Log.lean",
+          "baselineFrontendMs": 2188.97636725,
+          "instrumentedFrontendMs": 2248.40249675,
+          "frontendOverheadPercent": 2.714790821367208
+        },
+        {
+          "path": "Mathlib/CategoryTheory/Galois/Prorepresentability.lean",
+          "baselineFrontendMs": 3050.5204765,
+          "instrumentedFrontendMs": 3332.0692495000003,
+          "frontendOverheadPercent": 9.229532309943188
+        },
+        {
+          "path": "Mathlib/CategoryTheory/Localization/Quadrifunctor.lean",
+          "baselineFrontendMs": 2707.662537,
+          "instrumentedFrontendMs": 2915.22372025,
+          "frontendOverheadPercent": 7.665696164632485
+        },
+        {
+          "path": "Mathlib/CategoryTheory/Sites/SheafCohomology/ExactSequences.lean",
+          "baselineFrontendMs": 28230.24868775,
+          "instrumentedFrontendMs": 28365.21020975,
+          "frontendOverheadPercent": 0.4780741519240017
+        },
+        {
+          "path": "Mathlib/CategoryTheory/Sites/SheafCohomology/MayerVietoris.lean",
+          "baselineFrontendMs": 34201.967188,
+          "instrumentedFrontendMs": 34634.949677,
+          "frontendOverheadPercent": 1.2659578515469505
+        },
+        {
+          "path": "Mathlib/Combinatorics/Quiver/Path/Weight.lean",
+          "baselineFrontendMs": 1454.2798132500002,
+          "instrumentedFrontendMs": 1515.6557715,
+          "frontendOverheadPercent": 4.22036788868283
+        },
+        {
+          "path": "Mathlib/Data/Nat/Cast/Defs.lean",
+          "baselineFrontendMs": 1263.77470075,
+          "instrumentedFrontendMs": 1314.73019875,
+          "frontendOverheadPercent": 4.032008076262317
+        },
+        {
+          "path": "Mathlib/Init.lean",
+          "baselineFrontendMs": 1086.86939175,
+          "instrumentedFrontendMs": 1104.9416975,
+          "frontendOverheadPercent": 1.6627854171972878
+        },
+        {
+          "path": "Mathlib/Order/Interval/Set/Final.lean",
+          "baselineFrontendMs": 1559.56763475,
+          "instrumentedFrontendMs": 1563.4611625,
+          "frontendOverheadPercent": 0.24965430567069902
+        },
+        {
+          "path": "Mathlib/SetTheory/Cardinal/Aleph.lean",
+          "baselineFrontendMs": 2765.0293309999997,
+          "instrumentedFrontendMs": 3028.868033,
+          "frontendOverheadPercent": 9.54198565063975
+        },
+        {
+          "path": "Mathlib/SetTheory/Cardinal/UnivLE.lean",
+          "baselineFrontendMs": 1529.99475625,
+          "instrumentedFrontendMs": 1543.7106105,
+          "frontendOverheadPercent": 0.8964641345319047
+        },
+        {
+          "path": "Mathlib/Topology/Compactification/StoneCech.lean",
+          "baselineFrontendMs": 1789.90987575,
+          "instrumentedFrontendMs": 1827.9650617500001,
+          "frontendOverheadPercent": 2.126095090908109
+        },
+        {
+          "path": "Mathlib/Topology/Defs/Induced.lean",
+          "baselineFrontendMs": 1536.94623625,
+          "instrumentedFrontendMs": 1534.4944277499999,
+          "frontendOverheadPercent": -0.1595246757611024
+        }
+      ],
+      "machine": {
+        "observedAt": "2026-10-02T16:11:35.400231+00:00",
+        "kernel": "6.18.33.2-microsoft-standard-WSL2",
+        "architecture": "x86_64",
+        "cpuModels": [
+          "AMD Ryzen 9 9955HX 16-Core Processor"
+        ],
+        "logicalCpus": 32,
+        "allowedLogicalCpus": 32,
+        "totalMemoryKiB": 48125624,
+        "availableMemoryKiB": 45947060,
+        "loadAverage": [
+          5.2333984375,
+          6.552734375,
+          6.69482421875
+        ],
+        "leanNumThreadsEnvironment": null,
+        "unsetThreadMeaning": "null means the pinned Lean toolchain default; no thread-count override"
+      },
+      "frontendOverheadPercent": {
+        "count": 21,
+        "median": 4.032008076262317,
+        "p05": 0.24965430567069902,
+        "p95": 26.92316226190261,
+        "maximum": 28.77926119094496
+      },
+      "limitations": "Stratified sample on this machine, not a full-corpus error bound. Whole-process counters include driver startup; frontend stopwatch excludes it and export.",
+      "updatedAt": "2026-10-02T16:42:19.197253+00:00"
+    },
+    "frontendRepeatability": {
+      "measurement": "frontendMs",
+      "measuredRepeatsPerMode": 4,
+      "pairwiseDefinition": "100 * abs(a - b) / ((a + b) / 2); all six pairs of four measured runs per file",
+      "warmupsExcluded": true,
+      "modes": {
+        "baseline": {
+          "files": [
+            {
+              "path": "Mathlib/Algebra/Algebra/Subalgebra/Directed.lean",
+              "frontendMsByRepeat": [
+                2410.017305,
+                2123.021852,
+                2084.845715,
+                2075.50397
+              ],
+              "meanFrontendMs": 2173.3472105,
+              "coefficientOfVariationPercent": 7.321120402185893,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 7.462968284306426,
+                "p05": 0.7904415262683379,
+                "p95": 14.80358362289488,
+                "maximum": 14.915249064335322
+              }
+            },
+            {
+              "path": "Mathlib/Algebra/Group/Units/Defs.lean",
+              "frontendMsByRepeat": [
+                2206.992806,
+                2188.912682,
+                2194.01302,
+                2200.115828
+              ],
+              "meanFrontendMs": 2197.508584,
+              "coefficientOfVariationPercent": 0.3552746465177772,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 0.4112962861314061,
+                "p05": 0.24399526604393243,
+                "p95": 0.764405830300994,
+                "maximum": 0.8225892958506694
+              }
+            },
+            {
+              "path": "Mathlib/AlgebraicGeometry/Modules/Sheaf.lean",
+              "frontendMsByRepeat": [
+                21485.336555,
+                21442.794638,
+                21065.493132,
+                21202.649968
+              ],
+              "meanFrontendMs": 21299.06857325,
+              "coefficientOfVariationPercent": 0.9359003249330143,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.2253349508634808,
+                "p05": 0.3108965957733549,
+                "p95": 1.9238277925960394,
+                "maximum": 1.9733736149839227
+              }
+            },
+            {
+              "path": "Mathlib/AlgebraicGeometry/Modules/Tilde.lean",
+              "frontendMsByRepeat": [
+                21513.140786,
+                21209.023879,
+                21827.914001,
+                21651.894656
+              ],
+              "meanFrontendMs": 21550.4933305,
+              "coefficientOfVariationPercent": 1.2137081734526187,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.4381183902570043,
+                "p05": 0.6845895668613708,
+                "p95": 2.6737031242179783,
+                "maximum": 2.8760880884492925
+              }
+            },
+            {
+              "path": "Mathlib/Analysis/Analytic/CPolynomialDef.lean",
+              "frontendMsByRepeat": [
+                4492.304022,
+                4498.951774,
+                4538.241595,
+                4504.262359
+              ],
+              "meanFrontendMs": 4508.4399375,
+              "coefficientOfVariationPercent": 0.4538424679579546,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 0.5086935429785544,
+                "p05": 0.1254460248968916,
+                "p95": 0.9804149491625829,
+                "maximum": 1.0173820043281259
+              }
+            },
+            {
+              "path": "Mathlib/Analysis/Calculus/Deriv/Linear.lean",
+              "frontendMsByRepeat": [
+                2061.525544,
+                2067.538331,
+                2085.303302,
+                2076.702415
+              ],
+              "meanFrontendMs": 2072.767398,
+              "coefficientOfVariationPercent": 0.5031927617714281,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 0.5878762425551946,
+                "p05": 0.3217578327571505,
+                "p95": 1.0739836015324287,
+                "maximum": 1.1467923506385158
+              }
+            },
+            {
+              "path": "Mathlib/Analysis/Normed/Algebra/Basic.lean",
+              "frontendMsByRepeat": [
+                2351.984837,
+                2306.46208,
+                2296.368085,
+                2241.260385
+              ],
+              "meanFrontendMs": 2299.01884675,
+              "coefficientOfVariationPercent": 1.9780077346377503,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 2.410943370308366,
+                "p05": 0.8175540641526949,
+                "p95": 4.332750610079378,
+                "maximum": 4.821186183122532
+              }
+            },
+            {
+              "path": "Mathlib/Analysis/Normed/Order/UpperLower.lean",
+              "frontendMsByRepeat": [
+                2157.411527,
+                2148.631145,
+                2158.797125,
+                2222.255651
+              ],
+              "meanFrontendMs": 2171.773862,
+              "coefficientOfVariationPercent": 1.5634329299266427,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.6844870693587892,
+                "p05": 0.1501074939862794,
+                "p95": 3.266930207250392,
+                "maximum": 3.3688589723887286
+              }
+            },
+            {
+              "path": "Mathlib/Analysis/SpecialFunctions/Complex/Log.lean",
+              "frontendMsByRepeat": [
+                2181.972641,
+                2175.437069,
+                2223.052018,
+                2175.443741
+              ],
+              "meanFrontendMs": 2188.97636725,
+              "coefficientOfVariationPercent": 1.047286478545581,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.0825448024966697,
+                "p05": 0.07514712265748177,
+                "p95": 2.164982656734854,
+                "maximum": 2.1650593218807184
+              }
+            },
+            {
+              "path": "Mathlib/CategoryTheory/Galois/Prorepresentability.lean",
+              "frontendMsByRepeat": [
+                3062.065295,
+                3100.438451,
+                2984.814687,
+                3054.763473
+              ],
+              "meanFrontendMs": 3050.5204765,
+              "coefficientOfVariationPercent": 1.5789947301332727,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.9002282799158579,
+                "p05": 0.4904028850737232,
+                "p95": 3.4888616654865374,
+                "maximum": 3.8001299659327317
+              }
+            },
+            {
+              "path": "Mathlib/CategoryTheory/Localization/Quadrifunctor.lean",
+              "frontendMsByRepeat": [
+                2681.504992,
+                2756.668543,
+                2711.83982,
+                2680.636793
+              ],
+              "meanFrontendMs": 2707.662537,
+              "coefficientOfVariationPercent": 1.320233833520512,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.3984014478283084,
+                "p05": 0.3055115392239702,
+                "p95": 2.7885761647962966,
+                "maximum": 2.7966702365084943
+              }
+            },
+            {
+              "path": "Mathlib/CategoryTheory/Sites/SheafCohomology/ExactSequences.lean",
+              "frontendMsByRepeat": [
+                28125.795277,
+                28103.024396,
+                27961.515767,
+                28730.659311
+              ],
+              "meanFrontendMs": 28230.24868775,
+              "coefficientOfVariationPercent": 1.2094497470126475,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.3567436941992201,
+                "p05": 0.18694676482096345,
+                "p95": 2.587220204567387,
+                "maximum": 2.7134028388989186
+              }
+            },
+            {
+              "path": "Mathlib/CategoryTheory/Sites/SheafCohomology/MayerVietoris.lean",
+              "frontendMsByRepeat": [
+                33936.626475,
+                34436.276532,
+                34206.071251,
+                34228.894494
+              ],
+              "meanFrontendMs": 34201.967188,
+              "coefficientOfVariationPercent": 0.5993176985456933,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 0.7307817290826639,
+                "p05": 0.2010350262689949,
+                "p95": 1.3105391807785134,
+                "maximum": 1.4615440767488026
+              }
+            },
+            {
+              "path": "Mathlib/Combinatorics/Quiver/Path/Weight.lean",
+              "frontendMsByRepeat": [
+                1472.657662,
+                1447.525188,
+                1435.181604,
+                1461.754799
+              ],
+              "meanFrontendMs": 1454.2798132500002,
+              "coefficientOfVariationPercent": 1.1256826954427133,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.3497583588593516,
+                "p05": 0.7714248472265062,
+                "p95": 2.3918340513768093,
+                "maximum": 2.57758800069797
+              }
+            },
+            {
+              "path": "Mathlib/Data/Nat/Cast/Defs.lean",
+              "frontendMsByRepeat": [
+                1264.071775,
+                1264.695468,
+                1245.30528,
+                1281.02628
+              ],
+              "meanFrontendMs": 1263.77470075,
+              "coefficientOfVariationPercent": 1.1554431293146101,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.4140178653396727,
+                "p05": 0.35774600952260405,
+                "p95": 2.507179745141269,
+                "maximum": 2.8278948468664185
+              }
+            },
+            {
+              "path": "Mathlib/Init.lean",
+              "frontendMsByRepeat": [
+                1068.644,
+                1065.598874,
+                1131.494928,
+                1081.739765
+              ],
+              "meanFrontendMs": 1086.86939175,
+              "coefficientOfVariationPercent": 2.8120517548155926,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 2.999743985227863,
+                "p05": 0.518517498285737,
+                "p95": 5.927195740539245,
+                "maximum": 5.998474342790034
+              }
+            },
+            {
+              "path": "Mathlib/Order/Interval/Set/Final.lean",
+              "frontendMsByRepeat": [
+                1561.559413,
+                1591.714642,
+                1558.578915,
+                1526.417569
+              ],
+              "meanFrontendMs": 1559.56763475,
+              "coefficientOfVariationPercent": 1.7114651988107061,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 2.0943381702614765,
+                "p05": 0.6214442604041409,
+                "p95": 3.710173596760547,
+                "maximum": 4.188217085192733
+              }
+            },
+            {
+              "path": "Mathlib/SetTheory/Cardinal/Aleph.lean",
+              "frontendMsByRepeat": [
+                2804.065028,
+                2769.277149,
+                2734.036138,
+                2752.739009
+              ],
+              "meanFrontendMs": 2765.0293309999997,
+              "coefficientOfVariationPercent": 1.0755878109706491,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.264543332992363,
+                "p05": 0.6196778108020513,
+                "p95": 2.3585695718361666,
+                "maximum": 2.5289855819148843
+              }
+            },
+            {
+              "path": "Mathlib/SetTheory/Cardinal/UnivLE.lean",
+              "frontendMsByRepeat": [
+                1522.637587,
+                1553.100639,
+                1499.932032,
+                1544.308767
+              ],
+              "meanFrontendMs": 1529.99475625,
+              "coefficientOfVariationPercent": 1.5543466128932388,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.7416309793348033,
+                "p05": 0.7790712004900825,
+                "p95": 3.3411158595338555,
+                "maximum": 3.4830028191336093
+              }
+            },
+            {
+              "path": "Mathlib/Topology/Compactification/StoneCech.lean",
+              "frontendMsByRepeat": [
+                1786.725863,
+                1811.401014,
+                1763.96246,
+                1797.550166
+              ],
+              "meanFrontendMs": 1789.90987575,
+              "coefficientOfVariationPercent": 1.1190724562350043,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.326875994157041,
+                "p05": 0.6448869380163968,
+                "p95": 2.461763580840698,
+                "maximum": 2.653635320994504
+              }
+            },
+            {
+              "path": "Mathlib/Topology/Defs/Induced.lean",
+              "frontendMsByRepeat": [
+                1559.900496,
+                1558.891131,
+                1540.407484,
+                1488.585834
+              ],
+              "meanFrontendMs": 1536.94623625,
+              "coefficientOfVariationPercent": 2.1771967141944186,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 2.3395982636782797,
+                "p05": 0.3467367706084943,
+                "p95": 4.662519989907286,
+                "maximum": 4.678693245116175
+              }
+            }
+          ],
+          "fileCount": 21,
+          "pairCount": 126,
+          "pairwiseDifferencePercent": {
+            "count": 126,
+            "median": 1.3037160640026926,
+            "p05": 0.09023793967458688,
+            "p95": 4.662519989907286,
+            "maximum": 14.915249064335322
+          },
+          "coefficientOfVariationPercent": {
+            "count": 21,
+            "median": 1.2094497470126475,
+            "p05": 0.4538424679579546,
+            "p95": 2.8120517548155926,
+            "maximum": 7.321120402185893
+          }
+        },
+        "instrumented": {
+          "files": [
+            {
+              "path": "Mathlib/Algebra/Algebra/Subalgebra/Directed.lean",
+              "frontendMsByRepeat": [
+                2553.466033,
+                2239.07053,
+                2179.83338,
+                2161.322092
+              ],
+              "meanFrontendMs": 2283.42300875,
+              "coefficientOfVariationPercent": 8.016789076450248,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 8.326958802974831,
+                "p05": 1.3098904917527308,
+                "p95": 16.42282970762108,
+                "maximum": 16.63463683216943
+              }
+            },
+            {
+              "path": "Mathlib/Algebra/Group/Units/Defs.lean",
+              "frontendMsByRepeat": [
+                2499.952877,
+                2486.137029,
+                2492.119174,
+                2474.905725
+              ],
+              "meanFrontendMs": 2488.2787012500003,
+              "coefficientOfVariationPercent": 0.4243377856653289,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 0.5034778096102246,
+                "p05": 0.2587096437357661,
+                "p95": 0.9284892339876958,
+                "maximum": 1.006949302636686
+              }
+            },
+            {
+              "path": "Mathlib/AlgebraicGeometry/Modules/Sheaf.lean",
+              "frontendMsByRepeat": [
+                26993.761573,
+                27216.120915,
+                27097.691261,
+                26826.231713
+              ],
+              "meanFrontendMs": 27033.4513655,
+              "coefficientOfVariationPercent": 0.6116060778852809,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 0.7214604123903907,
+                "p05": 0.3972289960291795,
+                "p95": 1.333882846589993,
+                "maximum": 1.4429024016914915
+              }
+            },
+            {
+              "path": "Mathlib/AlgebraicGeometry/Modules/Tilde.lean",
+              "frontendMsByRepeat": [
+                27068.82894,
+                27238.784672,
+                26860.871798,
+                27842.296013
+              ],
+              "meanFrontendMs": 27252.695355750002,
+              "coefficientOfVariationPercent": 1.5497787633124733,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.7942275942148829,
+                "p05": 0.6622290612181799,
+                "p95": 3.395425369437971,
+                "maximum": 3.5881805543358283
+              }
+            },
+            {
+              "path": "Mathlib/Analysis/Analytic/CPolynomialDef.lean",
+              "frontendMsByRepeat": [
+                5893.262311,
+                5745.488362,
+                5739.205707,
+                5845.786191
+              ],
+              "meanFrontendMs": 5805.935642750001,
+              "coefficientOfVariationPercent": 1.308732141019727,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.7852748780825238,
+                "p05": 0.2842714026220415,
+                "p95": 2.6213869273055765,
+                "maximum": 2.6487346238410323
+              }
+            },
+            {
+              "path": "Mathlib/Analysis/Calculus/Deriv/Linear.lean",
+              "frontendMsByRepeat": [
+                2155.992356,
+                2126.747867,
+                2152.786016,
+                2103.768825
+              ],
+              "meanFrontendMs": 2134.823766,
+              "coefficientOfVariationPercent": 1.147518168062044,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.2912794984172653,
+                "p05": 0.38320790475915123,
+                "p95": 2.414744612372834,
+                "maximum": 2.4519464252097047
+              }
+            },
+            {
+              "path": "Mathlib/Analysis/Normed/Algebra/Basic.lean",
+              "frontendMsByRepeat": [
+                2355.00812,
+                2340.920179,
+                2358.435268,
+                2373.374965
+              ],
+              "meanFrontendMs": 2356.934633,
+              "coefficientOfVariationPercent": 0.5653761815551449,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 0.6884415787330688,
+                "p05": 0.2590667675294094,
+                "p95": 1.226869304165185,
+                "maximum": 1.376866955023204
+              }
+            },
+            {
+              "path": "Mathlib/Analysis/Normed/Order/UpperLower.lean",
+              "frontendMsByRepeat": [
+                2221.707312,
+                2282.375925,
+                2260.994459,
+                2397.892405
+              ],
+              "meanFrontendMs": 2290.7425252499997,
+              "coefficientOfVariationPercent": 3.305608107324123,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 3.8151285206492798,
+                "p05": 1.1441204003863017,
+                "p95": 7.190003917301966,
+                "maximum": 7.627721179029592
+              }
+            },
+            {
+              "path": "Mathlib/Analysis/SpecialFunctions/Complex/Log.lean",
+              "frontendMsByRepeat": [
+                2197.109613,
+                2324.150207,
+                2253.819917,
+                2218.53025
+              ],
+              "meanFrontendMs": 2248.40249675,
+              "coefficientOfVariationPercent": 2.4750383823437527,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 2.81039944725865,
+                "p05": 1.1221940756611464,
+                "p95": 5.377303186682839,
+                "maximum": 5.619698891801359
+              }
+            },
+            {
+              "path": "Mathlib/CategoryTheory/Galois/Prorepresentability.lean",
+              "frontendMsByRepeat": [
+                3367.204652,
+                3260.036172,
+                3351.283835,
+                3349.752339
+              ],
+              "meanFrontendMs": 3332.0692495000003,
+              "coefficientOfVariationPercent": 1.4605353147387385,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.6171475024663668,
+                "p05": 0.1527670324687495,
+                "p95": 3.1157222802626197,
+                "maximum": 3.234180946372074
+              }
+            },
+            {
+              "path": "Mathlib/CategoryTheory/Localization/Quadrifunctor.lean",
+              "frontendMsByRepeat": [
+                2943.135973,
+                2903.880129,
+                2949.06138,
+                2864.817399
+              ],
+              "meanFrontendMs": 2915.22372025,
+              "coefficientOfVariationPercent": 1.342276419459099,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.4490908359389143,
+                "p05": 0.48653669069612804,
+                "p95": 2.8477582005864472,
+                "maximum": 2.8980301861226705
+              }
+            },
+            {
+              "path": "Mathlib/CategoryTheory/Sites/SheafCohomology/ExactSequences.lean",
+              "frontendMsByRepeat": [
+                28235.668729,
+                28514.769066,
+                28373.748214,
+                28336.65483
+              ],
+              "meanFrontendMs": 28365.21020975,
+              "coefficientOfVariationPercent": 0.4072723862780103,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 0.49180594089776253,
+                "p05": 0.18736662452184982,
+                "p95": 0.8943533294644678,
+                "maximum": 0.9836059344888084
+              }
+            },
+            {
+              "path": "Mathlib/CategoryTheory/Sites/SheafCohomology/MayerVietoris.lean",
+              "frontendMsByRepeat": [
+                34198.614794,
+                34666.112585,
+                35233.137809,
+                34441.93352
+              ],
+              "meanFrontendMs": 34634.949677,
+              "coefficientOfVariationPercent": 1.2765502446548165,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.4900675081211896,
+                "p05": 0.6638251046949671,
+                "p95": 2.802759653046197,
+                "maximum": 2.9799709101835328
+              }
+            },
+            {
+              "path": "Mathlib/Combinatorics/Quiver/Path/Weight.lean",
+              "frontendMsByRepeat": [
+                1501.943487,
+                1500.616006,
+                1570.127099,
+                1489.936494
+              ],
+              "meanFrontendMs": 1515.6557715,
+              "coefficientOfVariationPercent": 2.4220406624152626,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 2.6207869628327116,
+                "p05": 0.244871633786177,
+                "p95": 5.062658847707063,
+                "maximum": 5.241107092247282
+              }
+            },
+            {
+              "path": "Mathlib/Data/Nat/Cast/Defs.lean",
+              "frontendMsByRepeat": [
+                1311.353954,
+                1339.386021,
+                1325.770424,
+                1282.410396
+              ],
+              "meanFrontendMs": 1314.73019875,
+              "coefficientOfVariationPercent": 1.855730329958344,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 2.1734085903187985,
+                "p05": 1.0396482557450297,
+                "p95": 4.090959462050759,
+                "maximum": 4.346304284387924
+              }
+            },
+            {
+              "path": "Mathlib/Init.lean",
+              "frontendMsByRepeat": [
+                1105.928706,
+                1104.137435,
+                1104.337626,
+                1105.363023
+              ],
+              "meanFrontendMs": 1104.9416975,
+              "coefficientOfVariationPercent": 0.07685508159803187,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 0.10187334854528608,
+                "p05": 0.02638778840807897,
+                "p95": 0.15756878858759052,
+                "maximum": 0.1621011214794973
+              }
+            },
+            {
+              "path": "Mathlib/Order/Interval/Set/Final.lean",
+              "frontendMsByRepeat": [
+                1579.677292,
+                1544.305816,
+                1578.284289,
+                1551.577253
+              ],
+              "meanFrontendMs": 1563.4611625,
+              "coefficientOfVariationPercent": 1.162397312077623,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.7507028149420167,
+                "p05": 0.18360344544261537,
+                "p95": 2.242458651701165,
+                "maximum": 2.264511348311684
+              }
+            },
+            {
+              "path": "Mathlib/SetTheory/Cardinal/Aleph.lean",
+              "frontendMsByRepeat": [
+                3021.725941,
+                3020.650619,
+                3018.685745,
+                3054.409827
+              ],
+              "meanFrontendMs": 3028.868033,
+              "coefficientOfVariationPercent": 0.5637196346390567,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 0.5882367285902703,
+                "p05": 0.0429618136513816,
+                "p95": 1.1602035032470857,
+                "maximum": 1.1764702720867941
+              }
+            },
+            {
+              "path": "Mathlib/SetTheory/Cardinal/UnivLE.lean",
+              "frontendMsByRepeat": [
+                1504.593108,
+                1542.091805,
+                1552.579649,
+                1575.57788
+              ],
+              "meanFrontendMs": 1543.7106105,
+              "coefficientOfVariationPercent": 1.9169114519980768,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 2.304877108316702,
+                "p05": 0.8759503876604358,
+                "p95": 4.241677604240349,
+                "maximum": 4.60914489984801
+              }
+            },
+            {
+              "path": "Mathlib/Topology/Compactification/StoneCech.lean",
+              "frontendMsByRepeat": [
+                1775.113335,
+                1836.559308,
+                1877.841983,
+                1822.345621
+              ],
+              "meanFrontendMs": 1827.9650617500001,
+              "coefficientOfVariationPercent": 2.3180503121085874,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 2.8127603023897816,
+                "p05": 1.1384135255211358,
+                "p95": 5.068967912457639,
+                "maximum": 5.624413060504893
+              }
+            },
+            {
+              "path": "Mathlib/Topology/Defs/Induced.lean",
+              "frontendMsByRepeat": [
+                1549.592859,
+                1539.071884,
+                1533.665023,
+                1515.647945
+              ],
+              "meanFrontendMs": 1534.4944277499999,
+              "coefficientOfVariationPercent": 0.9252895014612862,
+              "pairwiseDifferencePercent": {
+                "count": 6,
+                "median": 1.10744806937327,
+                "p05": 0.4342594815257005,
+                "p95": 2.044527086894365,
+                "maximum": 2.2148285352135195
+              }
+            }
+          ],
+          "fileCount": 21,
+          "pairCount": 126,
+          "pairwiseDifferencePercent": {
+            "count": 126,
+            "median": 1.2798167484690213,
+            "p05": 0.08951964025115056,
+            "p95": 5.5250509419128395,
+            "maximum": 16.63463683216943
+          },
+          "coefficientOfVariationPercent": {
+            "count": 21,
+            "median": 1.308732141019727,
+            "p05": 0.4072723862780103,
+            "p95": 3.305608107324123,
+            "maximum": 8.016789076450248
+          }
+        }
+      },
+      "scope": "Stratified frontend sample using the original driver through stopTime; trace export excluded. No source-line or declaration recapture, whole-corpus error bound, or retrospective clock calibration."
+    },
+    "commit": "726a7f1e86c481739c97cb90f5acb25f311f5ec8",
+    "seed": 2061,
+    "sampling": "two random files from each instruction-count octile, four most expensive files, Init and Tilde",
+    "measuredRepeats": 4,
+    "warmupsPerMode": 1,
+    "frontendWindow": "exact original startTime through stopTime, includes imports and frontend work, excludes trace export",
+    "counterWindow": "whole lake env lean --run invocation, including driver initialization",
+    "baselineDifference": "native setup options, same async/snapshot settings; no instrumented environment or added tracing options",
+    "rawMeasurementsAudit": {
+      "result": "PASS",
+      "checkedAt": "2026-10-02T16:49:03.302808+00:00",
+      "files": 21,
+      "measurements": 210,
+      "inputHashes": {
+        "plan.json": "fd76a80c9e38708921bd4e4c036deb2ea922d8f14fa20c01779e1573e05e7d0e",
+        "runs.json": "2a40268a5fe84f4366925c81f70c57387c15616ca978011db3e62ea680542b83",
+        "report.json": "670d488cbc36e1e767a4e3e0ff38b533c5f59b126a50134bc155d60bd8a8a163"
+      },
+      "sourceAndSetupHashesVerified": true,
+      "driverHashesVerified": true,
+      "rawValuesAndDerivedMeansMatch": true,
+      "auditSha256": "53e593b2da8bd93e1a524f6973313100a22951cb60aa493a3fd77f046f4d1159"
+    }
+  },
+  "limitations": [
+    "Rank/share agreement compares different cost measures; it does not estimate percent timing accuracy.",
+    "A post-capture clock probe observed Linux's monotonic timer running about 4.45% faster than Windows's high-resolution timer. Original values remain unrescaled; the probe cannot retrospectively calibrate either corpus. Instructions are unaffected by this clock scale.",
+    "Hosted hardware and concurrency differ from the source capture and local native controls.",
+    "The original LeanPool capture has no independent hardware fingerprint; its CPU/kernel identity cannot be verified against the new native run.",
+    "Local native builds use LEAN_NUM_THREADS=4, cached pinned dependencies and fresh root outputs; actual concurrency depends on Lake's runtime.",
+    "Source capture includes instrumentation overhead. Export duration is not frontend compilation time.",
+    "Local Mathlib counters include the Elan launcher that resolves the pinned Lean compiler. The source frontend timer begins after profiling-driver startup. Lakeprof module wall times inherit Lake's display rounding.",
+    "Profiling-only heartbeat allowances are recorded per file, with native validation under the original source setup before tracing retries. Native Radar runs do not use these overrides.",
+    "Stratified paired frontend controls estimate overhead on this machine; they are not a full-corpus error bound.",
+    "LeanPool comparison excludes the aggregate LeanPool.lean, which was not in the original source inventory."
+  ]
+}

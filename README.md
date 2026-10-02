@@ -12,6 +12,12 @@ All **7,060 files** across **214 project groups**, with a flame-like explorer fr
 [**Explore Mathlib's Radar benchmarks**](https://vilin97.github.io/lean-source-profiler/mathlib/)
 All **8,556 Mathlib files**, with the same flame explorer from folders to files, weighted by CPU instructions or source line count. [Dataset and measurement limits](docs/MATHLIB-RADAR.md). [Measured LeanPool timing repeatability](docs/REPEATABILITY.md).
 
+[**Explore Mathlib's complete source profile**](https://vilin97.github.io/lean-source-profiler/mathlib-source/)
+All **8,556 files** in **33 groups**, with descent through folders, files, declarations, and source lines. The capture took **21 hours 56 minutes elapsed** and passed a fresh audit of every recording. [Coverage, provenance, timing definitions, and clock caveat](docs/MATHLIB-SOURCE.md).
+
+[**Compare source profiling with Radar**](https://vilin97.github.io/lean-source-profiler/compare/)
+Compare matched file costs from the source profiles, public Mathlib Radar data, and local runs of Radar's measurement code on Mathlib and LeanPool. [Results, repeatability, instrumentation overhead, and measurement limits](docs/PROFILING-COMPARISON.md).
+
 [**Try the interactive LeanPool example →**](https://vilin97.github.io/lean-source-profiler/examples/leanpool/)
 Real Navier–Stokes recordings, with source timing bars and nested operations. Opens directly in your browser; no installation needed. [Recording provenance and query data](docs/LEANPOOL-EXAMPLE.md).
 

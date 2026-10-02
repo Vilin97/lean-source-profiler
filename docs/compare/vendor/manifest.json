@@ -1,0 +1,12 @@
+{
+  "d3.v7.9.0.min.js": {
+    "url": "https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js",
+    "sha256": "f2094bbf6141b359722c4fe454eb6c4b0f0e42cc10cc7af921fc158fceb86539",
+    "bytes": 279706
+  },
+  "D3-LICENSE.txt": {
+    "url": "https://raw.githubusercontent.com/d3/d3/v7.9.0/LICENSE",
+    "sha256": "3e6849627f74ff73c257a3ae1efb574015d94fc1035c05ec3c15805165efcbc4",
+    "bytes": 731
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "kind": "complete-source-matched-comparisons",
+  "builtAt": "2026-10-02T18:30:18.770655+00:00",
+  "wholeComparisonComplete": true,
+  "datasets": [
+    {
+      "id": "mathlib-hosted",
+      "name": "Mathlib \u00b7 hosted Radar",
+      "asset": "data/mathlib-hosted.json.gz",
+      "sha256": "f3b815d1b907337865448f6d8d393490ec64783798adc01127ea47553146f136",
+      "files": 8556,
+      "complete": true
+    },
+    {
+      "id": "mathlib-local",
+      "name": "Mathlib \u00b7 local Radar code",
+      "asset": "data/mathlib-local.json.gz",
+      "sha256": "f9460cd7f400d32a2b6b50eff520813da8eb088cf7438472c36585ab6b6c225b",
+      "files": 8556,
+      "complete": true
+    },
+    {
+      "id": "leanpool-local",
+      "name": "LeanPool \u00b7 local Radar code",
+      "asset": "data/leanpool-local.json.gz",
+      "sha256": "d1a609e6d52e792302c01c356c24d018314f0dce0b4a4fb5971e25a5f62d1f2c",
+      "files": 7060,
+      "complete": true
+    }
+  ],
+  "methodsSha256": "ddcbc66ac8e6d68a0973fad314e15c42ceca4b2d78bc5cd84488bbd8978607e6"
+}
