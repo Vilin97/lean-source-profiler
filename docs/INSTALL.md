@@ -25,10 +25,11 @@ project needs elan/Lake and already-built imports; run `lake build` in the proje
 if needed. Capture uses the project's own Lean toolchain and requires a trusted
 VS Code workspace.
 
-Capture has been validated with **Lean 4.34.0-rc2**, **VS Code 1.138.0**, and
-**macOS on Apple Silicon**. Other Lean versions may need changes to the capture
-driver. Viewing existing recordings does not require Lean; other operating
-systems have not been validated.
+The native capture path is validated on **Linux x64** with **Lean 4.34.0-rc2,
+4.34.0 and 4.35.0-rc3**. It compiles the driver once with the toolchain's `leanc`
+and caches the result. Native macOS/Windows capture still needs platform validation;
+the earlier interpreted driver was validated on macOS Apple Silicon with VS Code
+1.138.0. Viewing recordings does not require Lean. [Accuracy and overhead](LOW-OVERHEAD.md).
 
 ## Profile a folder or project
 

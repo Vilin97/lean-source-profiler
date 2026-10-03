@@ -4,6 +4,8 @@ Find the Lean code behind an expensive `Meta.isDefEq` or `Meta.whnf` call.
 
 Profile a **file, folder, or project**, then explore the same recording in VS Code or a standalone repository viewer. Query the slowest files, declarations, tactics, and folders from the command line.
 
+Captures now default to **source-focused compact mode**. The driver is compiled once per Lean toolchain and cached; sessions reuse the Lake environment. This mode retains source timings and declaration identities while avoiding full internal tracing and expression rendering. Use `--mode detailed`, or set `leanSourceProfiler.captureMode` to `detailed` in VS Code, when you need internal operations and imported-definition links. [Accuracy, overhead measurements and limitations](docs/LOW-OVERHEAD.md).
+
 **[Download the VS Code extension](https://github.com/Vilin97/lean-source-profiler/releases/latest/download/lean-source-profiler.vsix)** · **[Installation guide](docs/INSTALL.md)** · **[Latest release](https://github.com/Vilin97/lean-source-profiler/releases/latest)**
 
 [**Explore the whole LeanPool profile**](https://vilin97.github.io/lean-source-profiler/pool/)
@@ -33,7 +35,7 @@ Real Navier–Stokes recordings, with source timing bars and nested operations. 
 
 No repository clone, npm install, or separate Node.js installation is needed for the VS Code extension. On macOS, you can alternatively download the [installer bundle](https://github.com/Vilin97/lean-source-profiler/releases/latest/download/lean-source-profiler-macos.zip), unzip it, and double-click **Install Lean Source Profiler.command**.
 
-**Capture is tested with Lean 4.34.0-rc2 on macOS arm64.** Use your existing Lean/elan installation and build the project's imports first. Install the Lean 4 VS Code extension for normal Lean editing. Other toolchains may require adapting the capture driver; viewing saved recordings does not require Lean. See the [installation guide](docs/INSTALL.md) for prerequisites and troubleshooting.
+Use your existing Lean/elan installation and build the project's imports first. The native capture path is validated on Linux x64 with Lean 4.34.0-rc2, 4.34.0 and 4.35.0-rc3. Its macOS and Windows paths need platform validation; the earlier interpreted capture was tested on macOS arm64. Viewing saved recordings does not require Lean. See the [installation guide](docs/INSTALL.md) for prerequisites and troubleshooting.
 
 ## Explore the source
 
@@ -75,6 +77,7 @@ Then, from a Lean project with built imports, choose a scope:
 
 ```sh
 lean-profile profile MyFile.lean
+lean-profile profile MyFile.lean --mode detailed
 lean-profile profile MyLibrary --output /tmp/folder-profile
 lean-profile profile --project . --output /tmp/project-profile
 ```
@@ -114,7 +117,7 @@ jq -s 'map(select(.kind == "file")) | max_by(.durationMs)' /tmp/project-profile/
 
 Source ranges come from structured Lean syntax and declaration metadata. The capture driver runs separately without changing your proofs or installed toolchain. VS Code hides annotations when the source differs from its recording and disables outdated imported locations until imports are rebuilt.
 
-Existing Firefox profiles need recapture because they lack the required source mapping. Detailed trace capture adds overhead; use uninstrumented runs for benchmark comparisons. The driver uses Lean internals and is currently validated only on **4.34.0-rc2**. More details: [capture internals](lean/README.md).
+Existing Firefox profiles need recapture because they lack the required source mapping. Detailed trace capture adds overhead; use paired uninstrumented runs for benchmark comparisons. Compact mode trades internal detail for lower overhead, and still has a fixed startup cost. The driver uses Lean internals. More details: [capture internals](lean/README.md), [accuracy and overhead](docs/LOW-OVERHEAD.md).
 
 ## Development
 
@@ -129,6 +132,6 @@ npm run release
 
 `npm run release` creates the VSIX, macOS installer ZIP, prebuilt CLI tarball, and checksums in `dist/`. The public release artifacts contain compiled JavaScript; development dependencies are not needed to use them.
 
-The release has **48 passing unit/CLI/viewer tests**, **12 collection integration checks**, **29 capture regression checks**, and **17 VS Code integration categories**. Declaration attribution was also checked on both NS `meanField_add` variants. See the [validation report](docs/PROJECT-PROFILING-RESULTS.md), [test plan](docs/TEST-PLAN.md), and [development fixture instructions](test/fixtures/README.md).
+The native backend passes **61 unit/CLI/viewer tests**, **13 collection integration checks**, portable capture and stale-import regressions, and compact/exporter, configured-option, kernel and independent-clock checks. The earlier release also passed 17 VS Code integration categories and declaration checks on both NS `meanField_add` variants; those historical results do not validate the new native backend on macOS. See [current validation and measurements](docs/LOW-OVERHEAD.md), the [earlier validation report](docs/PROJECT-PROFILING-RESULTS.md), [test plan](docs/TEST-PLAN.md), and [development fixture instructions](test/fixtures/README.md).
 
 [MIT license](LICENSE) for the profiler. The adapted NS test snippets retain their upstream Apache 2.0 license; see [third-party notices](THIRD_PARTY_NOTICES.md).

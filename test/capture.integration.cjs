@@ -118,7 +118,7 @@ function verifyIntegrity(profile, label) {
 async function captured(file, name, thresholdMs) {
   const log = [];
   try {
-    return await capture({ file, extensionRoot: root, thresholdMs,
+    return await capture({ file, extensionRoot: root, thresholdMs, mode: 'detailed',
       output: path.join(results, `${name}.leanprofile.json`), onLog: text => log.push(text) });
   } finally { await fs.writeFile(path.join(results, `${name}.capture.log`), log.join('')); }
 }
@@ -229,11 +229,13 @@ async function negativeCases() {
   const malformed = path.join(directory, 'Malformed.lean');
   const missingImport = path.join(directory, 'MissingImport.lean');
   const heartbeatTrace = path.join(directory, 'HeartbeatTrace.lean');
+  const kernelFailure = path.join(directory, 'KernelFailure.lean');
   const output = path.join(results, 'must-not-overwrite.json');
   try {
     await fs.writeFile(malformed, 'theorem broken : False := by\n  exact True.intro\n');
     await fs.writeFile(missingImport, 'import SourceProfilerFixtureModuleThatDoesNotExist\n\ntheorem otherwise_valid : True := by\n  exact True.intro\n');
     await fs.writeFile(heartbeatTrace, 'import Lean\n\nset_option trace.profiler.useHeartbeats true\n\ntheorem heartbeat_trace : True := by\n  exact True.intro\n');
+    await fs.writeFile(kernelFailure, 'import Lean\nopen Lean Elab Command\nelab "#wrong_kernel" : command => liftCoreM do\n  addDecl (.thmDecl { name := `brokenKernel, levelParams := [], type := mkConst ``False, value := mkConst ``True.intro })\n#wrong_kernel\n');
     await fs.writeFile(output, 'previous-valid-recording-sentinel');
     await asyncCheck('elaboration failure preserves previous output', async () => {
       await assert.rejects(capture({ file: malformed, extensionRoot: root, output }), /failed|error/i);
@@ -242,6 +244,10 @@ async function negativeCases() {
     await asyncCheck('missing import rejects capture and preserves previous output', async () => {
       await assert.rejects(capture({ file: missingImport, extensionRoot: root, output }), /SourceProfilerFixtureModuleThatDoesNotExist/);
       assert.equal(await fs.readFile(output, 'utf8'), 'previous-valid-recording-sentinel');
+    });
+    await asyncCheck('kernel rejects an invalid declaration supplied directly by an elaborator', async () => {
+      await assert.rejects(capture({file:kernelFailure,extensionRoot:root,output}),/\(kernel\) declaration type mismatch/);
+      assert.equal(await fs.readFile(output,'utf8'),'previous-valid-recording-sentinel');
     });
     await asyncCheck('heartbeat trace mode rejects mixed timing units and preserves previous output', async () => {
       await assert.rejects(capture({ file: heartbeatTrace, extensionRoot: root, output }), /requires wall.clock traces|useHeartbeats/i);

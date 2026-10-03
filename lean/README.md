@@ -1,5 +1,10 @@
 # Source-aware Lean capture
 
+The CLI and extension default to a compiled, cached, source-focused backend. See
+[accuracy and overhead](../docs/LOW-OVERHEAD.md) for its configuration, clock calibration,
+compact format, measurement boundaries and validation. `--mode detailed` retains the full
+internal trace described below. The direct invocation below remains a detailed capture.
+
 From the target Lake project directory:
 
 ```sh

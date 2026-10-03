@@ -17,7 +17,8 @@ const help=`Lean Source Profiler
   lean-profile query RECORDING_OR_SESSION --kind file|folder|declaration|tactic [--limit 20] [--path SUBTREE] [--json|--jsonl]
 
 Run with node out/cli.js in this repository, or use lean-profile after npm link.
-Capture options: --threshold MS --lake PATH. Imports must already be built.
+Capture options: --mode compact|detailed --threshold MS --lake PATH. Imports must already be built.
+Compact is the default; detailed also exports internal messages and symbol links.
 Folder/project capture is sequential; failed files are recorded and others continue.
 Queries rank inclusive recorded time; file/folder times include loading imports.
 View starts a local standalone browser viewer; open loads source overlays in VS Code.
@@ -73,7 +74,7 @@ async function main(){
     return;
   }
   if(command!=='profile')throw new Error(help);
-  const args=parse(rest,['--output','--threshold','--lake','--project'],['--list']);
+  const args=parse(rest,['--output','--threshold','--lake','--project','--mode'],['--list']);
   const project=args.values.get('--project');
   if(project&&args.positional.length)throw new Error('Use either a target path or --project PROJECT_DIRECTORY.');
   const target=project??one(args),stat=await fs.stat(target);
@@ -83,6 +84,7 @@ async function main(){
   process.once('SIGINT',()=>{process.exitCode=130;controller.abort();});
   process.once('SIGTERM',()=>{process.exitCode=143;controller.abort();});
   const common={extensionRoot:path.resolve(__dirname,'..'),output:args.values.get('--output'),
+    mode:args.values.get('--mode') as 'compact'|'detailed'|undefined,
     thresholdMs:args.values.has('--threshold')?Number(args.values.get('--threshold')):1,lakePath:args.values.get('--lake'),
     signal:controller.signal,onLog:(s:string)=>process.stderr.write(s)};
   if(stat.isDirectory()){

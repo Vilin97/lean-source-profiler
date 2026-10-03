@@ -312,8 +312,11 @@
         const sourceButton = button(`${basename(node.source.file)}:${node.source.start.line + 1} ↗`, 'source-link', () => { state.sourceFile = node.source.file; state.sourceContext = null; renderSource(); });
         body.append(sourceButton, element('span', 'mapping-label', node.sourceKind === 'exact' ? 'Exact syntax' : 'Enclosing syntax'));
       }
-      const disclosure = element('details', 'expression'); disclosure.open = true;
-      disclosure.append(element('summary', '', 'Expression / trace detail'), element('pre', '', node.detail || node.label)); body.append(disclosure);
+      if(state.profile.captureMode==='compact') body.append(element('p','muted','Source-focused capture. Expression text and imported-definition links are available in detailed mode.'));
+      else {
+        const disclosure = element('details', 'expression'); disclosure.open = true;
+        disclosure.append(element('summary', '', 'Expression / trace detail'), element('pre', '', node.detail || node.label)); body.append(disclosure);
+      }
     } else {
       body.append(element('h2', '', 'Start with a source statement'), element('p', 'muted', 'Click a timing bar beside the code, or follow a recorded operation below. Bars stay attached to the original syntax, including macro expansions.'));
       const hot = sourceLineTimings(state.profile.nodes, state.profile.sourceFile).sort((a, b) => b.durationMs - a.durationMs).slice(0, 8);
@@ -354,7 +357,7 @@
     $('page-title').textContent = basename(file.path); $('page-subtitle').textContent = file.path;
     const actions = $('header-actions'); actions.replaceChildren();
     if (!published && file.openInVSCode?.startsWith('vscode://local-lean-tools.lean-source-profiler/open?')) actions.append(link('Open in VS Code ↗', file.openInVSCode, 'primary-button'));
-    $('stats').replaceChildren(stat(duration(profile.elapsedMs), 'Lean processing'), stat(profile.captureWallMs === undefined ? '—' : duration(profile.captureWallMs), 'Capture total', 'Including trace export'), stat(profile.nodes.length.toLocaleString(), 'Recorded operations', `Lean ${profile.leanVersion}`));
+    $('stats').replaceChildren(stat(duration(profile.elapsedMs), 'Lean processing'), stat(profile.captureWallMs === undefined ? '—' : duration(profile.captureWallMs), 'Capture total', 'Including trace export'), stat(profile.nodes.length.toLocaleString(), 'Recorded operations', `Lean ${profile.leanVersion} · ${profile.captureMode==='compact'?'source-focused':'detailed'}`));
     setNotice('You are viewing the source saved with this recording. Timings are inclusive; the same work can appear in several nested bars.');
     breadcrumbs(parent, file); renderSidebar();
     const split = element('div', 'file-layout'), source = element('section', 'source-panel'), detail = element('section', 'detail-panel'); source.id = 'source-panel'; detail.id = 'detail-panel'; split.append(source, detail); $('content').replaceChildren(split);

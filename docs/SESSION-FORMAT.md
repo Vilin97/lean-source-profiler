@@ -13,6 +13,31 @@ my-session/
 
 Keep these files together. The manifest and index use relative paths for their recording references. Source locations inside individual recordings remain absolute; the standalone viewer uses stored source snapshots, while VS Code needs the corresponding checkout at those paths.
 
+## Individual recordings
+
+Default captures use `schemaVersion: 3`, `kind: "lean-source-profile-compact"`. The saved
+source text, semantic declarations, clock/setup metadata and capture provenance accompany
+three interned tables:
+
+```text
+classes: [[category, label], ...]
+ranges:  [[startLine, startUtf16, endLine, endUtf16], ...]
+events:  [[parent, class, startMs, durationMs, thread, range, sourceKind], ...]
+```
+
+Event IDs are their zero-based row indices. A parent is an earlier row, or `-1` for a root.
+Class/range values index their respective tables; range `-1` means no source location.
+`sourceKind` is `0` for absent, `1` for exact and `2` for inherited. Lines and UTF-16 columns
+are zero-based. Times use the file's frontend origin, and thread IDs are strings.
+The reader validates the tables and expands them into the existing node model, computing
+self times from the union of children. Compact recordings omit formatted expression text
+and imported-symbol references. Use `--mode detailed` for those features.
+
+Version-1 rich recordings and version-2 session manifests remain supported. The manifest
+version and individual recording version describe different formats. See
+[source-focused capture](LOW-OVERHEAD.md) for clock calibration, measurement boundaries
+and the difference between missing coverage and self time.
+
 ## Manifest
 
 `session.json` has `schemaVersion: 2`, `kind: "lean-source-profile-session"`, the project root, selected target, start/end timestamps, `wallMs`, `plannedFileCount`, exclusion policy, toolchain versions and a `files` array. Every entry has an `id`, project-relative POSIX `path`, absolute `sourceFile`, and `status` (`ok` or `error`). Successful entries include their relative `profile`, `elapsedMs`, `captureWallMs`, `eventCount` and `declarationCount`; failures include an `error` message.
@@ -25,12 +50,12 @@ The default discovery policy skips hidden directories/files, `.lake`, `.git`, `n
 
 `index.jsonl` has one JSON object per line. `kind` is `file`, `folder`, `declaration`, or `tactic`. Common fields are `name`, `path` (relative POSIX), and `durationMs`. Declaration/tactic records also have one-based `line`/`endLine` and trace references. `eventId` identifies one representative event; `eventIds` lists the contributing outer trace scopes, including asynchronous work. Drill into all of them when explaining an aggregate cost.
 
-- **File:** `durationMs` is the isolated Lean frontend's elapsed time including import loading and elaboration. `captureWallMs` also includes launching/compiling the driver, rendering expressions and exporting results.
+- **File:** `durationMs` is the isolated Lean frontend's elapsed time including import loading, elaboration and completion of asynchronous kernel work. `captureWallMs` also includes driver preparation, decoding and the saved recording write. Detailed mode additionally formats expressions and resolves symbols. Its final small metadata patch/rename/cleanup are outside that stored field; end-to-end benchmarks include them.
 - **Folder:** sum of descendant successful file durations, counting each file once. `path: "."` is the selected recording's root aggregate. Nested folder totals overlap: do not sum every folder row.
 - **Declaration:** name and full UTF-16 source range come from Lean declaration metadata, excluding generated helpers. Duration is the union of recorded intervals inside that range, including asynchronous workers. Header/body/async scopes are retained even below the internal trace threshold. Nested declarations have inclusive overlapping durations. Declarations sharing a source range are labeled `attribution: "shared"` and list `sharedWith`; that does not provide independent timings for each name. Missing trace coverage is omitted rather than represented as zero time.
 - **Tactic:** each exact source invocation span groups its recorded executions, unioning overlapping wrappers. Sequence wrappers spanning later statements are excluded. `name` is a short source excerpt, `declaration` is its nearest semantic declaration, and `eventIds` preserves disjoint attempts. `selfMs` belongs to the representative event, not a sum over all attempts. All timings are elapsed trace times, not CPU samples.
 
-File runs are sequential and may repeatedly load the same imports. Folder percentages compare sums of isolated runs; they do not claim a build-critical-path breakdown. Capture overhead can be substantial on definitionally expensive proofs. Use separate uninstrumented runs for performance benchmark claims.
+File runs are sequential and may repeatedly load the same imports. Folder percentages compare sums of isolated runs; they do not claim a build-critical-path breakdown. Compact capture minimizes instrumentation/export costs; detailed tracing can still have substantial overhead. Use separate uninstrumented runs for performance benchmark claims.
 
 ## CLI
 

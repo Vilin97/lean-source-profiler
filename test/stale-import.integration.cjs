@@ -36,7 +36,7 @@ function verify(name, fn) {
   }
   async function record(stage, expectedStale, expectedLine) {
     console.log(`RUN stale-import ${stage}`);
-    const profile = await capture({ file: consumer, extensionRoot: root, thresholdMs: 0,
+    const profile = await capture({ file: consumer, extensionRoot: root, thresholdMs: 0, mode: 'detailed',
       output: path.join(results, `stale-import-${stage}.leanprofile.json`), onLog: text => logs.push(text) });
     const symbols = profile.nodes.flatMap(n => n.symbols || []).filter(s => s.name === symbolName);
     const unique = [...new Map(symbols.map(s => [JSON.stringify(s), s])).values()];

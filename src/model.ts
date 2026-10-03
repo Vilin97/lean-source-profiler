@@ -1,4 +1,5 @@
 import * as path from 'node:path';
+import { expandCompact } from './compact';
 
 export interface Position { line: number; character: number }
 export interface SourceRange { file: string; start: Position; end: Position }
@@ -38,6 +39,16 @@ export interface Profile {
   captureWallMs?: number;
   thresholdMs?: number;
   captureMethod?: string;
+  captureMode?: 'compact' | 'detailed';
+  exportPreparationMs?: number;
+  clock?: string;
+  sourceClock?: string;
+  clockCalibration?: { startTime:number;rawStartTime?:number;importTime:number;importElapsed:number;stopTime:number;elapsed:number };
+  traceScope?: 'source' | 'all';
+  moduleSetup?: { mode: 'lake' | 'plain'; file?: string; options: Record<string, unknown> };
+  driverSha256?: string;
+  clockSha256?: string;
+  compilerGitHash?: string;
   declarations?: Array<{ name: string; source: SourceRange; kind?: string; generated?: boolean }>;
 }
 
@@ -86,13 +97,15 @@ export function intervalUnion(intervals: Array<[number, number]>): number {
 }
 
 export function normalizeProfile(input: unknown): Profile {
-  const p = object(input, 'recording');
+  let p = object(input, 'recording');
+  const compact = p.schemaVersion === 3;
+  if (compact) p = expandCompact(p);
   if (p.schemaVersion !== 1) {
     if (p.threads || p.meta) throw new Error('This is a Firefox profile without Lean source attribution. Use “Lean Source Profiler: Profile Current File” to capture a source-mapped recording.');
     fail('unsupported schema version (expected 1)');
   }
   if (p.success === false) fail('the captured Lean file failed to elaborate; fix its errors and capture again');
-  if (!Array.isArray(p.nodes) || p.nodes.length > 300_000) fail('nodes must be an array with at most 300,000 events');
+  if (!Array.isArray(p.nodes) || p.nodes.length > (compact ? 3_000_000 : 300_000)) fail('too many events in the recording');
   const nodes: ProfileNode[] = p.nodes.map((raw, i) => {
     const n = object(raw, `node ${i}`);
     const source = n.source === undefined || n.source === null ? undefined : {
@@ -170,6 +183,28 @@ export function normalizeProfile(input: unknown): Profile {
     captureWallMs: p.captureWallMs === undefined ? undefined : number(p.captureWallMs, 'captureWallMs'),
     thresholdMs: p.thresholdMs === undefined ? undefined : number(p.thresholdMs, 'thresholdMs'),
     captureMethod: p.captureMethod === undefined ? undefined : string(p.captureMethod, 'captureMethod'),
+    captureMode: p.captureMode === 'compact' ? 'compact' : 'detailed',
+    exportPreparationMs: p.exportPreparationMs === undefined ? undefined : number(p.exportPreparationMs, 'exportPreparationMs'),
+    clock: p.clock === undefined ? undefined : string(p.clock, 'clock'),
+    sourceClock: p.sourceClock === undefined ? undefined : string(p.sourceClock, 'sourceClock'),
+    clockCalibration: p.clockCalibration == null ? undefined : (()=>{
+      const c=object(p.clockCalibration,'clock calibration');
+      const result={startTime:number(c.startTime,'clock start'),
+        rawStartTime:c.rawStartTime===undefined?undefined:number(c.rawStartTime,'raw clock start'),importTime:number(c.importTime,'clock import'),
+        importElapsed:number(c.importElapsed,'raw import elapsed'),stopTime:number(c.stopTime,'clock stop'),elapsed:number(c.elapsed,'raw elapsed')};
+      if(result.importTime<result.startTime||result.stopTime<result.importTime||result.importElapsed>result.elapsed||
+        result.stopTime<=result.startTime||result.elapsed<=0)fail('unordered or empty clock calibration');
+      return result;
+    })(),
+    traceScope: p.traceScope === 'source' ? 'source' : 'all',
+    driverSha256: p.driverSha256 === undefined ? undefined : string(p.driverSha256, 'driverSha256'),
+    clockSha256: p.clockSha256 === undefined ? undefined : string(p.clockSha256, 'clockSha256'),
+    compilerGitHash: p.compilerGitHash === undefined ? undefined : string(p.compilerGitHash, 'compilerGitHash'),
+    moduleSetup: p.moduleSetup === undefined ? undefined : (()=>{
+      const setup=object(p.moduleSetup,'moduleSetup');
+      if(setup.mode!=='lake'&&setup.mode!=='plain')fail('unknown module setup mode');
+      return {mode:setup.mode,file:setup.file==null?undefined:string(setup.file,'setup file'),options:object(setup.options,'setup options')};
+    })(),
     declarations: p.declarations == null ? undefined : (() => {
       if (!Array.isArray(p.declarations) || p.declarations.length > 100_000) fail('declarations must be an array with at most 100,000 entries');
       return p.declarations.map(raw => {

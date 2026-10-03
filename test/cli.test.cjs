@@ -91,6 +91,9 @@ test('CLI SIGTERM exits 143, saves a cancelled session, and terminates its captu
     const pidFile = path.join(directory, 'capture-child.pid');
     await fs.writeFile(fakeLake, `#!/usr/bin/env node
 const fs = require('node:fs');
+if (process.argv.includes('--githash')) { console.log('cli-cancellation-fixture'); process.exit(0); }
+if (process.argv.includes('--print-prefix')) { console.log(${JSON.stringify(directory)}); process.exit(0); }
+if (process.argv.length === 3 && process.argv[2] === 'env') process.exit(0);
 fs.writeFileSync(${JSON.stringify(pidFile)}, String(process.pid));
 process.stdout.write('CLI_CAPTURE_CHILD_READY:' + process.pid + '\\n');
 setInterval(() => {}, 1000);
