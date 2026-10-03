@@ -83,8 +83,9 @@ Optional command-line installation (requires Node.js 20 or newer):
 
 The editor extension uses VS Code's Node runtime; a separate Node installation is
 only needed for the optional command-line tool. Profiling requires Lake/elan,
-built imports, and the tested Lean 4.34.0-rc2 toolchain. Viewing recordings does
-not require Lean.
+built imports, and a compatible Lean toolchain. Native capture is tested on Linux
+with Lean 4.34.0-rc2, 4.34.0 and 4.35.0-rc3. The new native compilation path still
+requires macOS/Windows validation. Viewing recordings does not require Lean.
 
 Documentation: https://github.com/Vilin97/lean-source-profiler
 Issues: https://github.com/Vilin97/lean-source-profiler/issues

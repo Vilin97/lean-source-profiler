@@ -50,10 +50,21 @@ export async function captureSession(options:SessionOptions):Promise<Session>{
     startedAt:new Date().toISOString(),completedAt:new Date().toISOString(),status:'partial',wallMs:0,files:[],
     sessionPath:path.join(output,'session.json'),plannedFileCount:scope.files.length,excluded:scope.excluded,leanVersions:[]};
   const rows:QueryRow[]=[];
+  const indexPath=path.join(output,'index.jsonl');
+  await fs.writeFile(indexPath,'',{flag:'wx'});
+  let indexBytes=0,indexHealthy=true;
+  async function appendRows(additions:QueryRow[]){
+    if(!additions.length)return;
+    const text=additions.map(row=>JSON.stringify(row)).join('\n')+'\n';
+    try { await fs.appendFile(indexPath,text);indexBytes+=Buffer.byteLength(text); }
+    catch(error) {
+      try { await fs.truncate(indexPath,indexBytes); }
+      catch { indexHealthy=false; }
+      throw error;
+    }
+  }
   async function checkpoint(){
     session.wallMs=performance.now()-started;session.completedAt=new Date().toISOString();
-    const index=[...rows,...folderRows(rows)];
-    await atomicWrite(path.join(output,'index.jsonl'),index.map(r=>JSON.stringify(r)).join('\n')+(index.length?'\n':''));
     await atomicWrite(session.sessionPath,JSON.stringify(session,null,2)+'\n');
   }
   await checkpoint();
@@ -66,9 +77,12 @@ export async function captureSession(options:SessionOptions):Promise<Session>{
       const profilePath=`files/${id.padStart(6,'0')}.leanprofile.json`;
       const profile=await capture({...options,file,output:path.join(output,profilePath)});
       entry={id,path:relative,sourceFile:file,status:'ok',profile:profilePath,elapsedMs:profile.elapsedMs,captureWallMs:profile.captureWallMs,eventCount:profile.nodes.length,declarationCount:profile.declarations?.filter(d=>!d.generated).length};
-      rows.push(...buildFileIndex(profile,relative));
+      const fileRows=buildFileIndex(profile,relative);
+      await appendRows(fileRows);
+      rows.push(...fileRows);
       if(!session.leanVersions!.includes(profile.leanVersion))session.leanVersions!.push(profile.leanVersion);
     }catch(error){
+      if(!indexHealthy)throw new Error('Session index write failed and could not be rolled back. The last manifest checkpoint remains valid.',{cause:error});
       if(options.signal?.aborted)break;
       entry={id,path:relative,sourceFile:file,status:'error',error:String(error instanceof Error?error.message:error).slice(0,16000)};
       options.onLog?.(`Failed ${relative}: ${entry.error}\n`);
@@ -77,6 +91,8 @@ export async function captureSession(options:SessionOptions):Promise<Session>{
     options.onProgress?.({completed:session.files.length,total:scope.files.length,file,status:entry.status});
   }
   session.status=options.signal?.aborted?'cancelled':session.files.some(f=>f.status==='error')?'partial':'complete';
+  const folders=folderRows(rows);
+  await appendRows(folders);
   await checkpoint();return session;
 }
 function validString(x:unknown):x is string{return typeof x==='string'&&!x.includes('\0');}
@@ -86,7 +102,7 @@ export async function readSession(input:string):Promise<Session>{
   const raw=JSON.parse(await fs.readFile(file,'utf8'));
   if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new Error('Invalid Lean recording: expected a profile or session object.');
   if(raw?.threads||raw?.meta)await readProfile(file); // Preserve the actionable Firefox recapture diagnostic.
-  if(raw.schemaVersion===1){
+  if(raw.schemaVersion===1||raw.schemaVersion===3){
     const p=await readProfile(file),root=p.projectRoot??path.dirname(p.sourceFile);
     return {schemaVersion:2,kind:'lean-source-profile-session',projectRoot:root,target:p.sourceFile,
       startedAt:p.startedAt??'',completedAt:'',status:'complete',wallMs:p.captureWallMs??p.elapsedMs,sessionPath:file,singleFile:true,
@@ -134,8 +150,15 @@ export async function readIndex(session:Session):Promise<QueryRow[]>{
   const stat=await fs.stat(file);
   if(stat.size>256*1024*1024)throw new Error('Session index exceeds the 256 MB limit.');
   const result:QueryRow[]=[];
-  for(const line of (await fs.readFile(file,'utf8')).split('\n'))if(line.trim()){
-    const row=JSON.parse(line);
+  const contents=await fs.readFile(file,'utf8'),lines=contents.split('\n');
+  for(const [i,line] of lines.entries())if(line.trim()){
+    let row;
+    try { row=JSON.parse(line); }
+    catch(error) {
+      // Only an incomplete trailing append in an unfinished session is recoverable.
+      if(i===lines.length-1&&!contents.endsWith('\n')&&session.status!=='complete')continue;
+      throw error;
+    }
     if(!row||!queryKinds.includes(row.kind)||!validString(row.name)||!validString(row.path)||relativePath(row.path)!==row.path||
       !Number.isFinite(row.durationMs)||row.durationMs<0||row.selfMs!==undefined&&(!Number.isFinite(row.selfMs)||row.selfMs<0))throw new Error('Invalid session index row.');
     for(const field of ['line','endLine'])if(row[field]!==undefined&&(!Number.isSafeInteger(row[field])||row[field]<1))throw new Error('Invalid index source line.');

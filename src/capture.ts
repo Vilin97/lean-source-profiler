@@ -3,6 +3,8 @@ import * as path from 'node:path';
 import * as os from 'node:os';
 import { spawn } from 'node:child_process';
 import { normalizeProfile, Profile } from './model';
+import { prepareBackend } from './backend';
+export { prepareBackend } from './backend';
 
 export interface CaptureOptions {
   file: string;
@@ -12,6 +14,7 @@ export interface CaptureOptions {
   lakePath?: string;
   signal?: AbortSignal;
   onLog?: (text: string) => void;
+  mode?: 'compact' | 'detailed';
 }
 async function exists(file: string): Promise<boolean> { try { await fs.access(file); return true; } catch { return false; } }
 
@@ -40,11 +43,11 @@ async function lakeExecutable(configured?: string): Promise<string> {
   throw new Error('Lake was not found. Install Lean through elan, or set leanSourceProfiler.lakePath.');
 }
 
-export async function runProcess(command: string, args: string[], cwd: string, signal?: AbortSignal, onLog?: (s: string) => void): Promise<string> {
+export async function runProcess(command: string, args: string[], cwd: string, signal?: AbortSignal, onLog?: (s: string) => void, env?: NodeJS.ProcessEnv, stdoutOnly=false): Promise<string> {
   if (signal?.aborted) throw new Error('Profile capture cancelled.');
   return new Promise((resolve, reject) => {
-    const child = spawn(command, args, { cwd, shell: false, detached: process.platform !== 'win32', windowsHide: true });
-    let tail = '', settled = false, killTimer: NodeJS.Timeout | undefined;
+    const child = spawn(command, args, { cwd, env, shell: false, detached: process.platform !== 'win32', windowsHide: true });
+    let tail = '', stdout = '', settled = false, killTimer: NodeJS.Timeout | undefined;
     function kill(sig: NodeJS.Signals) {
       if (!child.pid) return;
       try { if (process.platform !== 'win32') process.kill(-child.pid, sig); else child.kill(sig); } catch { /* already exited */ }
@@ -59,12 +62,12 @@ export async function runProcess(command: string, args: string[], cwd: string, s
       settled = true;
       signal?.removeEventListener('abort', abort);
       if (killTimer) clearTimeout(killTimer);
-      if (error) reject(error); else resolve(tail);
+      if (error) reject(error); else resolve(stdoutOnly?stdout:tail);
     };
     const log = (chunk: Buffer) => {
       const text = chunk.toString(); tail = (tail + text).slice(-200_000); onLog?.(text);
     };
-    child.stdout.on('data', log); child.stderr.on('data', log);
+    child.stdout.on('data', chunk=>{stdout=(stdout+chunk.toString()).slice(-200_000);log(chunk);}); child.stderr.on('data', log);
     child.on('error', error => finish(new Error(`Could not start ${command}: ${error.message}`)));
     child.on('close', code => {
       if (signal?.aborted) finish(new Error('Profile capture cancelled.'));
@@ -74,13 +77,17 @@ export async function runProcess(command: string, args: string[], cwd: string, s
   });
 }
 
-export async function readProfile(file: string): Promise<Profile> {
+async function readRecording(file: string): Promise<unknown> {
   const stat = await fs.stat(file);
   if (stat.size > 150 * 1024 * 1024) throw new Error('Recording exceeds the 150 MB viewing limit. Capture with a larger internal trace threshold.');
   let data: unknown;
   try { data = JSON.parse(await fs.readFile(file, 'utf8')); }
   catch { throw new Error('Could not read profile JSON. Choose a .leanprofile.json recording.'); }
-  const profile = normalizeProfile(data);
+  return data;
+}
+
+export async function readProfile(file: string): Promise<Profile> {
+  const profile = normalizeProfile(await readRecording(file));
   profile.profilePath = path.resolve(file);
   return profile;
 }
@@ -90,6 +97,8 @@ export async function capture(options: CaptureOptions): Promise<Profile> {
   if (path.extname(file) !== '.lean') throw new Error('Choose a saved .lean source file to profile.');
   const projectRoot = await findProjectRoot(file);
   const threshold = options.thresholdMs ?? 1;
+  const mode = options.mode ?? 'compact';
+  if (!['compact', 'detailed'].includes(mode)) throw new Error('Capture mode must be compact or detailed.');
   if (!Number.isSafeInteger(threshold) || threshold < 0) throw new Error('The threshold must be a nonnegative whole number of milliseconds.');
   const sourceBefore = await fs.readFile(file, 'utf8');
   const lake = await lakeExecutable(options.lakePath);
@@ -98,16 +107,22 @@ export async function capture(options: CaptureOptions): Promise<Profile> {
   const temp = await fs.mkdtemp(path.join(os.tmpdir(), 'lean-source-profile-'));
   const raw = path.join(temp, 'capture.json');
   const started = performance.now();
+  const startedAt = new Date().toISOString();
   try {
     options.onLog?.(`Profiling ${file}\nProject: ${projectRoot}\nInternal threshold: ${threshold} ms\n`);
-    await runProcess(lake, ['env', 'lean', '--run', driver, file, raw, String(threshold)], projectRoot, options.signal, options.onLog);
-    const profile = await readProfile(raw);
+    const backend = await prepareBackend(projectRoot, lake, options.extensionRoot, options.signal, options.onLog);
+    await runProcess(backend.executable, [file, raw, String(threshold), mode], projectRoot, options.signal, options.onLog, backend.env);
+    const data = await readRecording(raw);
+    const profile = normalizeProfile(data);
     if (profile.sourceFile !== file || profile.sourceText !== sourceBefore || await fs.readFile(file, 'utf8') !== sourceBefore) {
       throw new Error('The source changed during capture. No recording was saved; profile the saved file again.');
     }
     profile.projectRoot = projectRoot;
     profile.captureWallMs = performance.now() - started;
-    profile.startedAt = new Date(Date.now() - profile.captureWallMs).toISOString();
+    profile.startedAt = startedAt;
+    profile.driverSha256 = backend.driverSha256;
+    profile.clockSha256 = backend.clockSha256;
+    profile.compilerGitHash = backend.compilerGitHash;
     // Snapshots make navigation overlays fail closed after editing an imported definition.
     const sourceFiles = new Set(profile.nodes.flatMap(n => [n.source?.file, ...(n.symbols ?? []).map(s => s.file)]).filter((x): x is string => Boolean(x)));
     let bytes = Buffer.byteLength(sourceBefore);
@@ -126,11 +141,37 @@ export async function capture(options: CaptureOptions): Promise<Profile> {
     const output = path.resolve(options.output ?? path.join(projectRoot, '.leanprofiles', `${path.basename(file, '.lean')}-${stamp}.leanprofile.json`));
     if (output === file) throw new Error('The recording output must not overwrite the Lean source file.');
     profile.profilePath = output;
-    const serialized = JSON.stringify(profile);
-    if (Buffer.byteLength(serialized) > 150 * 1024 * 1024) throw new Error('Recording and source snapshots exceed the 150 MB viewing limit. Increase leanSourceProfiler.thresholdMs and capture again. No output was replaced.');
+    // Keep the compact representation on disk; expanding it is only for the current viewer/query.
+    const recording = mode === 'compact' ? data as Record<string, unknown> : profile;
+    if (mode === 'compact') Object.assign(recording, {
+      projectRoot, startedAt: profile.startedAt, captureWallMs: profile.captureWallMs, profilePath: output,
+      sourceTexts: profile.sourceTexts, driverSha256: backend.driverSha256, clockSha256: backend.clockSha256,
+      compilerGitHash: backend.compilerGitHash,
+    });
+    // Reserve a fixed-width numeric slot so the elapsed measurement includes the large
+    // recording write without serializing and writing the entire trace a second time.
+    recording.captureWallMs = 0;
+    const marker = '"captureWallMs":0', width = 32;
+    const serialized = Buffer.from(JSON.stringify({captureWallMs:0,...recording}).replace(marker,marker+' '.repeat(width-1)));
+    const offset = serialized.indexOf(Buffer.from(marker))+Buffer.byteLength(marker)-1;
+    if (serialized.length > 150 * 1024 * 1024) throw new Error('Recording and source snapshots exceed the 150 MB viewing limit. Use compact mode or a larger internal threshold. No output was replaced.');
     await fs.mkdir(path.dirname(output), { recursive: true });
     const staged = `${output}.${process.pid}.tmp`;
-    try { await fs.writeFile(staged, serialized); await fs.rename(staged, output); }
+    try {
+      const handle=await fs.open(staged,'w');
+      try {
+        await handle.writeFile(serialized);
+        const calibration=profile.clockCalibration;
+        const rate=calibration ? calibration.elapsed/(calibration.stopTime-calibration.startTime) : 1;
+        profile.captureWallMs=(performance.now()-started)*rate;
+        const value=String(profile.captureWallMs).padEnd(width,' ');
+        if(value.length!==width)throw new Error('Invalid capture duration.');
+        const written=await handle.write(Buffer.from(value),0,width,offset);
+        if(written.bytesWritten!==width)throw new Error('Recording timing metadata was not fully written.');
+      } finally { await handle.close(); }
+      if(options.signal?.aborted)throw new Error('Profile capture cancelled.');
+      await fs.rename(staged, output);
+    }
     finally { await fs.rm(staged, { force: true }); }
     return profile;
   } finally { await fs.rm(temp, { recursive: true, force: true }); }

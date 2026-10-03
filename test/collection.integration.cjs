@@ -67,7 +67,17 @@ function near(actual, expected, message) { assert(Math.abs(actual - expected) < 
 'use strict';
 const fs = require('node:fs');
 const path = require('node:path');
-const sourceFile = process.argv.at(-3), output = process.argv.at(-2);
+if (process.argv.includes('--githash')) { console.log('collection-test-' + process.pid); process.exit(0); }
+if (process.argv.includes('--print-prefix')) { console.log(${JSON.stringify(scratch)}); process.exit(0); }
+if (process.argv[2] === 'env') {
+  if (process.argv[3] === 'lean') fs.writeFileSync(process.argv[process.argv.indexOf('-c') + 1], 'test C placeholder');
+  if (process.argv[3] === 'leanc') {
+    const binary = process.argv[process.argv.indexOf('-o') + 1];
+    fs.copyFileSync(__filename, binary); fs.chmodSync(binary, 0o755);
+  }
+  process.exit(0);
+}
+const sourceFile = process.argv.at(-4), output = process.argv.at(-3);
 const basename = path.basename(sourceFile);
 fs.appendFileSync(${JSON.stringify(fakeCalls)}, sourceFile + '\\n');
 if (basename === 'Broken.lean') { process.stderr.write('Intentional fixture elaboration failure\\n'); process.exit(3); }
@@ -101,7 +111,7 @@ fs.writeFileSync(output, JSON.stringify({ schemaVersion: 1, sourceFile, sourceTe
       onProgress: event => progress.push({ ...event, checkpoint: checkpointFrom(output) }) });
     assert.equal(actualSession.schemaVersion, 2);
     assert.equal(actualSession.kind, 'lean-source-profile-session');
-    assert.equal(actualSession.status, 'complete');
+    assert.equal(actualSession.status, 'complete',JSON.stringify(actualSession.files));
     assert.equal(actualSession.plannedFileCount, 2);
     assert.equal(actualSession.files.length, 2);
     assert(actualSession.files.every(file => file.status === 'ok'));
@@ -288,6 +298,22 @@ fs.writeFileSync(output, JSON.stringify({ schemaVersion: 1, sourceFile, sourceTe
     await fs.mkdir(directory);
     await fs.symlink(path.join(path.dirname(actualSession.sessionPath), 'index.jsonl'), path.join(directory, 'index.jsonl'), 'file');
     await assert.rejects(readIndex({ ...actualSession, sessionPath: path.join(directory, 'session.json') }), /escape/i);
+  });
+
+  await check('an interrupted final index append preserves committed rows; complete corrupt indexes fail', async () => {
+    const directory=path.join(scratch,'truncated-index');
+    await fs.mkdir(directory);
+    const session={...actualSession,sessionPath:path.join(directory,'session.json'),status:'partial'};
+    const rows=await readIndex(actualSession);
+    const prefix=rows.map(row=>JSON.stringify(row)).join('\n');
+    const index=path.join(directory,'index.jsonl');
+    await fs.writeFile(index,prefix);
+    assert.deepEqual(await readIndex(session),rows,'valid last row without newline remains readable');
+    await fs.writeFile(index,prefix+'\n{"kind":"file","name":');
+    assert.deepEqual(await readIndex(session),rows,'only the unfinished suffix is ignored');
+    await assert.rejects(readIndex({...session,status:'complete'}));
+    await fs.writeFile(index,'{ broken }\n'+prefix+'\n');
+    await assert.rejects(readIndex(session),'completed malformed rows cannot be ignored');
   });
 })().catch(error => {
   report.checks.push({ name: 'collection test setup completed', passed: false, error: error.stack || String(error) });

@@ -1,0 +1,4965 @@
+{
+  "schemaVersion": 1,
+  "kind": "lean-source-profiler-overhead-benchmark",
+  "profilerVersion": "0.3.0",
+  "startedAt": "2026-10-03T18:39:29.051821+00:00",
+  "completedAt": "2026-10-03T19:10:24.800873+00:00",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "cpu": "AMD Ryzen 9 9955HX 16-Core Processor",
+  "outerClock": "CLOCK_MONOTONIC_RAW",
+  "repeats": 4,
+  "warmupsPerMode": 1,
+  "corpusCommits": {
+    "Mathlib": "726a7f1e86c481739c97cb90f5acb25f311f5ec8",
+    "LeanPool": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+  },
+  "boundaries": {
+    "native": "Uninstrumented lean --setup file; same host request/warm-backend validation as other modes.",
+    "baseline": "Compiled same-driver frontend with added tracing and wrappers disabled; includes minimal scalar result export.",
+    "compact": "Capture API through atomic recording publication/cleanup plus query generation and JSONL index write.",
+    "excluded": "Dependency builds, growing-session manifest checkpoints/final folder aggregation; cold preparation reported separately.",
+    "phaseCounters": "Frontend and compact source timers use raw endpoints. exportPreparationMs/indexExportMs and monotonicMs are ancillary host/Lean counters."
+  },
+  "audit": {
+    "result": "PASS",
+    "uniqueFiles": 24,
+    "measuredRuns": 288,
+    "warmupRuns": 72,
+    "sourceAndSetupHashesVerified": true,
+    "implementationHashesVerified": true,
+    "note": "Selected existing 21 Mathlib controls plus 3 LeanPool files; this is not an entire-corpus rerun."
+  },
+  "implementationSha256": {
+    "lean/SourceProfiler.lean": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+    "lean/Clock.c": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+    "out/capture.js": "861c72a1d1565af848cb72d9523e029c4d1968ec1ac62c9e2095c274b4a81082",
+    "out/query.js": "b96a9c93c1cfdffd643b9d79da3384d4d0a8c48ea8a6197b8fe2517217ed5473",
+    "scripts/benchmark-worker.cjs": "0bce7bf289c73793db274b33fd5c6547c18834e9b259ddd1011ea07116f60946",
+    "scripts/benchmark-capture.py": "cf15b9a9a92ba34c4babd22cedea79a25d93a6a13f0ed7b58ad80e2a5a239068"
+  },
+  "preparation": [
+    {
+      "project": "Mathlib",
+      "preparationMs": 12481.28415,
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "compilerGitHash": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+      "wallMs": 11434.924082,
+      "monotonicMs": 12514.912631
+    },
+    {
+      "project": "LeanPool",
+      "preparationMs": 16801.969809000002,
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "compilerGitHash": "293d5d0c0c3f3dded4688b3ccd6a33939ac5102b",
+      "wallMs": 15600.132578,
+      "monotonicMs": 16802.399471
+    }
+  ],
+  "summary": {
+    "all": {
+      "files": 24,
+      "sumFileMedianWallMs": {
+        "native": 120251.997988,
+        "baseline": 119962.1196895,
+        "compact": 123870.4756085
+      },
+      "aggregateOverheadPercent": 3.00907900163212,
+      "medianFileOverheadPercent": 2.5920625481778092,
+      "p95FileOverheadNearestRankPercent": 9.121728622182946,
+      "maximumFileOverheadPercent": 10.740149225731077,
+      "frontendInstrumentationOverheadPercent": 2.5236214276417313
+    },
+    "Mathlib": {
+      "files": 21,
+      "sumFileMedianWallMs": {
+        "native": 114887.646695,
+        "baseline": 114651.170386,
+        "compact": 118396.658937
+      },
+      "aggregateOverheadPercent": 3.0542989981469537,
+      "medianFileOverheadPercent": 2.447694387226229,
+      "p95FileOverheadNearestRankPercent": 9.121728622182946,
+      "maximumFileOverheadPercent": 10.740149225731077,
+      "frontendInstrumentationOverheadPercent": 2.532566725874452
+    },
+    "LeanPool": {
+      "files": 3,
+      "sumFileMedianWallMs": {
+        "native": 5364.351293,
+        "baseline": 5310.9493035000005,
+        "compact": 5473.8166715
+      },
+      "aggregateOverheadPercent": 2.040607941594774,
+      "medianFileOverheadPercent": 4.35636790827274,
+      "p95FileOverheadNearestRankPercent": 5.306552678907894,
+      "maximumFileOverheadPercent": 5.306552678907894,
+      "frontendInstrumentationOverheadPercent": 2.3247621702256582
+    }
+  },
+  "repeatTotals": [
+    {
+      "repeat": 0,
+      "wallMs": {
+        "native": 120080.986791,
+        "baseline": 120413.989296,
+        "compact": 123692.679236
+      },
+      "overheadPercent": 3.0077138284065885
+    },
+    {
+      "repeat": 1,
+      "wallMs": {
+        "native": 120185.382098,
+        "baseline": 120086.731378,
+        "compact": 124053.00442900001
+      },
+      "overheadPercent": 3.218047206311936
+    },
+    {
+      "repeat": 2,
+      "wallMs": {
+        "native": 120044.526772,
+        "baseline": 119885.72360499999,
+        "compact": 123419.68296199999
+      },
+      "overheadPercent": 2.8115869009258665
+    },
+    {
+      "repeat": 3,
+      "wallMs": {
+        "native": 120716.160862,
+        "baseline": 119594.17365499999,
+        "compact": 124201.480175
+      },
+      "overheadPercent": 2.8872019190407716
+    }
+  ],
+  "files": [
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "cd37023cffd8609d188e58941cd35f570ba9f8acc826ddc6ecdf2d2ce1a388c0",
+      "setupSha256": "eca22e661e31bfaa027d08b097fd7e484cb3922613cf0f5c25fe026023158f93",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 2520.588318,
+          "exportPreparationMs": 2.789466,
+          "indexExportMs": 3.3722150000030524,
+          "clockCalibration": {
+            "startTime": 1590624.591142,
+            "rawStartTime": 1525913.51491,
+            "importTime": 1590626.882206,
+            "importElapsed": 2.08278,
+            "stopTime": 1590627.363795,
+            "elapsed": 2.520588
+          },
+          "events": 1158,
+          "declarations": 9,
+          "bytes": 76074,
+          "wallMs": 3209.021217,
+          "monotonicMs": 3529.923707
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 1156.660502,
+          "monotonicMs": 1272.329921
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 1025.514431,
+          "wallMs": 1234.412473,
+          "monotonicMs": 1357.855391
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1182.211528,
+          "monotonicMs": 1300.435454
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1019.018228,
+          "wallMs": 1110.499789,
+          "monotonicMs": 1221.551725
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1095.287709,
+          "exportPreparationMs": 3.22161,
+          "indexExportMs": 2.2680079999990994,
+          "clockCalibration": {
+            "startTime": 1590632.656019,
+            "rawStartTime": 1525920.846615,
+            "importTime": 1590633.382203,
+            "importElapsed": 0.660161,
+            "stopTime": 1590633.86084,
+            "elapsed": 1.095288
+          },
+          "events": 1153,
+          "declarations": 9,
+          "bytes": 74581,
+          "wallMs": 1223.416054,
+          "monotonicMs": 1345.759638
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1029.954712,
+          "wallMs": 1119.170559,
+          "monotonicMs": 1226.9631
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1039.02059,
+          "exportPreparationMs": 2.526874,
+          "indexExportMs": 1.908727000001818,
+          "clockCalibration": {
+            "startTime": 1590635.220782,
+            "rawStartTime": 1525923.182409,
+            "importTime": 1590635.88256,
+            "importElapsed": 0.608009,
+            "stopTime": 1590636.351681,
+            "elapsed": 1.039021
+          },
+          "events": 1149,
+          "declarations": 9,
+          "bytes": 74437,
+          "wallMs": 1150.656077,
+          "monotonicMs": 1252.402058
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1165.979302,
+          "monotonicMs": 1269.081723
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1051.121638,
+          "exportPreparationMs": 2.588777,
+          "indexExportMs": 1.8426800000015646,
+          "clockCalibration": {
+            "startTime": 1590637.745922,
+            "rawStartTime": 1525925.502409,
+            "importTime": 1590638.414218,
+            "importElapsed": 0.613998,
+            "stopTime": 1590638.889996,
+            "elapsed": 1.051122
+          },
+          "events": 1161,
+          "declarations": 9,
+          "bytes": 75354,
+          "wallMs": 1165.000571,
+          "monotonicMs": 1268.013735
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1186.118069,
+          "monotonicMs": 1291.002568
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1015.61587,
+          "wallMs": 1101.868805,
+          "monotonicMs": 1199.30007
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1182.864308,
+          "monotonicMs": 1287.459769
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1020.794022,
+          "wallMs": 1109.034412,
+          "monotonicMs": 1207.100263
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1089.644362,
+          "exportPreparationMs": 2.604992,
+          "indexExportMs": 1.2649640000017826,
+          "clockCalibration": {
+            "startTime": 1590643.994535,
+            "rawStartTime": 1525931.243388,
+            "importTime": 1590644.705771,
+            "importElapsed": 0.653449,
+            "stopTime": 1590645.180534,
+            "elapsed": 1.089644
+          },
+          "events": 1151,
+          "declarations": 9,
+          "bytes": 74597,
+          "wallMs": 1194.046609,
+          "monotonicMs": 1299.629478
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/Algebra/Algebra/Subalgebra/Directed.lean",
+      "setup": ".lake/build/ir/Mathlib/Algebra/Algebra/Subalgebra/Directed.setup.json",
+      "medianWallMs": {
+        "native": 1182.537918,
+        "baseline": 1109.7671005,
+        "compact": 1179.52359
+      },
+      "medianFrontendMs": {
+        "baseline": 1019.906125,
+        "compact": 1070.383
+      },
+      "endToEndOverheadPercent": -0.2549032850547417
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "f35090c081e7903c719d1d77033bd1b443cc70a99ee4fb711dcaa2384508c77e",
+      "setupSha256": "d8176d9bf060f91cccf5a4f8d698680f70d2a8d6db01dd98a935bcddd1c6baec",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 1420.379059,
+          "monotonicMs": 1524.509474
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 1326.160344,
+          "wallMs": 1394.082012,
+          "monotonicMs": 1484.930483
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 1448.094871,
+          "exportPreparationMs": 12.288722,
+          "indexExportMs": 6.704484000001685,
+          "clockCalibration": {
+            "startTime": 1590648.301518,
+            "rawStartTime": 1525935.250762,
+            "importTime": 1590648.677778,
+            "importElapsed": 0.353233,
+            "stopTime": 1590649.84399,
+            "elapsed": 1.448095
+          },
+          "events": 4111,
+          "declarations": 256,
+          "bytes": 340085,
+          "wallMs": 1569.84872,
+          "monotonicMs": 1672.152598
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1336.672737,
+          "wallMs": 1403.212636,
+          "monotonicMs": 1494.656976
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1453.479373,
+          "exportPreparationMs": 12.998261,
+          "indexExportMs": 6.221658000002208,
+          "clockCalibration": {
+            "startTime": 1590651.469164,
+            "rawStartTime": 1525938.224611,
+            "importTime": 1590651.848715,
+            "importElapsed": 0.356323,
+            "stopTime": 1590653.017371,
+            "elapsed": 1.453479
+          },
+          "events": 4125,
+          "declarations": 256,
+          "bytes": 340748,
+          "wallMs": 1572.909031,
+          "monotonicMs": 1675.412916
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1448.909166,
+          "monotonicMs": 1564.983427
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1445.566999,
+          "exportPreparationMs": 11.906607,
+          "indexExportMs": 6.259678000002168,
+          "clockCalibration": {
+            "startTime": 1590654.713905,
+            "rawStartTime": 1525941.249224,
+            "importTime": 1590655.110817,
+            "importElapsed": 0.360821,
+            "stopTime": 1590656.304039,
+            "elapsed": 1.445567
+          },
+          "events": 4108,
+          "declarations": 256,
+          "bytes": 339862,
+          "wallMs": 1562.459966,
+          "monotonicMs": 1718.707388
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1413.133763,
+          "monotonicMs": 1554.45064
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1330.336349,
+          "wallMs": 1396.591795,
+          "monotonicMs": 1536.251258
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1401.77413,
+          "monotonicMs": 1541.952905
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1339.951851,
+          "wallMs": 1408.604482,
+          "monotonicMs": 1547.236036
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1456.712049,
+          "exportPreparationMs": 12.49336,
+          "indexExportMs": 5.158303000003798,
+          "clockCalibration": {
+            "startTime": 1590662.61067,
+            "rawStartTime": 1525948.430429,
+            "importTime": 1590662.996873,
+            "importElapsed": 0.353934,
+            "stopTime": 1590664.200174,
+            "elapsed": 1.456712
+          },
+          "events": 4126,
+          "declarations": 256,
+          "bytes": 341084,
+          "wallMs": 1572.961234,
+          "monotonicMs": 1716.342301
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1329.275788,
+          "wallMs": 1396.597335,
+          "monotonicMs": 1523.902313
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1472.17356,
+          "exportPreparationMs": 11.653624,
+          "indexExportMs": 6.723379000002751,
+          "clockCalibration": {
+            "startTime": 1590665.850868,
+            "rawStartTime": 1525951.399947,
+            "importTime": 1590666.257142,
+            "importElapsed": 0.372328,
+            "stopTime": 1590667.457242,
+            "elapsed": 1.472174
+          },
+          "events": 4148,
+          "declarations": 256,
+          "bytes": 342343,
+          "wallMs": 1596.869978,
+          "monotonicMs": 1742.430619
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1427.633824,
+          "monotonicMs": 1557.768471
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/Algebra/Group/Units/Defs.lean",
+      "setup": ".lake/build/ir/Mathlib/Algebra/Group/Units/Defs.setup.json",
+      "medianWallMs": {
+        "native": 1420.3837935000001,
+        "baseline": 1399.9049854999998,
+        "compact": 1572.9351325
+      },
+      "medianFrontendMs": {
+        "baseline": 1333.504543,
+        "compact": 1455.095711
+      },
+      "endToEndOverheadPercent": 10.740149225731077
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "205b41ffd19d35ee7e24d280a98deddfe1d4b34abe19873daabcdb2a19369fc4",
+      "setupSha256": "5e5c607655ad503e672890621e5775850a9ac9bf732d2ef69e262f554cb977df",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 20090.435015,
+          "wallMs": 20221.134831,
+          "monotonicMs": 21958.226409
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 19775.905327,
+          "exportPreparationMs": 35.036475,
+          "indexExportMs": 14.911442999989958,
+          "clockCalibration": {
+            "startTime": 1590691.127338,
+            "rawStartTime": 1525974.661741,
+            "importTime": 1590692.110731,
+            "importElapsed": 0.89399,
+            "stopTime": 1590712.830756,
+            "elapsed": 19.775905
+          },
+          "events": 22970,
+          "declarations": 129,
+          "bytes": 1170807,
+          "wallMs": 20149.990379,
+          "monotonicMs": 22114.907314
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 18917.663012,
+          "monotonicMs": 20258.166676
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 20078.246621,
+          "exportPreparationMs": 35.013804,
+          "indexExportMs": 15.67010700001265,
+          "clockCalibration": {
+            "startTime": 1590733.501247,
+            "rawStartTime": 1526013.73016,
+            "importTime": 1590734.524268,
+            "importElapsed": 0.930013,
+            "stopTime": 1590755.170123,
+            "elapsed": 20.078247
+          },
+          "events": 22742,
+          "declarations": 129,
+          "bytes": 1159275,
+          "wallMs": 20409.131497,
+          "monotonicMs": 22032.840122
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 18680.03684,
+          "monotonicMs": 20338.715064
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 18721.867646,
+          "wallMs": 18853.660613,
+          "monotonicMs": 20673.754866
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 18649.649117,
+          "monotonicMs": 20052.698292
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 18619.846379,
+          "wallMs": 18752.01069,
+          "monotonicMs": 20397.524701
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 19930.261974,
+          "exportPreparationMs": 34.272024,
+          "indexExportMs": 16.24486599996453,
+          "clockCalibration": {
+            "startTime": 1590836.996298,
+            "rawStartTime": 1526109.074218,
+            "importTime": 1590837.971228,
+            "importElapsed": 0.886295,
+            "stopTime": 1590858.566574,
+            "elapsed": 19.930262
+          },
+          "events": 22935,
+          "declarations": 129,
+          "bytes": 1168843,
+          "wallMs": 20280.43412,
+          "monotonicMs": 21955.458729
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 18587.270055,
+          "wallMs": 18721.846485,
+          "monotonicMs": 20171.617313
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 19929.069037,
+          "exportPreparationMs": 35.418429,
+          "indexExportMs": 14.427054999978282,
+          "clockCalibration": {
+            "startTime": 1590879.129213,
+            "rawStartTime": 1526148.081809,
+            "importTime": 1590880.105305,
+            "importElapsed": 0.887352,
+            "stopTime": 1590900.882071,
+            "elapsed": 19.929069
+          },
+          "events": 23069,
+          "declarations": 129,
+          "bytes": 1174924,
+          "wallMs": 20267.890394,
+          "monotonicMs": 22125.554799
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 18712.473187,
+          "monotonicMs": 20328.469054
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 19854.27699,
+          "exportPreparationMs": 35.94462,
+          "indexExportMs": 15.081604000006337,
+          "clockCalibration": {
+            "startTime": 1590921.585856,
+            "rawStartTime": 1526187.06851,
+            "importTime": 1590922.616081,
+            "importElapsed": 0.961311,
+            "stopTime": 1590942.963067,
+            "elapsed": 19.854277
+          },
+          "events": 23195,
+          "declarations": 129,
+          "bytes": 1180770,
+          "wallMs": 20204.333755,
+          "monotonicMs": 21757.945983
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 18752.512333,
+          "monotonicMs": 20454.58553
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 18622.722926,
+          "wallMs": 18750.884178,
+          "monotonicMs": 20387.66011
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/AlgebraicGeometry/Modules/Sheaf.lean",
+      "setup": ".lake/build/ir/Mathlib/AlgebraicGeometry/Modules/Sheaf.setup.json",
+      "medianWallMs": {
+        "native": 18696.2550135,
+        "baseline": 18751.447434,
+        "compact": 20274.162257
+      },
+      "medianFrontendMs": {
+        "baseline": 18621.2846525,
+        "compact": 19929.6655055
+      },
+      "endToEndOverheadPercent": 8.439696839611166
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "8dc12e5db4f1614a78a61c984ce4dc17f569affde6340a5c68676f2be1652580",
+      "setupSha256": "178a19f7c2750c4f844eee0c3a6db354498b8e13427060b454c431060065dbdb",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 19194.122805,
+          "exportPreparationMs": 16.932735,
+          "indexExportMs": 27.254498999973293,
+          "clockCalibration": {
+            "startTime": 1590984.187124,
+            "rawStartTime": 1526244.773294,
+            "importTime": 1590985.370398,
+            "importElapsed": 1.075699,
+            "stopTime": 1591005.096488,
+            "elapsed": 19.194123
+          },
+          "events": 8057,
+          "declarations": 90,
+          "bytes": 548846,
+          "wallMs": 19452.289864,
+          "monotonicMs": 21186.731782
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 18485.289041,
+          "monotonicMs": 20242.424785
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 18138.040069,
+          "wallMs": 18309.065446,
+          "monotonicMs": 19832.326761
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 18439.399371,
+          "monotonicMs": 20129.737246
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 18227.678247,
+          "wallMs": 18373.441542,
+          "monotonicMs": 20136.645103
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 19112.100394,
+          "exportPreparationMs": 17.593642,
+          "indexExportMs": 30.074380000005476,
+          "clockCalibration": {
+            "startTime": 1591085.718049,
+            "rawStartTime": 1526337.835576,
+            "importTime": 1591086.815423,
+            "importElapsed": 0.997607,
+            "stopTime": 1591106.424128,
+            "elapsed": 19.1121
+          },
+          "events": 8051,
+          "declarations": 90,
+          "bytes": 548340,
+          "wallMs": 19373.903702,
+          "monotonicMs": 20994.056334
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 18370.597772,
+          "wallMs": 18515.491206,
+          "monotonicMs": 20025.899047
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 19143.640371,
+          "exportPreparationMs": 17.537094,
+          "indexExportMs": 30.17294000007678,
+          "clockCalibration": {
+            "startTime": 1591126.731533,
+            "rawStartTime": 1526375.72228,
+            "importTime": 1591127.709351,
+            "importElapsed": 0.916785,
+            "stopTime": 1591147.550963,
+            "elapsed": 19.14364
+          },
+          "events": 8097,
+          "declarations": 90,
+          "bytes": 550436,
+          "wallMs": 19399.99219,
+          "monotonicMs": 21097.907516
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 18261.949843,
+          "monotonicMs": 19877.704662
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 19255.929487,
+          "exportPreparationMs": 17.661178,
+          "indexExportMs": 29.877394000068307,
+          "clockCalibration": {
+            "startTime": 1591167.718571,
+            "rawStartTime": 1526413.391428,
+            "importTime": 1591168.735,
+            "importElapsed": 0.924021,
+            "stopTime": 1591188.707447,
+            "elapsed": 19.255929
+          },
+          "events": 8082,
+          "declarations": 90,
+          "bytes": 549535,
+          "wallMs": 19523.218882,
+          "monotonicMs": 21282.88832
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 18300.754912,
+          "monotonicMs": 19841.044569
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 18235.007309,
+          "wallMs": 18378.922322,
+          "monotonicMs": 20012.607096
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 18354.109297,
+          "monotonicMs": 19971.084947
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 18143.505154,
+          "wallMs": 18287.826049,
+          "monotonicMs": 19929.131532
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 19296.573869,
+          "exportPreparationMs": 17.97201,
+          "indexExportMs": 29.827597000054084,
+          "clockCalibration": {
+            "startTime": 1591268.750062,
+            "rawStartTime": 1526506.231487,
+            "importTime": 1591269.830619,
+            "importElapsed": 0.982318,
+            "stopTime": 1591289.77069,
+            "elapsed": 19.296574
+          },
+          "events": 8219,
+          "declarations": 90,
+          "bytes": 555232,
+          "wallMs": 19568.089639,
+          "monotonicMs": 21319.289835
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/AlgebraicGeometry/Modules/Tilde.lean",
+      "setup": ".lake/build/ir/Mathlib/AlgebraicGeometry/Modules/Tilde.setup.json",
+      "medianWallMs": {
+        "native": 18327.4321045,
+        "baseline": 18376.181932,
+        "compact": 19461.605536000003
+      },
+      "medianFrontendMs": {
+        "baseline": 18231.342778,
+        "compact": 19199.784929
+      },
+      "endToEndOverheadPercent": 6.188392487464323
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "3fe894680bc8cb092a783253217a8fd106e8337c741ee1bb95e3a5f41d5469a9",
+      "setupSha256": "52614f9184b8a4c1db4ddda8f869987f3de4cad80d163df40511244daa4d7647",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 3553.014377,
+          "monotonicMs": 3812.108108
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 3174.454197,
+          "wallMs": 3287.984615,
+          "monotonicMs": 3591.129656
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 3375.612305,
+          "exportPreparationMs": 11.452788,
+          "indexExportMs": 7.375608000089414,
+          "clockCalibration": {
+            "startTime": 1591297.47477,
+            "rawStartTime": 1526532.642882,
+            "importTime": 1591298.334957,
+            "importElapsed": 0.787569,
+            "stopTime": 1591301.147235,
+            "elapsed": 3.375612
+          },
+          "events": 5632,
+          "declarations": 65,
+          "bytes": 349672,
+          "wallMs": 3551.137336,
+          "monotonicMs": 3855.463321
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 3151.041241,
+          "wallMs": 3260.013395,
+          "monotonicMs": 3550.333703
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 3465.418247,
+          "exportPreparationMs": 12.979636,
+          "indexExportMs": 5.307746000005864,
+          "clockCalibration": {
+            "startTime": 1591304.880891,
+            "rawStartTime": 1526539.454022,
+            "importTime": 1591305.849083,
+            "importElapsed": 0.880168,
+            "stopTime": 1591308.692858,
+            "elapsed": 3.465418
+          },
+          "events": 5652,
+          "declarations": 65,
+          "bytes": 350411,
+          "wallMs": 3627.101155,
+          "monotonicMs": 3986.334122
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 3258.699921,
+          "monotonicMs": 3480.400836
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 3360.925145,
+          "exportPreparationMs": 11.628011,
+          "indexExportMs": 6.299038999946788,
+          "clockCalibration": {
+            "startTime": 1591312.348698,
+            "rawStartTime": 1526546.340806,
+            "importTime": 1591313.217572,
+            "importElapsed": 0.789879,
+            "stopTime": 1591316.045725,
+            "elapsed": 3.360925
+          },
+          "events": 5631,
+          "declarations": 65,
+          "bytes": 349361,
+          "wallMs": 3523.96074,
+          "monotonicMs": 3876.3585
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 3318.347695,
+          "monotonicMs": 3650.185241
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 3196.692256,
+          "wallMs": 3306.65372,
+          "monotonicMs": 3552.0324
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 3260.422926,
+          "monotonicMs": 3572.161078
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 3198.141843,
+          "wallMs": 3307.302908,
+          "monotonicMs": 3569.017905
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 3347.623177,
+          "exportPreparationMs": 12.39703,
+          "indexExportMs": 7.305899000028148,
+          "clockCalibration": {
+            "startTime": 1591330.567288,
+            "rawStartTime": 1526563.056443,
+            "importTime": 1591331.432807,
+            "importElapsed": 0.78683,
+            "stopTime": 1591334.249679,
+            "elapsed": 3.347623
+          },
+          "events": 5643,
+          "declarations": 65,
+          "bytes": 350201,
+          "wallMs": 3525.756087,
+          "monotonicMs": 3878.333701
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 3153.292866,
+          "wallMs": 3265.34392,
+          "monotonicMs": 3506.243283
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 3447.748758,
+          "exportPreparationMs": 11.663069,
+          "indexExportMs": 6.633124999934807,
+          "clockCalibration": {
+            "startTime": 1591337.951703,
+            "rawStartTime": 1526569.850561,
+            "importTime": 1591338.868101,
+            "importElapsed": 0.84841,
+            "stopTime": 1591341.727378,
+            "elapsed": 3.447749
+          },
+          "events": 5641,
+          "declarations": 65,
+          "bytes": 350031,
+          "wallMs": 3615.987924,
+          "monotonicMs": 3957.258467
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 3284.326778,
+          "monotonicMs": 3612.763082
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/Analysis/Analytic/CPolynomialDef.lean",
+      "setup": ".lake/build/ir/Mathlib/Analysis/Analytic/CPolynomialDef.setup.json",
+      "medianWallMs": {
+        "native": 3272.374852,
+        "baseline": 3285.99882,
+        "compact": 3570.8720055000003
+      },
+      "medianFrontendMs": {
+        "baseline": 3174.992561,
+        "compact": 3404.3369515000004
+      },
+      "endToEndOverheadPercent": 9.121728622182946
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "c70bd2ecca316bc134717d403b20caca1a0884d0c7b33bf67817df750d43b38b",
+      "setupSha256": "af9d430c20f2a94dc3f42a500a2215cbf6ef1c1cf6400be5962f5b2af57ac9a7",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 1045.677809,
+          "wallMs": 1155.468832,
+          "monotonicMs": 1242.872975
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 978.306919,
+          "exportPreparationMs": 1.784965,
+          "indexExportMs": 0.7636679999995977,
+          "clockCalibration": {
+            "startTime": 1591346.771484,
+            "rawStartTime": 1526577.909454,
+            "importTime": 1591347.632219,
+            "importElapsed": 0.78248,
+            "stopTime": 1591347.847628,
+            "elapsed": 0.978307
+          },
+          "events": 732,
+          "declarations": 12,
+          "bytes": 44016,
+          "wallMs": 1096.351752,
+          "monotonicMs": 1205.988598
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 1120.281591,
+          "monotonicMs": 1232.312205
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 985.119468,
+          "exportPreparationMs": 1.214277,
+          "indexExportMs": 1.1283260000636801,
+          "clockCalibration": {
+            "startTime": 1591349.213864,
+            "rawStartTime": 1526580.1298,
+            "importTime": 1591350.088566,
+            "importElapsed": 0.795177,
+            "stopTime": 1591350.297505,
+            "elapsed": 0.985119
+          },
+          "events": 717,
+          "declarations": 12,
+          "bytes": 43511,
+          "wallMs": 1109.225628,
+          "monotonicMs": 1220.149928
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1117.255735,
+          "monotonicMs": 1228.983377
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 973.053128,
+          "wallMs": 1075.600391,
+          "monotonicMs": 1183.162653
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1108.412646,
+          "monotonicMs": 1219.25534
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 971.606441,
+          "wallMs": 1073.987996,
+          "monotonicMs": 1181.388368
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1012.90444,
+          "exportPreparationMs": 1.830826,
+          "indexExportMs": 1.6660700000356883,
+          "clockCalibration": {
+            "startTime": 1591355.244998,
+            "rawStartTime": 1526585.612649,
+            "importTime": 1591356.086656,
+            "importElapsed": 0.813834,
+            "stopTime": 1591356.290816,
+            "elapsed": 1.012904
+          },
+          "events": 735,
+          "declarations": 12,
+          "bytes": 45113,
+          "wallMs": 1134.973241,
+          "monotonicMs": 1174.402357
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 959.292525,
+          "wallMs": 1062.612034,
+          "monotonicMs": 1089.781922
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1020.522453,
+          "exportPreparationMs": 1.969418,
+          "indexExportMs": 0.6529360000276938,
+          "clockCalibration": {
+            "startTime": 1591357.505734,
+            "rawStartTime": 1526587.81019,
+            "importTime": 1591358.379415,
+            "importElapsed": 0.823471,
+            "stopTime": 1591358.594209,
+            "elapsed": 1.020522
+          },
+          "events": 725,
+          "declarations": 12,
+          "bytes": 43870,
+          "wallMs": 1140.074416,
+          "monotonicMs": 1215.85933
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1073.14197,
+          "monotonicMs": 1169.773256
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1010.000907,
+          "exportPreparationMs": 1.322807,
+          "indexExportMs": 1.0567149999551475,
+          "clockCalibration": {
+            "startTime": 1591359.897223,
+            "rawStartTime": 1526590.026097,
+            "importTime": 1591360.787456,
+            "importElapsed": 0.816689,
+            "stopTime": 1591360.998178,
+            "elapsed": 1.010001
+          },
+          "events": 710,
+          "declarations": 12,
+          "bytes": 43060,
+          "wallMs": 1131.230289,
+          "monotonicMs": 1233.092048
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1097.429541,
+          "monotonicMs": 1196.248117
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1022.901604,
+          "wallMs": 1128.818031,
+          "monotonicMs": 1230.462539
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/Analysis/Calculus/Deriv/Linear.lean",
+      "setup": ".lake/build/ir/Mathlib/Analysis/Calculus/Deriv/Linear.setup.json",
+      "medianWallMs": {
+        "native": 1102.9210935,
+        "baseline": 1074.7941935,
+        "compact": 1133.101765
+      },
+      "medianFrontendMs": {
+        "baseline": 972.3297845,
+        "compact": 1011.4526735
+      },
+      "endToEndOverheadPercent": 2.7364307091293893
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "35d6c51458fd4972c65027f0407b2b97e40b1d675898da55c4d85ddbeb72a296",
+      "setupSha256": "6da0263db744ed35578e4f654b95326408a383f11472a478416ec2d2b8102945",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 1296.244956,
+          "exportPreparationMs": 0.490093,
+          "indexExportMs": 0.5642269999952987,
+          "clockCalibration": {
+            "startTime": 1591363.561017,
+            "rawStartTime": 1526593.38724,
+            "importTime": 1591364.68076,
+            "importElapsed": 1.027241,
+            "stopTime": 1591364.973874,
+            "elapsed": 1.296245
+          },
+          "events": 241,
+          "declarations": 3,
+          "bytes": 21357,
+          "wallMs": 1414.026947,
+          "monotonicMs": 1536.613423
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 1252.906292,
+          "monotonicMs": 1292.84858
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 1203.457283,
+          "wallMs": 1314.092462,
+          "monotonicMs": 1445.503864
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1258.545901,
+          "monotonicMs": 1384.403399
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1212.468932,
+          "wallMs": 1325.505104,
+          "monotonicMs": 1458.056548
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1212.360958,
+          "exportPreparationMs": 0.619768,
+          "indexExportMs": 0.5938590000150725,
+          "clockCalibration": {
+            "startTime": 1591370.683041,
+            "rawStartTime": 1526599.956094,
+            "importTime": 1591371.712021,
+            "importElapsed": 0.93543,
+            "stopTime": 1591372.016648,
+            "elapsed": 1.212361
+          },
+          "events": 238,
+          "declarations": 3,
+          "bytes": 21113,
+          "wallMs": 1337.58322,
+          "monotonicMs": 1471.343511
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1199.995467,
+          "wallMs": 1312.968962,
+          "monotonicMs": 1444.267991
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1204.761731,
+          "exportPreparationMs": 1.452185,
+          "indexExportMs": 0.7279270000290126,
+          "clockCalibration": {
+            "startTime": 1591373.598458,
+            "rawStartTime": 1526602.606475,
+            "importTime": 1591374.626122,
+            "importElapsed": 0.934232,
+            "stopTime": 1591374.923703,
+            "elapsed": 1.204762
+          },
+          "events": 239,
+          "declarations": 3,
+          "bytes": 21466,
+          "wallMs": 1327.98974,
+          "monotonicMs": 1460.790273
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1250.784553,
+          "monotonicMs": 1375.86663
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1240.179781,
+          "exportPreparationMs": 0.61406,
+          "indexExportMs": 0.5636069999309257,
+          "clockCalibration": {
+            "startTime": 1591376.434886,
+            "rawStartTime": 1526605.185044,
+            "importTime": 1591377.497858,
+            "importElapsed": 0.966333,
+            "stopTime": 1591377.799089,
+            "elapsed": 1.24018
+          },
+          "events": 235,
+          "declarations": 3,
+          "bytes": 20999,
+          "wallMs": 1361.332812,
+          "monotonicMs": 1497.466453
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1260.019485,
+          "monotonicMs": 1386.023016
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1202.372701,
+          "wallMs": 1312.500174,
+          "monotonicMs": 1443.751687
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1249.333708,
+          "monotonicMs": 1374.269742
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1205.530115,
+          "wallMs": 1315.129669,
+          "monotonicMs": 1446.644098
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1153.148418,
+          "exportPreparationMs": 1.386048,
+          "indexExportMs": 0.5985210000071675,
+          "clockCalibration": {
+            "startTime": 1591383.583272,
+            "rawStartTime": 1526611.683577,
+            "importTime": 1591384.548009,
+            "importElapsed": 0.877028,
+            "stopTime": 1591384.851741,
+            "elapsed": 1.153148
+          },
+          "events": 242,
+          "declarations": 3,
+          "bytes": 21405,
+          "wallMs": 1276.3596,
+          "monotonicMs": 1403.99713
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/Analysis/Normed/Algebra/Basic.lean",
+      "setup": ".lake/build/ir/Mathlib/Analysis/Normed/Algebra/Basic.setup.json",
+      "medianWallMs": {
+        "native": 1254.665227,
+        "baseline": 1314.0493155,
+        "compact": 1332.78648
+      },
+      "medianFrontendMs": {
+        "baseline": 1203.951408,
+        "compact": 1208.5613445
+      },
+      "endToEndOverheadPercent": 6.226461953264928
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "31613583c30626cf553784dc65851c27a41bff865052ef201ed69d083883e5db",
+      "setupSha256": "f8215b69e74e21a05e38a690ca366462128206885f0c1de861c6d3cfc99009ee",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 1267.490805,
+          "monotonicMs": 1345.318958
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 1127.950002,
+          "wallMs": 1230.999176,
+          "monotonicMs": 1351.994697
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 1107.996617,
+          "exportPreparationMs": 3.56903,
+          "indexExportMs": 3.475387999904342,
+          "clockCalibration": {
+            "startTime": 1591387.685419,
+            "rawStartTime": 1526615.459259,
+            "importTime": 1591388.485002,
+            "importElapsed": 0.728021,
+            "stopTime": 1591388.902328,
+            "elapsed": 1.107997
+          },
+          "events": 1649,
+          "declarations": 28,
+          "bytes": 119853,
+          "wallMs": 1232.15135,
+          "monotonicMs": 1353.259734
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1161.135574,
+          "wallMs": 1262.668346,
+          "monotonicMs": 1386.775848
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1103.77769,
+          "exportPreparationMs": 3.562537,
+          "indexExportMs": 1.9994169999845326,
+          "clockCalibration": {
+            "startTime": 1591390.426714,
+            "rawStartTime": 1526617.955229,
+            "importTime": 1591391.226581,
+            "importElapsed": 0.728279,
+            "stopTime": 1591391.63899,
+            "elapsed": 1.103778
+          },
+          "events": 1653,
+          "declarations": 28,
+          "bytes": 119695,
+          "wallMs": 1229.823957,
+          "monotonicMs": 1350.703772
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1268.584749,
+          "monotonicMs": 1353.456914
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1111.505977,
+          "exportPreparationMs": 3.221526,
+          "indexExportMs": 6.789136000094004,
+          "clockCalibration": {
+            "startTime": 1591393.127338,
+            "rawStartTime": 1526620.453387,
+            "importTime": 1591393.879016,
+            "importElapsed": 0.73291,
+            "stopTime": 1591394.267294,
+            "elapsed": 1.111506
+          },
+          "events": 1637,
+          "declarations": 28,
+          "bytes": 118775,
+          "wallMs": 1240.376166,
+          "monotonicMs": 1276.421214
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1264.788081,
+          "monotonicMs": 1391.268396
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1095.687862,
+          "wallMs": 1196.870827,
+          "monotonicMs": 1316.559768
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1266.924724,
+          "monotonicMs": 1393.619067
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1094.445235,
+          "wallMs": 1194.733243,
+          "monotonicMs": 1314.210156
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1161.75035,
+          "exportPreparationMs": 3.590003,
+          "indexExportMs": 2.783127999980934,
+          "clockCalibration": {
+            "startTime": 1591399.821661,
+            "rawStartTime": 1526626.61611,
+            "importTime": 1591400.691434,
+            "importElapsed": 0.790696,
+            "stopTime": 1591401.099595,
+            "elapsed": 1.16175
+          },
+          "events": 1638,
+          "declarations": 28,
+          "bytes": 119519,
+          "wallMs": 1283.259418,
+          "monotonicMs": 1411.587792
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1097.85939,
+          "wallMs": 1198.555544,
+          "monotonicMs": 1248.678472
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1135.004596,
+          "exportPreparationMs": 3.61254,
+          "indexExportMs": 2.2735520000569522,
+          "clockCalibration": {
+            "startTime": 1591402.481646,
+            "rawStartTime": 1526629.10075,
+            "importTime": 1591403.294568,
+            "importElapsed": 0.755331,
+            "stopTime": 1591403.712213,
+            "elapsed": 1.135005
+          },
+          "events": 1648,
+          "declarations": 28,
+          "bytes": 119643,
+          "wallMs": 1258.623684,
+          "monotonicMs": 1363.160279
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1276.37323,
+          "monotonicMs": 1404.012213
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/Analysis/Normed/Order/UpperLower.lean",
+      "setup": ".lake/build/ir/Mathlib/Analysis/Normed/Order/UpperLower.setup.json",
+      "medianWallMs": {
+        "native": 1267.7547365,
+        "baseline": 1197.7131855,
+        "compact": 1249.499925
+      },
+      "medianFrontendMs": {
+        "baseline": 1096.7736260000001,
+        "compact": 1123.2552865
+      },
+      "endToEndOverheadPercent": -1.43993242339584
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "991a8c873c89b62bd9724a88b91e7ca17f5947c736dd6b026b5fac0a5913dbeb",
+      "setupSha256": "c34caa21f379145b2f57c43b9e99fa3c7a132194d60b362ea3c89d9a558036c1",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 1133.669882,
+          "wallMs": 1242.713122,
+          "monotonicMs": 1366.985973
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 1169.206783,
+          "exportPreparationMs": 5.121251,
+          "indexExportMs": 3.189204000052996,
+          "clockCalibration": {
+            "startTime": 1591406.635484,
+            "rawStartTime": 1526632.893284,
+            "importTime": 1591407.563488,
+            "importElapsed": 0.843633,
+            "stopTime": 1591407.921619,
+            "elapsed": 1.169207
+          },
+          "events": 1807,
+          "declarations": 51,
+          "bytes": 145351,
+          "wallMs": 1313.489246,
+          "monotonicMs": 1444.840161
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 1230.714637,
+          "monotonicMs": 1353.788035
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1099.716151,
+          "exportPreparationMs": 4.285498,
+          "indexExportMs": 4.194702000007965,
+          "clockCalibration": {
+            "startTime": 1591409.425848,
+            "rawStartTime": 1526635.429977,
+            "importTime": 1591410.250524,
+            "importElapsed": 0.772993,
+            "stopTime": 1591410.585603,
+            "elapsed": 1.099716
+          },
+          "events": 1795,
+          "declarations": 51,
+          "bytes": 144663,
+          "wallMs": 1231.157365,
+          "monotonicMs": 1298.078236
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1276.870141,
+          "monotonicMs": 1359.342296
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1092.887061,
+          "wallMs": 1196.384737,
+          "monotonicMs": 1290.925995
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1277.833818,
+          "monotonicMs": 1378.810023
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1098.320396,
+          "wallMs": 1203.24157,
+          "monotonicMs": 1298.323532
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1172.436274,
+          "exportPreparationMs": 4.157902,
+          "indexExportMs": 3.2922650000546128,
+          "clockCalibration": {
+            "startTime": 1591416.047964,
+            "rawStartTime": 1526641.613282,
+            "importTime": 1591416.961085,
+            "importElapsed": 0.846245,
+            "stopTime": 1591417.313054,
+            "elapsed": 1.172436
+          },
+          "events": 1798,
+          "declarations": 51,
+          "bytes": 145225,
+          "wallMs": 1302.739669,
+          "monotonicMs": 1405.683785
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1086.204108,
+          "wallMs": 1190.036687,
+          "monotonicMs": 1284.075176
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1167.14681,
+          "exportPreparationMs": 3.942809,
+          "indexExportMs": 4.68472399993334,
+          "clockCalibration": {
+            "startTime": 1591418.738335,
+            "rawStartTime": 1526644.10663,
+            "importTime": 1591419.625295,
+            "importElapsed": 0.843539,
+            "stopTime": 1591419.95718,
+            "elapsed": 1.167147
+          },
+          "events": 1795,
+          "declarations": 51,
+          "bytes": 144870,
+          "wallMs": 1292.260818,
+          "monotonicMs": 1349.550429
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1213.608279,
+          "monotonicMs": 1244.639219
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1177.34508,
+          "exportPreparationMs": 4.132081,
+          "indexExportMs": 4.068132000043988,
+          "clockCalibration": {
+            "startTime": 1591421.331361,
+            "rawStartTime": 1526646.613708,
+            "importTime": 1591422.239641,
+            "importElapsed": 0.855295,
+            "stopTime": 1591422.593899,
+            "elapsed": 1.177345
+          },
+          "events": 1821,
+          "declarations": 51,
+          "bytes": 146699,
+          "wallMs": 1303.527268,
+          "monotonicMs": 1397.916127
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1210.374029,
+          "monotonicMs": 1331.41349
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1151.589895,
+          "wallMs": 1256.315908,
+          "monotonicMs": 1381.948994
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/Analysis/SpecialFunctions/Complex/Log.lean",
+      "setup": ".lake/build/ir/Mathlib/Analysis/SpecialFunctions/Complex/Log.setup.json",
+      "medianWallMs": {
+        "native": 1245.2392100000002,
+        "baseline": 1199.8131535,
+        "compact": 1297.5002435000001
+      },
+      "medianFrontendMs": {
+        "baseline": 1095.6037285,
+        "compact": 1169.791542
+      },
+      "endToEndOverheadPercent": 4.196867001963422
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "d3352d19aa7cbad42546907afbfd845038d66e696085fbb13d52c34a2bc33382",
+      "setupSha256": "29ec005ab0880688f77ce2ee0b5fb275c6b5590dc2f972cbb1fbb90a58c5b45e",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 1966.253777,
+          "exportPreparationMs": 5.885465,
+          "indexExportMs": 5.08143200003542,
+          "clockCalibration": {
+            "startTime": 1591425.447402,
+            "rawStartTime": 1526650.385155,
+            "importTime": 1591426.165304,
+            "importElapsed": 0.652632,
+            "stopTime": 1591427.610291,
+            "elapsed": 1.966254
+          },
+          "events": 2556,
+          "declarations": 56,
+          "bytes": 196081,
+          "wallMs": 2087.727085,
+          "monotonicMs": 2296.500338
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 1981.173308,
+          "monotonicMs": 2179.293762
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 1854.839007,
+          "wallMs": 1944.953994,
+          "monotonicMs": 2123.119405
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1975.732449,
+          "monotonicMs": 2173.307717
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1875.645447,
+          "wallMs": 1969.200306,
+          "monotonicMs": 2166.12379
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1984.255003,
+          "exportPreparationMs": 6.182587,
+          "indexExportMs": 4.167683000094257,
+          "clockCalibration": {
+            "startTime": 1591436.385887,
+            "rawStartTime": 1526660.344079,
+            "importTime": 1591437.10411,
+            "importElapsed": 0.652924,
+            "stopTime": 1591438.568576,
+            "elapsed": 1.984255
+          },
+          "events": 2553,
+          "declarations": 56,
+          "bytes": 196258,
+          "wallMs": 2105.403197,
+          "monotonicMs": 2315.945374
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1889.875893,
+          "wallMs": 1981.569673,
+          "monotonicMs": 2179.72779
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1938.654901,
+          "exportPreparationMs": 5.906283,
+          "indexExportMs": 3.9092999999411404,
+          "clockCalibration": {
+            "startTime": 1591440.882336,
+            "rawStartTime": 1526664.431761,
+            "importTime": 1591441.582403,
+            "importElapsed": 0.636417,
+            "stopTime": 1591443.014867,
+            "elapsed": 1.938655
+          },
+          "events": 2570,
+          "declarations": 56,
+          "bytes": 196873,
+          "wallMs": 2056.299537,
+          "monotonicMs": 2261.931865
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1964.667756,
+          "monotonicMs": 2147.189216
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1921.677205,
+          "exportPreparationMs": 5.448772,
+          "indexExportMs": 4.027323000016622,
+          "clockCalibration": {
+            "startTime": 1591445.290204,
+            "rawStartTime": 1526668.454572,
+            "importTime": 1591445.940348,
+            "importElapsed": 0.633931,
+            "stopTime": 1591447.261022,
+            "elapsed": 1.921677
+          },
+          "events": 2537,
+          "declarations": 56,
+          "bytes": 195173,
+          "wallMs": 2042.054706,
+          "monotonicMs": 2094.268995
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1961.546089,
+          "monotonicMs": 2011.701833
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1848.847527,
+          "wallMs": 1937.671671,
+          "monotonicMs": 2092.791114
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1964.009329,
+          "monotonicMs": 2160.413209
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1864.2196,
+          "wallMs": 1953.951302,
+          "monotonicMs": 2149.347516
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1925.01258,
+          "exportPreparationMs": 5.450293,
+          "indexExportMs": 4.351384000037797,
+          "clockCalibration": {
+            "startTime": 1591455.802214,
+            "rawStartTime": 1526678.31403,
+            "importTime": 1591456.510581,
+            "importElapsed": 0.643964,
+            "stopTime": 1591457.851106,
+            "elapsed": 1.925013
+          },
+          "events": 2529,
+          "declarations": 56,
+          "bytes": 194913,
+          "wallMs": 2045.055237,
+          "monotonicMs": 2175.239131
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/CategoryTheory/Galois/Prorepresentability.lean",
+      "setup": ".lake/build/ir/Mathlib/CategoryTheory/Galois/Prorepresentability.setup.json",
+      "medianWallMs": {
+        "native": 1964.3385425000001,
+        "baseline": 1961.575804,
+        "compact": 2050.6773869999997
+      },
+      "medianFrontendMs": {
+        "baseline": 1869.9325235000001,
+        "compact": 1931.8337405000002
+      },
+      "endToEndOverheadPercent": 4.3953138744667
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "309856c3b0c2608ed7e49e609643c8e64d4651031f5e7bc74fdd9f648651ce1d",
+      "setupSha256": "c21b3e20a6a16a9bd429636731342189a2947da2291f38502081624e957c7740",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 1771.654713,
+          "monotonicMs": 1929.423174
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 1705.352885,
+          "wallMs": 1792.826795,
+          "monotonicMs": 1972.111111
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 1715.314656,
+          "exportPreparationMs": 3.628229,
+          "indexExportMs": 1.189503000001423,
+          "clockCalibration": {
+            "startTime": 1591461.878345,
+            "rawStartTime": 1526683.923267,
+            "importTime": 1591462.461417,
+            "importElapsed": 0.53006,
+            "stopTime": 1591463.765201,
+            "elapsed": 1.715315
+          },
+          "events": 1907,
+          "declarations": 13,
+          "bytes": 116278,
+          "wallMs": 1814.387697,
+          "monotonicMs": 1995.828444
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1667.243664,
+          "wallMs": 1749.221446,
+          "monotonicMs": 1885.893535
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1701.603813,
+          "exportPreparationMs": 3.583375,
+          "indexExportMs": 0.904833999928087,
+          "clockCalibration": {
+            "startTime": 1591465.756385,
+            "rawStartTime": 1526687.486116,
+            "importTime": 1591466.291769,
+            "importElapsed": 0.522019,
+            "stopTime": 1591467.563902,
+            "elapsed": 1.701604
+          },
+          "events": 1895,
+          "declarations": 13,
+          "bytes": 115920,
+          "wallMs": 1799.995858,
+          "monotonicMs": 1912.905049
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1830.222859,
+          "monotonicMs": 2013.247387
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1722.873584,
+          "exportPreparationMs": 3.549386,
+          "indexExportMs": 0.913401999976486,
+          "clockCalibration": {
+            "startTime": 1591469.689524,
+            "rawStartTime": 1526691.120111,
+            "importTime": 1591470.277077,
+            "importElapsed": 0.534133,
+            "stopTime": 1591471.584693,
+            "elapsed": 1.722874
+          },
+          "events": 1903,
+          "declarations": 13,
+          "bytes": 116395,
+          "wallMs": 1826.45374,
+          "monotonicMs": 2009.100881
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1799.239437,
+          "monotonicMs": 1979.16667
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1715.233142,
+          "wallMs": 1797.056927,
+          "monotonicMs": 1899.248705
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1776.129684,
+          "monotonicMs": 1953.744477
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1662.096307,
+          "wallMs": 1742.678748,
+          "monotonicMs": 1916.948107
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1738.669036,
+          "exportPreparationMs": 3.6373,
+          "indexExportMs": 1.0154059999622405,
+          "clockCalibration": {
+            "startTime": 1591479.449228,
+            "rawStartTime": 1526700.063038,
+            "importTime": 1591480.067474,
+            "importElapsed": 0.562035,
+            "stopTime": 1591481.361772,
+            "elapsed": 1.738669
+          },
+          "events": 1905,
+          "declarations": 13,
+          "bytes": 116317,
+          "wallMs": 1845.636928,
+          "monotonicMs": 2030.202147
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1674.999233,
+          "wallMs": 1760.323781,
+          "monotonicMs": 1936.357795
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1698.767241,
+          "exportPreparationMs": 3.704342,
+          "indexExportMs": 0.88446600001771,
+          "clockCalibration": {
+            "startTime": 1591483.41165,
+            "rawStartTime": 1526703.665238,
+            "importTime": 1591483.984026,
+            "importElapsed": 0.520336,
+            "stopTime": 1591485.202852,
+            "elapsed": 1.698767
+          },
+          "events": 1891,
+          "declarations": 13,
+          "bytes": 115475,
+          "wallMs": 1798.605768,
+          "monotonicMs": 1896.447823
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1758.879438,
+          "monotonicMs": 1901.555164
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/CategoryTheory/Localization/Quadrifunctor.lean",
+      "setup": ".lake/build/ir/Mathlib/CategoryTheory/Localization/Quadrifunctor.setup.json",
+      "medianWallMs": {
+        "native": 1787.6845604999999,
+        "baseline": 1754.7726135,
+        "compact": 1813.224799
+      },
+      "medianFrontendMs": {
+        "baseline": 1671.1214485,
+        "compact": 1712.2386984999998
+      },
+      "endToEndOverheadPercent": 1.4286770196670906
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "98506e4a3c3090d66e3a3d14645657ff099d57e8c995390332b8a49a9d3c7677",
+      "setupSha256": "10705bdc3505cdfeab83c8f399fd140098358bb9c964f46a661dc705800cfe64",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 25709.433733,
+          "wallMs": 25832.996473,
+          "monotonicMs": 27910.215552
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 25556.709939,
+          "exportPreparationMs": 11.05695,
+          "indexExportMs": 3.063057000050321,
+          "clockCalibration": {
+            "startTime": 1591515.134863,
+            "rawStartTime": 1526733.069361,
+            "importTime": 1591516.013492,
+            "importElapsed": 0.798747,
+            "stopTime": 1591542.966518,
+            "elapsed": 25.55671
+          },
+          "events": 7555,
+          "declarations": 17,
+          "bytes": 374664,
+          "wallMs": 25750.754834,
+          "monotonicMs": 28045.100022
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 25506.413538,
+          "monotonicMs": 27763.55198
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 25047.088621,
+          "exportPreparationMs": 11.134729,
+          "indexExportMs": 5.193949999986216,
+          "clockCalibration": {
+            "startTime": 1591570.94466,
+            "rawStartTime": 1526784.327574,
+            "importTime": 1591571.845857,
+            "importElapsed": 0.819265,
+            "stopTime": 1591598.264589,
+            "elapsed": 25.047089
+          },
+          "events": 7554,
+          "declarations": 17,
+          "bytes": 374691,
+          "wallMs": 25266.673025,
+          "monotonicMs": 27561.465807
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 25349.188759,
+          "monotonicMs": 27599.45801
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 25421.693704,
+          "wallMs": 25549.926852,
+          "monotonicMs": 27838.893589
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 25886.700775,
+          "monotonicMs": 28296.671965
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 25597.350925,
+          "wallMs": 25725.244821,
+          "monotonicMs": 27788.184273
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 25600.750396,
+          "exportPreparationMs": 11.803106,
+          "indexExportMs": 4.87286900007166,
+          "clockCalibration": {
+            "startTime": 1591710.027234,
+            "rawStartTime": 1526912.103409,
+            "importTime": 1591710.909783,
+            "importElapsed": 0.802313,
+            "stopTime": 1591737.931731,
+            "elapsed": 25.60075
+          },
+          "events": 7587,
+          "declarations": 17,
+          "bytes": 376099,
+          "wallMs": 25812.530835,
+          "monotonicMs": 28137.45236
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 25281.577303,
+          "wallMs": 25408.93198,
+          "monotonicMs": 27683.795434
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 24936.62842,
+          "exportPreparationMs": 10.099482,
+          "indexExportMs": 5.277461000019684,
+          "clockCalibration": {
+            "startTime": 1591765.850495,
+            "rawStartTime": 1526963.326707,
+            "importTime": 1591766.724456,
+            "importElapsed": 0.794503,
+            "stopTime": 1591792.988526,
+            "elapsed": 24.936628
+          },
+          "events": 7555,
+          "declarations": 17,
+          "bytes": 374465,
+          "wallMs": 25148.453201,
+          "monotonicMs": 27367.307474
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 25492.056345,
+          "monotonicMs": 27800.55943
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 25577.884289,
+          "exportPreparationMs": 11.49705,
+          "indexExportMs": 3.181917999871075,
+          "clockCalibration": {
+            "startTime": 1591821.014643,
+            "rawStartTime": 1527013.966967,
+            "importTime": 1591821.843461,
+            "importElapsed": 0.794885,
+            "stopTime": 1591849.011903,
+            "elapsed": 25.577884
+          },
+          "events": 7597,
+          "declarations": 17,
+          "bytes": 376650,
+          "wallMs": 25790.19649,
+          "monotonicMs": 28227.368804
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 25788.549424,
+          "monotonicMs": 28144.694234
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 24980.94098,
+          "wallMs": 25105.463948,
+          "monotonicMs": 27425.062277
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/CategoryTheory/Sites/SheafCohomology/ExactSequences.lean",
+      "setup": ".lake/build/ir/Mathlib/CategoryTheory/Sites/SheafCohomology/ExactSequences.setup.json",
+      "medianWallMs": {
+        "native": 25640.3028845,
+        "baseline": 25479.429416,
+        "compact": 25528.4347575
+      },
+      "medianFrontendMs": {
+        "baseline": 25351.6355035,
+        "compact": 25312.486455
+      },
+      "endToEndOverheadPercent": -0.436297993451662
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "7937658942536017ee78ffa8e30e0e24bd4ba992cdda9f2339804e0c543a42c2",
+      "setupSha256": "a9a1c05303080ce008cdda324814398c735f9af9b129f26423eb1838f06658dc",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 30777.939757,
+          "exportPreparationMs": 5.192622,
+          "indexExportMs": 1.9388389999512583,
+          "clockCalibration": {
+            "startTime": 1591904.822586,
+            "rawStartTime": 1527090.6579,
+            "importTime": 1591905.702267,
+            "importElapsed": 0.799704,
+            "stopTime": 1591938.427862,
+            "elapsed": 30.77794
+          },
+          "events": 2662,
+          "declarations": 16,
+          "bytes": 142270,
+          "wallMs": 30934.971093,
+          "monotonicMs": 33778.006858
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 31075.020869,
+          "monotonicMs": 33918.775293
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 31083.33118,
+          "wallMs": 31218.870016,
+          "monotonicMs": 33875.611716
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 30977.586443,
+          "monotonicMs": 33853.732076
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 31228.026158,
+          "wallMs": 31354.247561,
+          "monotonicMs": 31044.539455
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 31003.728491,
+          "exportPreparationMs": 4.700724,
+          "indexExportMs": 2.262730000074953,
+          "clockCalibration": {
+            "startTime": 1592071.286576,
+            "rawStartTime": 1527246.219172,
+            "importTime": 1592072.062799,
+            "importElapsed": 0.825673,
+            "stopTime": 1592103.719718,
+            "elapsed": 31.003728
+          },
+          "events": 2582,
+          "declarations": 16,
+          "bytes": 138427,
+          "wallMs": 31163.448842,
+          "monotonicMs": 32601.544101
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 30738.817654,
+          "wallMs": 30860.192638,
+          "monotonicMs": 31933.303393
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 30934.679837,
+          "exportPreparationMs": 4.507506,
+          "indexExportMs": 1.8713460001163185,
+          "clockCalibration": {
+            "startTime": 1592135.828292,
+            "rawStartTime": 1527308.242436,
+            "importTime": 1592136.713982,
+            "importElapsed": 0.805167,
+            "stopTime": 1592169.806011,
+            "elapsed": 30.93468
+          },
+          "events": 2685,
+          "declarations": 16,
+          "bytes": 143055,
+          "wallMs": 31092.652615,
+          "monotonicMs": 34151.481488
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 30657.473628,
+          "monotonicMs": 31933.74468
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 30666.10117,
+          "exportPreparationMs": 5.34655,
+          "indexExportMs": 1.4898040001280606,
+          "clockCalibration": {
+            "startTime": 1592201.916265,
+            "rawStartTime": 1527369.999253,
+            "importTime": 1592202.722182,
+            "importElapsed": 0.797411,
+            "stopTime": 1592234.804494,
+            "elapsed": 30.666101
+          },
+          "events": 2619,
+          "declarations": 16,
+          "bytes": 140303,
+          "wallMs": 30822.085483,
+          "monotonicMs": 33055.224577
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 31072.846039,
+          "monotonicMs": 33790.019741
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 31068.940619,
+          "wallMs": 31194.469322,
+          "monotonicMs": 33802.260593
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 31247.955423,
+          "monotonicMs": 33623.86894
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 31059.198663,
+          "wallMs": 31185.68411,
+          "monotonicMs": 34055.743189
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 31046.068418,
+          "exportPreparationMs": 4.799358,
+          "indexExportMs": 2.098517999984324,
+          "clockCalibration": {
+            "startTime": 1592370.241442,
+            "rawStartTime": 1527525.517392,
+            "importTime": 1592371.120255,
+            "importElapsed": 0.81685,
+            "stopTime": 1592403.647217,
+            "elapsed": 31.046068
+          },
+          "events": 2636,
+          "declarations": 16,
+          "bytes": 140720,
+          "wallMs": 31205.641182,
+          "monotonicMs": 33576.247611
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/CategoryTheory/Sites/SheafCohomology/MayerVietoris.lean",
+      "setup": ".lake/build/ir/Mathlib/CategoryTheory/Sites/SheafCohomology/MayerVietoris.setup.json",
+      "medianWallMs": {
+        "native": 31025.216241000002,
+        "baseline": 31190.076716,
+        "compact": 31128.0507285
+      },
+      "medianFrontendMs": {
+        "baseline": 31064.069641000002,
+        "compact": 30969.204164000002
+      },
+      "endToEndOverheadPercent": 0.3314545391116308
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "0e29fbdc2cea79e0cac5ad564f9c6b6181baf0057ccafdcbce88e3d92f9c4178",
+      "setupSha256": "fe9f752f9231bda435cce16ceb3b65857db501e34c89b08e9e42931fda8c9d3b",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 748.811264,
+          "monotonicMs": 797.696813
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 666.333786,
+          "wallMs": 738.545186,
+          "monotonicMs": 786.761319
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 718.067594,
+          "exportPreparationMs": 1.56603,
+          "indexExportMs": 0.870151000097394,
+          "clockCalibration": {
+            "startTime": 1592405.398189,
+            "rawStartTime": 1527558.207135,
+            "importTime": 1592405.900813,
+            "importElapsed": 0.471815,
+            "stopTime": 1592406.164433,
+            "elapsed": 0.718068
+          },
+          "events": 812,
+          "declarations": 20,
+          "bytes": 60247,
+          "wallMs": 805.035812,
+          "monotonicMs": 860.572379
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 657.809635,
+          "wallMs": 730.979552,
+          "monotonicMs": 804.079059
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 694.442326,
+          "exportPreparationMs": 1.840394,
+          "indexExportMs": 1.6174810000229627,
+          "clockCalibration": {
+            "startTime": 1592407.06519,
+            "rawStartTime": 1527559.744081,
+            "importTime": 1592407.565669,
+            "importElapsed": 0.454975,
+            "stopTime": 1592407.829085,
+            "elapsed": 0.694442
+          },
+          "events": 802,
+          "declarations": 20,
+          "bytes": 59694,
+          "wallMs": 779.924604,
+          "monotonicMs": 857.918703
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 786.058799,
+          "monotonicMs": 864.666615
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 702.684846,
+          "exportPreparationMs": 1.764064,
+          "indexExportMs": 0.9152430000249296,
+          "clockCalibration": {
+            "startTime": 1592408.7877,
+            "rawStartTime": 1527561.31,
+            "importTime": 1592409.301619,
+            "importElapsed": 0.467192,
+            "stopTime": 1592409.560663,
+            "elapsed": 0.702685
+          },
+          "events": 807,
+          "declarations": 20,
+          "bytes": 60123,
+          "wallMs": 788.549621,
+          "monotonicMs": 867.406378
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 745.902687,
+          "monotonicMs": 820.495609
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 686.01041,
+          "wallMs": 760.981354,
+          "monotonicMs": 837.081382
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 744.85808,
+          "monotonicMs": 819.345396
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 688.106996,
+          "wallMs": 760.812444,
+          "monotonicMs": 836.895724
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 684.434452,
+          "exportPreparationMs": 1.599897,
+          "indexExportMs": 1.858799000037834,
+          "clockCalibration": {
+            "startTime": 1592412.968926,
+            "rawStartTime": 1527565.111114,
+            "importTime": 1592413.458578,
+            "importElapsed": 0.445132,
+            "stopTime": 1592413.721813,
+            "elapsed": 0.684434
+          },
+          "events": 807,
+          "declarations": 20,
+          "bytes": 59942,
+          "wallMs": 773.943407,
+          "monotonicMs": 851.339387
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 666.979107,
+          "wallMs": 738.505281,
+          "monotonicMs": 811.850611
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 722.7227,
+          "exportPreparationMs": 1.640705,
+          "indexExportMs": 1.3137639998458326,
+          "clockCalibration": {
+            "startTime": 1592414.633038,
+            "rawStartTime": 1527566.624579,
+            "importTime": 1592415.158706,
+            "importElapsed": 0.480038,
+            "stopTime": 1592415.424456,
+            "elapsed": 0.722723
+          },
+          "events": 814,
+          "declarations": 20,
+          "bytes": 60623,
+          "wallMs": 810.064296,
+          "monotonicMs": 887.05576
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 745.487657,
+          "monotonicMs": 816.341147
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/Combinatorics/Quiver/Path/Weight.lean",
+      "setup": ".lake/build/ir/Mathlib/Combinatorics/Quiver/Path/Weight.setup.json",
+      "medianWallMs": {
+        "native": 745.695172,
+        "baseline": 749.6588624999999,
+        "compact": 784.2371125
+      },
+      "medianFrontendMs": {
+        "baseline": 676.4947585,
+        "compact": 698.563586
+      },
+      "endToEndOverheadPercent": 5.168591932361344
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "c2f9479ce9a7fcfe5e182d05069968bb4154028da8943eeca8ef7f3d8c11c55e",
+      "setupSha256": "4db15ef5879ed07876362ab9bd6fc67bf010a73e2072a6b570a562cd98e6db48",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 541.251731,
+          "wallMs": 606.344491,
+          "monotonicMs": 663.97306
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 579.639177,
+          "exportPreparationMs": 2.104797,
+          "indexExportMs": 1.2831279998645186,
+          "clockCalibration": {
+            "startTime": 1592417.002804,
+            "rawStartTime": 1527568.788667,
+            "importTime": 1592417.413297,
+            "importElapsed": 0.374859,
+            "stopTime": 1592417.63754,
+            "elapsed": 0.579639
+          },
+          "events": 931,
+          "declarations": 35,
+          "bytes": 77600,
+          "wallMs": 665.262866,
+          "monotonicMs": 728.492692
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 618.582901,
+          "monotonicMs": 677.377123
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 553.096941,
+          "exportPreparationMs": 2.163426,
+          "indexExportMs": 2.3126949998550117,
+          "clockCalibration": {
+            "startTime": 1592418.411333,
+            "rawStartTime": 1527570.074951,
+            "importTime": 1592418.797405,
+            "importElapsed": 0.352554,
+            "stopTime": 1592419.017006,
+            "elapsed": 0.553097
+          },
+          "events": 915,
+          "declarations": 35,
+          "bytes": 76328,
+          "wallMs": 638.448049,
+          "monotonicMs": 699.12829
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 625.676677,
+          "monotonicMs": 685.144046
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 546.15324,
+          "wallMs": 614.248034,
+          "monotonicMs": 672.630804
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 619.585613,
+          "monotonicMs": 678.474881
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 545.606209,
+          "wallMs": 613.922689,
+          "monotonicMs": 672.271838
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 553.126111,
+          "exportPreparationMs": 1.988174,
+          "indexExportMs": 3.2130660000257194,
+          "clockCalibration": {
+            "startTime": 1592421.819035,
+            "rawStartTime": 1527573.186887,
+            "importTime": 1592422.200578,
+            "importElapsed": 0.348422,
+            "stopTime": 1592422.411176,
+            "elapsed": 0.553126
+          },
+          "events": 911,
+          "declarations": 35,
+          "bytes": 76114,
+          "wallMs": 638.679919,
+          "monotonicMs": 682.622942
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 542.363205,
+          "wallMs": 608.41556,
+          "monotonicMs": 629.465048
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 563.17812,
+          "exportPreparationMs": 2.080667,
+          "indexExportMs": 2.212317999918014,
+          "clockCalibration": {
+            "startTime": 1592423.128743,
+            "rawStartTime": 1527574.432338,
+            "importTime": 1592423.516535,
+            "importElapsed": 0.359051,
+            "stopTime": 1592423.737001,
+            "elapsed": 0.563178
+          },
+          "events": 914,
+          "declarations": 35,
+          "bytes": 76225,
+          "wallMs": 645.197444,
+          "monotonicMs": 696.836546
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 623.007387,
+          "monotonicMs": 672.87068
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 556.129608,
+          "exportPreparationMs": 2.084042,
+          "indexExportMs": 1.2650810000486672,
+          "clockCalibration": {
+            "startTime": 1592424.500525,
+            "rawStartTime": 1527575.702471,
+            "importTime": 1592424.88155,
+            "importElapsed": 0.352783,
+            "stopTime": 1592425.101173,
+            "elapsed": 0.55613
+          },
+          "events": 921,
+          "declarations": 35,
+          "bytes": 76740,
+          "wallMs": 637.298089,
+          "monotonicMs": 688.304637
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 628.234917,
+          "monotonicMs": 678.515859
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 538.240293,
+          "wallMs": 605.868105,
+          "monotonicMs": 654.359715
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/Data/Nat/Cast/Defs.lean",
+      "setup": ".lake/build/ir/Mathlib/Data/Nat/Cast/Defs.setup.json",
+      "medianWallMs": {
+        "native": 624.342032,
+        "baseline": 611.1691245,
+        "compact": 638.563984
+      },
+      "medianFrontendMs": {
+        "baseline": 543.9847070000001,
+        "compact": 554.6278595
+      },
+      "endToEndOverheadPercent": 2.2779103874268625
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "aa331b288f19a26ea4a82ea4b0189a773b66dec098ae31b6b7d34ea30adae614",
+      "setupSha256": "b6c0999ca3c33b78ac8047ccd60d3960bd3a79b9ad0fd30e6f6327c99b3c3227",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 416.962303,
+          "exportPreparationMs": 0.438968,
+          "indexExportMs": 1.3356379999313504,
+          "clockCalibration": {
+            "startTime": 1592426.521939,
+            "rawStartTime": 1527577.574091,
+            "importTime": 1592426.87634,
+            "importElapsed": 0.328133,
+            "stopTime": 1592426.97228,
+            "elapsed": 0.416962
+          },
+          "events": 180,
+          "declarations": 6,
+          "bytes": 27989,
+          "wallMs": 490.938106,
+          "monotonicMs": 530.230019
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 478.679213,
+          "monotonicMs": 516.991019
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 438.850264,
+          "wallMs": 503.681211,
+          "monotonicMs": 543.99378
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 475.051149,
+          "monotonicMs": 513.073262
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 411.429696,
+          "wallMs": 474.034691,
+          "monotonicMs": 511.97435
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 416.488347,
+          "exportPreparationMs": 0.369076,
+          "indexExportMs": 0.4048059999477118,
+          "clockCalibration": {
+            "startTime": 1592429.140886,
+            "rawStartTime": 1527579.99897,
+            "importTime": 1592429.497488,
+            "importElapsed": 0.33017,
+            "stopTime": 1592429.590716,
+            "elapsed": 0.416488
+          },
+          "events": 175,
+          "declarations": 6,
+          "bytes": 27577,
+          "wallMs": 489.324989,
+          "monotonicMs": 528.488634
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 428.037523,
+          "wallMs": 491.014221,
+          "monotonicMs": 530.312819
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 414.811314,
+          "exportPreparationMs": 0.706392,
+          "indexExportMs": 0.4593109998386353,
+          "clockCalibration": {
+            "startTime": 1592430.197908,
+            "rawStartTime": 1527580.977664,
+            "importTime": 1592430.550629,
+            "importElapsed": 0.326576,
+            "stopTime": 1592430.645923,
+            "elapsed": 0.414811
+          },
+          "events": 175,
+          "declarations": 6,
+          "bytes": 27819,
+          "wallMs": 487.635082,
+          "monotonicMs": 526.663837
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 477.800741,
+          "monotonicMs": 516.042532
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 416.979366,
+          "exportPreparationMs": 0.551179,
+          "indexExportMs": 0.7076310000848025,
+          "clockCalibration": {
+            "startTime": 1592431.241126,
+            "rawStartTime": 1527581.943577,
+            "importTime": 1592431.594458,
+            "importElapsed": 0.327144,
+            "stopTime": 1592431.691482,
+            "elapsed": 0.416979
+          },
+          "events": 179,
+          "declarations": 6,
+          "bytes": 28060,
+          "wallMs": 489.420439,
+          "monotonicMs": 528.591443
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 486.918857,
+          "monotonicMs": 525.890321
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 410.785442,
+          "wallMs": 474.274394,
+          "monotonicMs": 512.23337
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 482.157223,
+          "monotonicMs": 520.74693
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 410.71288,
+          "wallMs": 473.998497,
+          "monotonicMs": 510.804638
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 433.07585,
+          "exportPreparationMs": 1.095003,
+          "indexExportMs": 0.4095270000398159,
+          "clockCalibration": {
+            "startTime": 1592433.838005,
+            "rawStartTime": 1527584.349517,
+            "importTime": 1592434.200504,
+            "importElapsed": 0.339898,
+            "stopTime": 1592434.299873,
+            "elapsed": 0.433076
+          },
+          "events": 183,
+          "declarations": 6,
+          "bytes": 28440,
+          "wallMs": 504.838535,
+          "monotonicMs": 538.397584
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/Init.lean",
+      "setup": ".lake/build/ir/Mathlib/Init.setup.json",
+      "medianWallMs": {
+        "native": 479.978982,
+        "baseline": 474.1545425,
+        "compact": 489.372714
+      },
+      "medianFrontendMs": {
+        "baseline": 411.107569,
+        "compact": 416.7338565
+      },
+      "endToEndOverheadPercent": 1.957113197094107
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "72a9ceb8dfa2ea614cdad2a313f19a66d9d7e28d7b6d17f7af30e9fd34baf1f8",
+      "setupSha256": "d610ecb7ce88204600be6441e159bf78ee75e5fef269f3feadd372012b3e50a1",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 727.549894,
+          "monotonicMs": 775.912849
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 611.534521,
+          "wallMs": 695.067019,
+          "monotonicMs": 741.270985
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 657.229828,
+          "exportPreparationMs": 0.695696,
+          "indexExportMs": 0.4659850001335144,
+          "clockCalibration": {
+            "startTime": 1592435.905877,
+            "rawStartTime": 1527586.288501,
+            "importTime": 1592436.57597,
+            "importElapsed": 0.62832,
+            "stopTime": 1592436.606801,
+            "elapsed": 0.65723
+          },
+          "events": 66,
+          "declarations": 1,
+          "bytes": 8199,
+          "wallMs": 751.591679,
+          "monotonicMs": 801.553048
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 609.827732,
+          "wallMs": 694.22701,
+          "monotonicMs": 740.374894
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 618.079323,
+          "exportPreparationMs": 0.174752,
+          "indexExportMs": 0.43061899999156594,
+          "clockCalibration": {
+            "startTime": 1592437.446543,
+            "rawStartTime": 1527587.733139,
+            "importTime": 1592438.073597,
+            "importElapsed": 0.587964,
+            "stopTime": 1592438.105717,
+            "elapsed": 0.618079
+          },
+          "events": 66,
+          "declarations": 1,
+          "bytes": 8362,
+          "wallMs": 711.227654,
+          "monotonicMs": 758.506192
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 731.457637,
+          "monotonicMs": 780.081277
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 624.888086,
+          "exportPreparationMs": 0.513374,
+          "indexExportMs": 0.450203999876976,
+          "clockCalibration": {
+            "startTime": 1592438.985912,
+            "rawStartTime": 1527589.17656,
+            "importTime": 1592439.623101,
+            "importElapsed": 0.597469,
+            "stopTime": 1592439.652343,
+            "elapsed": 0.624888
+          },
+          "events": 66,
+          "declarations": 1,
+          "bytes": 8156,
+          "wallMs": 718.912252,
+          "monotonicMs": 766.701602
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 703.246323,
+          "monotonicMs": 749.99407
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 659.6066,
+          "wallMs": 744.713541,
+          "monotonicMs": 794.218328
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 725.128012,
+          "monotonicMs": 773.329723
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 642.157413,
+          "wallMs": 683.677095,
+          "monotonicMs": 748.4736
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 631.348647,
+          "exportPreparationMs": 0.181138,
+          "indexExportMs": 0.44163299980573356,
+          "clockCalibration": {
+            "startTime": 1592442.819642,
+            "rawStartTime": 1527592.751892,
+            "importTime": 1592443.482363,
+            "importElapsed": 0.602468,
+            "stopTime": 1592443.514134,
+            "elapsed": 0.631349
+          },
+          "events": 66,
+          "declarations": 1,
+          "bytes": 8322,
+          "wallMs": 724.828926,
+          "monotonicMs": 797.313745
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 608.169199,
+          "wallMs": 691.896245,
+          "monotonicMs": 761.087531
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 615.79441,
+          "exportPreparationMs": 0.175088,
+          "indexExportMs": 0.536947000073269,
+          "clockCalibration": {
+            "startTime": 1592444.377272,
+            "rawStartTime": 1527594.16792,
+            "importTime": 1592445.02214,
+            "importElapsed": 0.586238,
+            "stopTime": 1592445.054655,
+            "elapsed": 0.615794
+          },
+          "events": 63,
+          "declarations": 1,
+          "bytes": 8054,
+          "wallMs": 709.839287,
+          "monotonicMs": 780.824756
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 744.713773,
+          "monotonicMs": 819.187572
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/Order/Interval/Set/Final.lean",
+      "setup": ".lake/build/ir/Mathlib/Order/Interval/Set/Final.setup.json",
+      "medianWallMs": {
+        "native": 728.2928245,
+        "baseline": 693.0616275,
+        "compact": 715.0699529999999
+      },
+      "medianFrontendMs": {
+        "baseline": 625.9925725,
+        "compact": 621.4837045
+      },
+      "endToEndOverheadPercent": -1.8155982120348524
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "77c1b5a6b5250bae5aeb8d43d1360425ad08beb4de096acc4082d2420fe74a13",
+      "setupSha256": "45a9ab82ca1f52854c354a13c9677f0b5fa5ea0f87019373c7dbceabb4bbba50",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 1614.208496,
+          "wallMs": 1698.378074,
+          "monotonicMs": 1868.218775
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 1736.064289,
+          "exportPreparationMs": 13.440626,
+          "indexExportMs": 11.951049000024796,
+          "clockCalibration": {
+            "startTime": 1592447.851866,
+            "rawStartTime": 1527597.326643,
+            "importTime": 1592448.535408,
+            "importElapsed": 0.621394,
+            "stopTime": 1592449.761547,
+            "elapsed": 1.736064
+          },
+          "events": 5737,
+          "declarations": 226,
+          "bytes": 446065,
+          "wallMs": 1885.769636,
+          "monotonicMs": 2074.34853
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 1758.519792,
+          "monotonicMs": 1920.722357
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1670.948509,
+          "exportPreparationMs": 13.360005,
+          "indexExportMs": 12.157287999987602,
+          "clockCalibration": {
+            "startTime": 1592451.847228,
+            "rawStartTime": 1527600.971642,
+            "importTime": 1592452.461548,
+            "importElapsed": 0.564328,
+            "stopTime": 1592453.666188,
+            "elapsed": 1.670949
+          },
+          "events": 5745,
+          "declarations": 226,
+          "bytes": 445594,
+          "wallMs": 1824.051585,
+          "monotonicMs": 1985.616071
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1743.060209,
+          "monotonicMs": 1897.452292
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1680.475339,
+          "wallMs": 1775.299955,
+          "monotonicMs": 1932.546983
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1803.243277,
+          "monotonicMs": 1949.881471
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1620.606229,
+          "wallMs": 1708.120095,
+          "monotonicMs": 1830.904148
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1671.533501,
+          "exportPreparationMs": 13.863639,
+          "indexExportMs": 15.586368000134826,
+          "clockCalibration": {
+            "startTime": 1592461.443723,
+            "rawStartTime": 1527609.826165,
+            "importTime": 1592462.049349,
+            "importElapsed": 0.565007,
+            "stopTime": 1592463.235417,
+            "elapsed": 1.671534
+          },
+          "events": 5770,
+          "declarations": 226,
+          "bytes": 447057,
+          "wallMs": 1841.185215,
+          "monotonicMs": 1973.533732
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1620.933901,
+          "wallMs": 1708.694999,
+          "monotonicMs": 1831.51971
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1676.159928,
+          "exportPreparationMs": 13.443986,
+          "indexExportMs": 13.209732000017539,
+          "clockCalibration": {
+            "startTime": 1592465.246507,
+            "rawStartTime": 1527613.373931,
+            "importTime": 1592465.857994,
+            "importElapsed": 0.570475,
+            "stopTime": 1592467.043159,
+            "elapsed": 1.67616
+          },
+          "events": 5756,
+          "declarations": 226,
+          "bytes": 446612,
+          "wallMs": 1827.904063,
+          "monotonicMs": 1959.297924
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1812.471977,
+          "monotonicMs": 1942.756515
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1667.149427,
+          "exportPreparationMs": 13.401995,
+          "indexExportMs": 10.951991000212729,
+          "clockCalibration": {
+            "startTime": 1592469.149842,
+            "rawStartTime": 1527617.015505,
+            "importTime": 1592469.760476,
+            "importElapsed": 0.56668,
+            "stopTime": 1592470.95093,
+            "elapsed": 1.667149
+          },
+          "events": 5762,
+          "declarations": 226,
+          "bytes": 447274,
+          "wallMs": 1817.063182,
+          "monotonicMs": 1962.845141
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1761.459345,
+          "monotonicMs": 1905.490825
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1671.663602,
+          "wallMs": 1758.779685,
+          "monotonicMs": 1902.592511
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/SetTheory/Cardinal/Aleph.lean",
+      "setup": ".lake/build/ir/Mathlib/SetTheory/Cardinal/Aleph.setup.json",
+      "medianWallMs": {
+        "native": 1782.351311,
+        "baseline": 1733.737342,
+        "compact": 1825.977824
+      },
+      "medianFrontendMs": {
+        "baseline": 1646.2987515,
+        "compact": 1671.2410049999999
+      },
+      "endToEndOverheadPercent": 2.447694387226229
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "de61a1b1a377b1370089d482c267e02c3bcfa3cafc1c9fa13dc4697f60926291",
+      "setupSha256": "38bf4355c481513c46de57c0a7dbad01a607d9a0d67945f900fc530b8c618d02",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 617.888237,
+          "exportPreparationMs": 0.380442,
+          "indexExportMs": 0.5232890001498163,
+          "clockCalibration": {
+            "startTime": 1592474.927315,
+            "rawStartTime": 1527622.358485,
+            "importTime": 1592475.547368,
+            "importElapsed": 0.573179,
+            "stopTime": 1592475.595735,
+            "elapsed": 0.617888
+          },
+          "events": 164,
+          "declarations": 4,
+          "bytes": 16466,
+          "wallMs": 710.127751,
+          "monotonicMs": 768.193684
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 709.324438,
+          "monotonicMs": 767.326504
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 596.219918,
+          "wallMs": 678.261955,
+          "monotonicMs": 733.723959
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 712.34887,
+          "monotonicMs": 775.109756
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 639.496858,
+          "wallMs": 719.66404,
+          "monotonicMs": 791.631896
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 602.872098,
+          "exportPreparationMs": 0.391406,
+          "indexExportMs": 0.8004609998315573,
+          "clockCalibration": {
+            "startTime": 1592478.762977,
+            "rawStartTime": 1527625.887236,
+            "importTime": 1592479.378896,
+            "importElapsed": 0.559921,
+            "stopTime": 1592479.426144,
+            "elapsed": 0.602872
+          },
+          "events": 162,
+          "declarations": 4,
+          "bytes": 16397,
+          "wallMs": 695.642838,
+          "monotonicMs": 765.209038
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 606.442002,
+          "wallMs": 689.164507,
+          "monotonicMs": 758.082311
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 628.932293,
+          "exportPreparationMs": 0.369926,
+          "indexExportMs": 0.9581969999708235,
+          "clockCalibration": {
+            "startTime": 1592480.287728,
+            "rawStartTime": 1527627.273373,
+            "importTime": 1592480.930049,
+            "importElapsed": 0.583922,
+            "stopTime": 1592480.979562,
+            "elapsed": 0.628932
+          },
+          "events": 163,
+          "declarations": 4,
+          "bytes": 16615,
+          "wallMs": 721.219653,
+          "monotonicMs": 793.343512
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 709.854225,
+          "monotonicMs": 780.841641
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 604.479583,
+          "exportPreparationMs": 0.37429,
+          "indexExportMs": 1.143049000063911,
+          "clockCalibration": {
+            "startTime": 1592481.862105,
+            "rawStartTime": 1527628.704625,
+            "importTime": 1592482.480272,
+            "importElapsed": 0.561964,
+            "stopTime": 1592482.527041,
+            "elapsed": 0.60448
+          },
+          "events": 155,
+          "declarations": 4,
+          "bytes": 16019,
+          "wallMs": 698.068788,
+          "monotonicMs": 767.877857
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 747.031251,
+          "monotonicMs": 821.736744
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 606.565389,
+          "wallMs": 690.544793,
+          "monotonicMs": 759.600781
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 713.663638,
+          "monotonicMs": 785.03141
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 648.887475,
+          "wallMs": 735.203875,
+          "monotonicMs": 808.727567
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 611.222867,
+          "exportPreparationMs": 0.365887,
+          "indexExportMs": 0.5740280000027269,
+          "clockCalibration": {
+            "startTime": 1592485.806228,
+            "rawStartTime": 1527632.290197,
+            "importTime": 1592486.426063,
+            "importElapsed": 0.569175,
+            "stopTime": 1592486.471783,
+            "elapsed": 0.611223
+          },
+          "events": 155,
+          "declarations": 4,
+          "bytes": 15903,
+          "wallMs": 705.849232,
+          "monotonicMs": 768.963235
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/SetTheory/Cardinal/UnivLE.lean",
+      "setup": ".lake/build/ir/Mathlib/SetTheory/Cardinal/UnivLE.setup.json",
+      "medianWallMs": {
+        "native": 713.006254,
+        "baseline": 705.1044165000001,
+        "compact": 701.95901
+      },
+      "medianFrontendMs": {
+        "baseline": 623.0311234999999,
+        "compact": 607.851225
+      },
+      "endToEndOverheadPercent": -1.5493894952567921
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "4c25302cc78e3720d62d0ae82ff7844b3dbd3ad3f4155db19e5165a7fa409e3b",
+      "setupSha256": "98bb67e3f024f18a13302988dced31bd92b04aedb2dc973f0f6909608be66844",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 896.762173,
+          "monotonicMs": 975.03371
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 844.699613,
+          "wallMs": 927.46031,
+          "monotonicMs": 1008.409706
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 817.581156,
+          "exportPreparationMs": 4.949749,
+          "indexExportMs": 4.395075000124052,
+          "clockCalibration": {
+            "startTime": 1592488.564321,
+            "rawStartTime": 1527634.826023,
+            "importTime": 1592489.179708,
+            "importElapsed": 0.565952,
+            "stopTime": 1592489.4533,
+            "elapsed": 0.817581
+          },
+          "events": 2055,
+          "declarations": 48,
+          "bytes": 159219,
+          "wallMs": 936.686106,
+          "monotonicMs": 1018.441625
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 804.181761,
+          "wallMs": 889.286323,
+          "monotonicMs": 966.903775
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 808.302242,
+          "exportPreparationMs": 4.718363,
+          "indexExportMs": 3.849705999949947,
+          "clockCalibration": {
+            "startTime": 1592490.546657,
+            "rawStartTime": 1527636.649199,
+            "importTime": 1592491.15112,
+            "importElapsed": 0.555936,
+            "stopTime": 1592491.425516,
+            "elapsed": 0.808302
+          },
+          "events": 2062,
+          "declarations": 48,
+          "bytes": 159968,
+          "wallMs": 919.478781,
+          "monotonicMs": 999.731762
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 897.899634,
+          "monotonicMs": 976.269806
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 846.763097,
+          "exportPreparationMs": 4.039072,
+          "indexExportMs": 3.6041899998672307,
+          "clockCalibration": {
+            "startTime": 1592492.528719,
+            "rawStartTime": 1527638.472156,
+            "importTime": 1592493.180155,
+            "importElapsed": 0.599136,
+            "stopTime": 1592493.449396,
+            "elapsed": 0.846763
+          },
+          "events": 2061,
+          "declarations": 48,
+          "bytes": 159474,
+          "wallMs": 964.41987,
+          "monotonicMs": 1048.595024
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 893.269088,
+          "monotonicMs": 971.234446
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 798.809277,
+          "wallMs": 886.004685,
+          "monotonicMs": 963.336207
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 890.939526,
+          "monotonicMs": 968.701802
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 791.349484,
+          "wallMs": 874.454197,
+          "monotonicMs": 937.977733
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 848.726262,
+          "exportPreparationMs": 4.069591,
+          "indexExportMs": 3.319148999871686,
+          "clockCalibration": {
+            "startTime": 1592497.413712,
+            "rawStartTime": 1527642.977841,
+            "importTime": 1592498.046341,
+            "importElapsed": 0.596917,
+            "stopTime": 1592498.313222,
+            "elapsed": 0.848726
+          },
+          "events": 2059,
+          "declarations": 48,
+          "bytes": 159699,
+          "wallMs": 960.062147,
+          "monotonicMs": 1017.500897
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 797.93895,
+          "wallMs": 880.269554,
+          "monotonicMs": 932.934713
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 807.323946,
+          "exportPreparationMs": 4.025966,
+          "indexExportMs": 3.3075699999462813,
+          "clockCalibration": {
+            "startTime": 1592499.361628,
+            "rawStartTime": 1527644.815799,
+            "importTime": 1592499.956173,
+            "importElapsed": 0.560977,
+            "stopTime": 1592500.217259,
+            "elapsed": 0.807324
+          },
+          "events": 2049,
+          "declarations": 48,
+          "bytes": 158642,
+          "wallMs": 915.862779,
+          "monotonicMs": 970.659324
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 888.374733,
+          "monotonicMs": 941.526233
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/Topology/Compactification/StoneCech.lean",
+      "setup": ".lake/build/ir/Mathlib/Topology/Compactification/StoneCech.setup.json",
+      "medianWallMs": {
+        "native": 892.1043070000001,
+        "baseline": 883.1371194999999,
+        "compact": 939.770464
+      },
+      "medianFrontendMs": {
+        "baseline": 798.3741135,
+        "compact": 827.5326695
+      },
+      "endToEndOverheadPercent": 5.343114770995028
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "ba804ff6a2bd28aea83da56dfc339e565745a088d7aeac977643410f1dae8f74",
+      "setupSha256": "385af8d8c0e5df840a8a212c5d073ee61f4ead8006904d75d8de68aecd522020",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 605.218682,
+          "wallMs": 684.426828,
+          "monotonicMs": 725.374737
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 658.995434,
+          "exportPreparationMs": 2.105227,
+          "indexExportMs": 1.4929990000091493,
+          "clockCalibration": {
+            "startTime": 1592502.005075,
+            "rawStartTime": 1527647.310026,
+            "importTime": 1592502.606688,
+            "importElapsed": 0.567646,
+            "stopTime": 1592502.703505,
+            "elapsed": 0.658995
+          },
+          "events": 493,
+          "declarations": 39,
+          "bytes": 54026,
+          "wallMs": 752.211061,
+          "monotonicMs": 797.215226
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 709.953433,
+          "monotonicMs": 752.428981
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 604.580855,
+          "exportPreparationMs": 1.083285,
+          "indexExportMs": 1.9897519999649376,
+          "clockCalibration": {
+            "startTime": 1592503.559929,
+            "rawStartTime": 1527648.77711,
+            "importTime": 1592504.11032,
+            "importElapsed": 0.519315,
+            "stopTime": 1592504.200689,
+            "elapsed": 0.604581
+          },
+          "events": 490,
+          "declarations": 39,
+          "bytes": 53803,
+          "wallMs": 701.87047,
+          "monotonicMs": 743.862664
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 769.786147,
+          "monotonicMs": 815.841335
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 642.077692,
+          "wallMs": 722.454819,
+          "monotonicMs": 793.726244
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 703.188915,
+          "monotonicMs": 773.51099
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 677.91068,
+          "wallMs": 757.470492,
+          "monotonicMs": 833.219346
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 625.242773,
+          "exportPreparationMs": 1.20966,
+          "indexExportMs": 0.903251999989152,
+          "clockCalibration": {
+            "startTime": 1592507.519092,
+            "rawStartTime": 1527652.429384,
+            "importTime": 1592508.111177,
+            "importElapsed": 0.538253,
+            "stopTime": 1592508.206869,
+            "elapsed": 0.625243
+          },
+          "events": 497,
+          "declarations": 39,
+          "bytes": 54338,
+          "wallMs": 716.796068,
+          "monotonicMs": 788.477414
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 610.256973,
+          "wallMs": 688.790544,
+          "monotonicMs": 757.670974
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 646.074379,
+          "exportPreparationMs": 1.23461,
+          "indexExportMs": 0.710062000202015,
+          "clockCalibration": {
+            "startTime": 1592509.077038,
+            "rawStartTime": 1527653.845699,
+            "importTime": 1592509.691388,
+            "importElapsed": 0.558493,
+            "stopTime": 1592509.78773,
+            "elapsed": 0.646074
+          },
+          "events": 493,
+          "declarations": 39,
+          "bytes": 53990,
+          "wallMs": 749.075585,
+          "monotonicMs": 823.98486
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 715.104383,
+          "monotonicMs": 786.616648
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 603.302592,
+          "exportPreparationMs": 1.118484,
+          "indexExportMs": 0.824244000017643,
+          "clockCalibration": {
+            "startTime": 1592510.675531,
+            "rawStartTime": 1527655.298874,
+            "importTime": 1592511.247579,
+            "importElapsed": 0.520037,
+            "stopTime": 1592511.339173,
+            "elapsed": 0.603303
+          },
+          "events": 497,
+          "declarations": 39,
+          "bytes": 54127,
+          "wallMs": 692.446165,
+          "monotonicMs": 761.692786
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 754.434888,
+          "monotonicMs": 829.880656
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 602.909603,
+          "wallMs": 681.855644,
+          "monotonicMs": 750.04277
+        }
+      ],
+      "corpus": "Mathlib",
+      "file": "Mathlib/Topology/Defs/Induced.lean",
+      "setup": ".lake/build/ir/Mathlib/Topology/Defs/Induced.setup.json",
+      "medianWallMs": {
+        "native": 734.7696355,
+        "baseline": 705.6226815,
+        "compact": 709.333269
+      },
+      "medianFrontendMs": {
+        "baseline": 626.1673324999999,
+        "compact": 614.911814
+      },
+      "endToEndOverheadPercent": -3.461815141924174
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "ff3dd68645d2216fae6639fb04fb85e79c32a6af38fa5a58b51b382d83d95c63",
+      "setupSha256": "cffc4b194bde463b547de358c8d5bcff4fb2eb8f7da247685bb7e31458740e60",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 162.565281,
+          "exportPreparationMs": 0.107519,
+          "indexExportMs": 0.5349409999325871,
+          "clockCalibration": {
+            "startTime": 1592514.178445,
+            "rawStartTime": 1527658.483337,
+            "importTime": 1592514.353148,
+            "importElapsed": 0.158818,
+            "stopTime": 1592514.357272,
+            "elapsed": 0.162565
+          },
+          "events": 12,
+          "declarations": 1,
+          "bytes": 3279,
+          "wallMs": 1260.345987,
+          "monotonicMs": 1386.381684
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 181.303554,
+          "monotonicMs": 199.435506
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 143.574327,
+          "wallMs": 177.889956,
+          "monotonicMs": 195.680437
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 181.542946,
+          "monotonicMs": 199.698618
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 147.010434,
+          "wallMs": 181.508111,
+          "monotonicMs": 199.660882
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 149.262344,
+          "exportPreparationMs": 0.105801,
+          "indexExportMs": 0.3991149999201298,
+          "clockCalibration": {
+            "startTime": 1592515.195821,
+            "rawStartTime": 1527659.408223,
+            "importTime": 1592515.356523,
+            "importElapsed": 0.146091,
+            "stopTime": 1592515.360014,
+            "elapsed": 0.149262
+          },
+          "events": 12,
+          "declarations": 1,
+          "bytes": 3282,
+          "wallMs": 188.634794,
+          "monotonicMs": 207.500046
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 147.324111,
+          "wallMs": 179.325982,
+          "monotonicMs": 197.259494
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 147.540827,
+          "exportPreparationMs": 0.100003,
+          "indexExportMs": 0.8073990000411868,
+          "clockCalibration": {
+            "startTime": 1592515.600961,
+            "rawStartTime": 1527659.776533,
+            "importTime": 1592515.759584,
+            "importElapsed": 0.1442,
+            "stopTime": 1592515.763261,
+            "elapsed": 0.147541
+          },
+          "events": 11,
+          "declarations": 1,
+          "bytes": 3215,
+          "wallMs": 187.32191,
+          "monotonicMs": 206.055576
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 176.202974,
+          "monotonicMs": 193.825662
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 152.144888,
+          "exportPreparationMs": 0.104136,
+          "indexExportMs": 0.38599999994039536,
+          "clockCalibration": {
+            "startTime": 1592516.001567,
+            "rawStartTime": 1527660.140721,
+            "importTime": 1592516.165358,
+            "importElapsed": 0.148898,
+            "stopTime": 1592516.168932,
+            "elapsed": 0.152145
+          },
+          "events": 12,
+          "declarations": 1,
+          "bytes": 3281,
+          "wallMs": 191.8776,
+          "monotonicMs": 211.066791
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 180.214123,
+          "monotonicMs": 198.238708
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 144.004297,
+          "wallMs": 176.848646,
+          "monotonicMs": 194.535196
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 177.37445,
+          "monotonicMs": 195.113262
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 144.787288,
+          "wallMs": 177.518373,
+          "monotonicMs": 195.271809
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 147.758429,
+          "exportPreparationMs": 0.105161,
+          "indexExportMs": 0.39651399990543723,
+          "clockCalibration": {
+            "startTime": 1592516.996174,
+            "rawStartTime": 1527661.044909,
+            "importTime": 1592517.153093,
+            "importElapsed": 0.142652,
+            "stopTime": 1592517.158713,
+            "elapsed": 0.147758
+          },
+          "events": 12,
+          "declarations": 1,
+          "bytes": 3280,
+          "wallMs": 187.929405,
+          "monotonicMs": 206.725939
+        }
+      ],
+      "corpus": "LeanPool",
+      "file": "LeanPool/Basic.lean",
+      "setup": ".lake/build/ir/LeanPool/Basic.setup.json",
+      "medianWallMs": {
+        "native": 178.7942865,
+        "baseline": 178.4221775,
+        "compact": 188.28209950000002
+      },
+      "medianFrontendMs": {
+        "baseline": 145.898861,
+        "compact": 148.5103865
+      },
+      "endToEndOverheadPercent": 5.306552678907894
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "6786185f11f3052aae3b200d8f0211ef58a68a8030f5287102814551e09a5efd",
+      "setupSha256": "bbc145402751926de38db93c8a7e8cae0dc37ee17ac1fe1fdb0366bcaa737117",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 3053.734325,
+          "monotonicMs": 3359.110073
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 1457.503625,
+          "wallMs": 1556.899006,
+          "monotonicMs": 1693.054709
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 1493.907314,
+          "exportPreparationMs": 3.27314,
+          "indexExportMs": 2.208343000151217,
+          "clockCalibration": {
+            "startTime": 1592522.269018,
+            "rawStartTime": 1527665.857482,
+            "importTime": 1592522.911485,
+            "importElapsed": 0.601993,
+            "stopTime": 1592523.863362,
+            "elapsed": 1.493907
+          },
+          "events": 1406,
+          "declarations": 25,
+          "bytes": 112220,
+          "wallMs": 1604.661068,
+          "monotonicMs": 1712.539303
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1510.957226,
+          "wallMs": 1600.469758,
+          "monotonicMs": 1708.065614
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1496.268927,
+          "exportPreparationMs": 3.24003,
+          "indexExportMs": 2.236324999947101,
+          "clockCalibration": {
+            "startTime": 1592525.687182,
+            "rawStartTime": 1527669.060329,
+            "importTime": 1592526.324221,
+            "importElapsed": 0.596907,
+            "stopTime": 1592527.284045,
+            "elapsed": 1.496269
+          },
+          "events": 1406,
+          "declarations": 25,
+          "bytes": 112096,
+          "wallMs": 1606.329981,
+          "monotonicMs": 1714.320304
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1627.719138,
+          "monotonicMs": 1737.147333
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1490.016985,
+          "exportPreparationMs": 3.265446,
+          "indexExportMs": 3.513479000190273,
+          "clockCalibration": {
+            "startTime": 1592529.136999,
+            "rawStartTime": 1527672.292835,
+            "importTime": 1592529.776452,
+            "importElapsed": 0.599168,
+            "stopTime": 1592530.727191,
+            "elapsed": 1.490017
+          },
+          "events": 1395,
+          "declarations": 25,
+          "bytes": 111474,
+          "wallMs": 1595.237309,
+          "monotonicMs": 1702.481393
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1697.932902,
+          "monotonicMs": 1812.081827
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1454.980548,
+          "wallMs": 1540.878746,
+          "monotonicMs": 1650.967754
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1623.552038,
+          "monotonicMs": 1742.30736
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1543.315076,
+          "wallMs": 1632.689385,
+          "monotonicMs": 1752.112802
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1541.319976,
+          "exportPreparationMs": 3.354664,
+          "indexExportMs": 2.3350339999888092,
+          "clockCalibration": {
+            "startTime": 1592537.798931,
+            "rawStartTime": 1527680.38476,
+            "importTime": 1592538.447336,
+            "importElapsed": 0.604208,
+            "stopTime": 1592539.452994,
+            "elapsed": 1.54132
+          },
+          "events": 1406,
+          "declarations": 25,
+          "bytes": 112054,
+          "wallMs": 1646.5766,
+          "monotonicMs": 1767.015605
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 1479.622383,
+          "wallMs": 1569.105158,
+          "monotonicMs": 1683.877239
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 1486.926398,
+          "exportPreparationMs": 3.282996,
+          "indexExportMs": 2.2294080001302063,
+          "clockCalibration": {
+            "startTime": 1592541.249635,
+            "rawStartTime": 1527683.600269,
+            "importTime": 1592541.909404,
+            "importElapsed": 0.60119,
+            "stopTime": 1592542.883716,
+            "elapsed": 1.486926
+          },
+          "events": 1406,
+          "declarations": 25,
+          "bytes": 112058,
+          "wallMs": 1591.588145,
+          "monotonicMs": 1748.11204
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 1681.533676,
+          "monotonicMs": 1849.688625
+        }
+      ],
+      "corpus": "LeanPool",
+      "file": "LeanPool/FiveEighthsTheorem/Basic.lean",
+      "setup": ".lake/build/ir/LeanPool/FiveEighthsTheorem/Basic.setup.json",
+      "medianWallMs": {
+        "native": 1654.626407,
+        "baseline": 1584.787458,
+        "compact": 1600.783645
+      },
+      "medianFrontendMs": {
+        "baseline": 1495.2898045,
+        "compact": 1493.1429560000001
+      },
+      "endToEndOverheadPercent": -3.25407365506889
+    },
+    {
+      "driverSha256": "7c8274490dc2a1de8609e5abee6b54a5526340e714d34d385e58c81d43fbae26",
+      "clockSha256": "ea0e1885b87f577820a72df662010d12fd6a08edc7e24d5e683f00d9728db68e",
+      "sourceSha256": "bf754a72625ce7af0b59b07f5af305a66dcdda7e7f5b393843bf889888e50435",
+      "setupSha256": "f4dbe4d8833547723c66782f733abba4858fcf0b70b91ef740c1e8f4a605de42",
+      "runs": [
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "baseline",
+          "frontendMs": 4626.398566,
+          "wallMs": 4747.44611,
+          "monotonicMs": 5220.527946
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "compact",
+          "frontendMs": 3551.164348,
+          "exportPreparationMs": 4.773334,
+          "indexExportMs": 1.3400580000597984,
+          "clockCalibration": {
+            "startTime": 1592550.083107,
+            "rawStartTime": 1527691.634077,
+            "importTime": 1592551.060009,
+            "importElapsed": 0.896756,
+            "stopTime": 1592553.951639,
+            "elapsed": 3.551164
+          },
+          "events": 1558,
+          "declarations": 19,
+          "bytes": 111668,
+          "wallMs": 3707.111523,
+          "monotonicMs": 4038.415477
+        },
+        {
+          "repeat": -1,
+          "warmup": true,
+          "mode": "native",
+          "wallMs": 3505.948859,
+          "monotonicMs": 3819.276767
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 3546.898848,
+          "exportPreparationMs": 3.729611,
+          "indexExportMs": 1.38706300011836,
+          "clockCalibration": {
+            "startTime": 1592557.941891,
+            "rawStartTime": 1527698.848144,
+            "importTime": 1592558.99579,
+            "importElapsed": 0.967436,
+            "stopTime": 1592561.777143,
+            "elapsed": 3.546899
+          },
+          "events": 1553,
+          "declarations": 19,
+          "bytes": 111790,
+          "wallMs": 3687.97296,
+          "monotonicMs": 3986.274144
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 3467.141723,
+          "monotonicMs": 3677.564046
+        },
+        {
+          "repeat": 0,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 3408.779861,
+          "wallMs": 3528.234285,
+          "monotonicMs": 3750.243369
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 3636.194939,
+          "monotonicMs": 3999.816649
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 3351.402873,
+          "wallMs": 3474.083682,
+          "monotonicMs": 3821.494035
+        },
+        {
+          "repeat": 1,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 3540.812734,
+          "exportPreparationMs": 3.92518,
+          "indexExportMs": 1.4356749998405576,
+          "clockCalibration": {
+            "startTime": 1592577.179167,
+            "rawStartTime": 1527716.643029,
+            "importTime": 1592578.220878,
+            "importElapsed": 0.947007,
+            "stopTime": 1592581.074062,
+            "elapsed": 3.540813
+          },
+          "events": 1565,
+          "declarations": 19,
+          "bytes": 112377,
+          "wallMs": 3681.528894,
+          "monotonicMs": 4049.6836
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 3492.415173,
+          "wallMs": 3624.342687,
+          "monotonicMs": 3986.778178
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 3580.158773,
+          "exportPreparationMs": 3.678628,
+          "indexExportMs": 1.5103039999958128,
+          "clockCalibration": {
+            "startTime": 1592585.213802,
+            "rawStartTime": 1527723.947244,
+            "importTime": 1592586.210747,
+            "importElapsed": 0.919119,
+            "stopTime": 1592589.051666,
+            "elapsed": 3.580159
+          },
+          "events": 1546,
+          "declarations": 19,
+          "bytes": 111644,
+          "wallMs": 3722.743013,
+          "monotonicMs": 3991.617867
+        },
+        {
+          "repeat": 2,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 3517.485299,
+          "monotonicMs": 3755.25691
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "compact",
+          "frontendMs": 3499.308325,
+          "exportPreparationMs": 4.246484,
+          "indexExportMs": 1.6416810001246631,
+          "clockCalibration": {
+            "startTime": 1592592.959581,
+            "rawStartTime": 1527731.187887,
+            "importTime": 1592593.971686,
+            "importElapsed": 0.948019,
+            "stopTime": 1592596.695436,
+            "elapsed": 3.499308
+          },
+          "events": 1539,
+          "declarations": 19,
+          "bytes": 111062,
+          "wallMs": 3640.133637,
+          "monotonicMs": 3886.197894
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "native",
+          "wallMs": 3544.3759,
+          "monotonicMs": 3834.629288
+        },
+        {
+          "repeat": 3,
+          "warmup": false,
+          "mode": "baseline",
+          "frontendMs": 3444.237259,
+          "wallMs": 3567.245051,
+          "monotonicMs": 3863.106163
+        }
+      ],
+      "corpus": "LeanPool",
+      "file": "LeanPool/NavierStokesAndEuler/Euler/AllOrderCorrectionBudget.lean",
+      "setup": ".lake/build/ir/LeanPool/NavierStokesAndEuler/Euler/AllOrderCorrectionBudget.setup.json",
+      "medianWallMs": {
+        "native": 3530.9305995,
+        "baseline": 3547.739668,
+        "compact": 3684.750927
+      },
+      "medianFrontendMs": {
+        "baseline": 3426.50856,
+        "compact": 3543.855791
+      },
+      "endToEndOverheadPercent": 4.35636790827274
+    }
+  ]
+}
