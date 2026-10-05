@@ -43,7 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
         const cancel = token.onCancellationRequested(() => controller.abort());
         try {
           progress.report({ message: 'Capturing source ranges and elaboration timings…' });
-          return await capture({ file, extensionRoot: context.extensionPath, thresholdMs: config.get<number>('thresholdMs', 1), lakePath: config.get<string>('lakePath', 'lake'), signal: controller.signal, onLog: s => {
+          return await capture({ file, extensionRoot: context.extensionPath, mode: config.get<'compact' | 'detailed'>('captureMode', 'compact'), thresholdMs: config.get<number>('thresholdMs', 1), lakePath: config.get<string>('lakePath', 'lake'), signal: controller.signal, onLog: s => {
             output.append(s);
             if (/format|render|export/i.test(s)) progress.report({ message: 'Elaboration complete; rendering expressions and saving the recording…' });
           } });

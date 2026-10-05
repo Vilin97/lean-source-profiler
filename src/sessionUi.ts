@@ -68,7 +68,7 @@ export class SessionUI implements vscode.Disposable {
       const config=vscode.workspace.getConfiguration('leanSourceProfiler',uri);
       const session=await vscode.window.withProgress({location:vscode.ProgressLocation.Notification,title:`Profiling ${path.basename(target)}`,cancellable:true},async(progress,token)=>{
         const cancel=token.onCancellationRequested(()=>controller.abort());
-        try{return await captureSession({target,extensionRoot:this.context.extensionPath,thresholdMs:config.get<number>('thresholdMs',1),lakePath:config.get<string>('lakePath','lake'),signal:controller.signal,
+        try{return await captureSession({target,extensionRoot:this.context.extensionPath,mode:config.get<'compact'|'detailed'>('captureMode','compact'),thresholdMs:config.get<number>('thresholdMs',1),lakePath:config.get<string>('lakePath','lake'),signal:controller.signal,
           onLog:s=>{this.output.append(s);const match=s.match(/^\[(\d+)\/(\d+)\] (.+)/);if(match)progress.report({message:`${match[1]}/${match[2]} ${match[3]}`});},
           onProgress:p=>progress.report({message:`${p.completed}/${p.total} completed`,increment:100/p.total})});}finally{cancel.dispose();}
       });

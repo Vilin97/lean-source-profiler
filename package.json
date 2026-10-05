@@ -2,7 +2,7 @@
   "name": "lean-source-profiler",
   "displayName": "Lean Source Profiler",
   "description": "Profile Lean files, folders, and projects; explore repository costs and source overlays.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "local-lean-tools",
   "license": "MIT AND Apache-2.0",
   "engines": {
@@ -180,6 +180,13 @@
     "configuration": {
       "title": "Lean Source Profiler",
       "properties": {
+        "leanSourceProfiler.captureMode": {
+          "type": "string",
+          "enum": ["compact", "detailed"],
+          "default": "compact",
+          "description": "Compact captures preserve timing, source ranges and declarations. Detailed captures also format expressions and resolve imported definitions, which can take substantially longer.",
+          "scope": "resource"
+        },
         "leanSourceProfiler.thresholdMs": {
           "type": "integer",
           "default": 1,
@@ -202,6 +209,7 @@
     "test": "npm run build && node --test test/*.test.cjs",
     "test:extension": "node test/run-extension.cjs",
     "test:accuracy": "npm run build && node test/capture.integration.cjs",
+    "test:source-focused": "npm run build && node test/compact.integration.cjs && node test/setup.integration.cjs && node test/raw-clock.integration.cjs",
     "package": "node scripts/package-release.mjs --vsix-only",
     "vscode:prepublish": "npm run build",
     "release": "node scripts/package-release.mjs"
@@ -230,10 +238,14 @@
     "out/*.js",
     "out/*.js.map",
     "lean/SourceProfiler.lean",
+    "lean/Clock.c",
     "lean/README.md",
     "README.md",
     "LICENSE",
     "docs/INSTALL.md",
+    "docs/LOW-OVERHEAD.md",
+    "docs/benchmarks/*.json",
+    "docs/benchmarks/*.csv",
     "docs/SESSION-FORMAT.md",
     "media/*.js",
     "media/*.css",

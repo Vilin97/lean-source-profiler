@@ -6,6 +6,7 @@ test/results/
 *.olean
 *.ilean
 *.c
+!lean/Clock.c
 .DS_Store
 .lake/
 .leanprofiles/
