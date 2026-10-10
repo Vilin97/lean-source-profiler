@@ -18,7 +18,7 @@ async function api(route){
   const request=new URL(route,'https://snapshot.invalid/');
   const asset=request.pathname==='/overview'?'data/overview.json.gz':request.pathname==='/file'&&/^\d+$/.test(request.searchParams.get('id')||'')?'data/files/'+request.searchParams.get('id')+'.json.gz':null;
   if(!asset)throw Error('Unknown snapshot request');
-  const response=await fetch(new URL(asset,location.href));
+  const response=await fetch(new URL(asset,location.href),{cache:'no-store'});
   if(!response.ok)throw Error('Could not load '+asset+' ('+response.status+')');
   if(typeof DecompressionStream==='undefined')throw Error('Please use a current browser to open this compressed recording.');
   const decompressed=response.body.pipeThrough(new DecompressionStream('gzip'));
@@ -58,6 +58,7 @@ function buildRadarTree(data){
 async function loadFile(file){
   if(file.loaded)return;
   let data=loaded.get(file.id);if(!data){data=await api('file?id='+encodeURIComponent(file.id));loaded.set(file.id,data);}
+  if(data.path!==file.path)throw Error('The snapshot changed. Reload the snapshot to continue.');
   file.source=data.source;file.children=data.children.map(d=>({...d,parent:file,file,children:d.children.map(line=>({...line,file}))}));
   for(const d of file.children)for(const line of d.children)line.parent=d;
   file.loaded=true;
@@ -156,7 +157,7 @@ function operations(file,line){
 function showError(error){$('progress').textContent='Could not load recording: '+error.message;$('progress').className='error';}
 async function refresh(){
   const request=++sequence;
-  try{const data=await api('overview');if(request!==sequence)return;overview=data;
+  try{const data=await api('overview');if(request!==sequence)return;loaded.clear();overview=data;
     if(radar()){
       const previous=metric;$('metric').replaceChildren(...[['instructions','CPU instructions'],['lines','Source line count']].map(([value,label])=>{const option=element('option',label);option.value=value;return option;}));
       metric=['instructions','lines'].includes(previous)?previous:'instructions';$('metric').value=metric;

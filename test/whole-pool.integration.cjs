@@ -1,0 +1,47 @@
+'use strict';
+const fs = require('node:fs/promises');
+const os = require('node:os');
+const path = require('node:path');
+const assert = require('node:assert/strict');
+const { execFileSync } = require('node:child_process');
+const { capturePool, audit, inventory } = require('../scripts/capture-whole-pool.cjs');
+
+async function main() {
+  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'whole-pool-integration-'));
+  const repository = path.join(directory, 'repository'), output = path.join(directory, 'recording');
+  await fs.mkdir(path.join(repository, 'LeanPool/Example'), { recursive: true });
+  await fs.mkdir(path.join(repository, 'LeanPool/projects'));
+  await fs.writeFile(path.join(repository, 'lean-toolchain'), 'leanprover/lean4:v4.35.0-rc3\n');
+  await fs.writeFile(path.join(repository, 'lakefile.toml'), 'name = "weekly-profile-fixture"\n[leanOptions]\nrelaxedAutoImplicit = false\n[[lean_lib]]\nname = "LeanPool"\nglobs = ["LeanPool.*"]\n');
+  await fs.writeFile(path.join(repository, 'LeanPool/Basic.lean'), 'theorem basic_example : True := by trivial\n');
+  await fs.writeFile(path.join(repository, 'LeanPool/Example/Unimported.lean'), 'theorem unimported_example : 1 + 1 = 2 := by decide\n');
+  await fs.writeFile(path.join(repository, 'LeanPool/projects/example.yaml'), 'name: Example\npath: LeanPool/Example\n');
+  await fs.writeFile(path.join(repository, 'LICENSE'), 'Fixture license\n');
+  await fs.writeFile(path.join(repository, 'NOTICE'), 'Fixture notice\n');
+  const lake = process.env.LAKE || 'lake';
+  execFileSync(lake, ['update'], { cwd: repository, stdio: 'inherit' });
+  execFileSync('git', ['init', '-q'], { cwd: repository });
+  execFileSync('git', ['add', '.'], { cwd: repository });
+  execFileSync('git', ['-c', 'user.name=Profile Test', '-c', 'user.email=profile@example.invalid', 'commit', '-qm', 'fixture'], { cwd: repository });
+  const controller = new AbortController();
+  await capturePool(repository, output, lake, controller.signal);
+  const coverage = JSON.parse(await fs.readFile(path.join(output, 'final-coverage.json')));
+  assert.equal(coverage.result, 'PASS');
+  assert.equal(coverage.successful, 2);
+  const before = await fs.stat(path.join(output, 'raw/000000.leanprofile.json'));
+  await capturePool(repository, output, lake, controller.signal);
+  assert.equal((await fs.stat(path.join(output, 'raw/000000.leanprofile.json'))).mtimeMs, before.mtimeMs);
+  execFileSync('python3', ['scripts/export-whole-pool.py', output, path.join(directory, 'export')], { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' });
+  const manifest = JSON.parse(await fs.readFile(path.join(directory, 'export/manifest.json')));
+  assert.equal(manifest.fileCount, 2);
+  assert.equal((await fs.readFile(path.join(directory, 'export/projects/example.yaml'), 'utf8')).startsWith('name: Example'), true);
+  const expected = await inventory(repository, controller.signal);
+  await fs.appendFile(path.join(output, 'raw/000000.leanprofile.json'), ' ');
+  await assert.rejects(audit(repository, output, expected, controller.signal), /Missing or changed/);
+  await capturePool(repository, output, lake, controller.signal);
+  await fs.appendFile(path.join(repository, 'LeanPool/Basic.lean'), '-- source changed\n');
+  await assert.rejects(audit(repository, output, expected, controller.signal), /Final source inventory/);
+  console.log('PASS: native builds, unimported module coverage, capture/audit/export, resume, corrupt capture recovery and changed-source rejection');
+  await fs.rm(directory, { recursive: true, force: true });
+}
+main().catch(error => { console.error(error); process.exitCode = 1; });

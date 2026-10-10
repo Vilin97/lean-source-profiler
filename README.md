@@ -9,7 +9,7 @@ Captures now default to **source-focused compact mode**. The driver is compiled 
 **[Download the VS Code extension](https://github.com/Vilin97/lean-source-profiler/releases/latest/download/lean-source-profiler.vsix)** · **[Installation guide](docs/INSTALL.md)** · **[Latest release](https://github.com/Vilin97/lean-source-profiler/releases/latest)**
 
 [**Explore the whole LeanPool profile**](https://vilin97.github.io/lean-source-profiler/pool/)
-All **7,060 files** across **214 project groups**, with a flame-like explorer from projects to folders, files, declarations, and individual source lines. The complete capture took **55 hours 34 minutes elapsed**; all files passed their native builds and the final coverage audit. [Dataset, timing definitions, and provenance](docs/WHOLE-POOL.md).
+Updated weekly on an Azure VM, with a flame-like explorer from projects to folders, files, declarations, and individual source lines. New snapshots are published only after every inventoried module passes its native build, capture and final coverage audit. Long captures checkpoint completed files and resume after interruption. [Dataset, timing definitions, and provenance](docs/WHOLE-POOL.md).
 
 [**Explore Mathlib's Radar benchmarks**](https://vilin97.github.io/lean-source-profiler/mathlib/)
 All **8,556 Mathlib files**, with the same flame explorer from folders to files, weighted by CPU instructions or source line count. [Dataset and measurement limits](docs/MATHLIB-RADAR.md). [Measured LeanPool timing repeatability](docs/REPEATABILITY.md).

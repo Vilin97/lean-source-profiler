@@ -13,6 +13,7 @@ FILE_FIELDS = {
     "id", "name", "kind", "path", "value", "sourceValue", "captureWallMs",
     "eventCount", "thresholdMs", "leanVersion", "profilingOptions", "exporter",
     "exporterDriverSha256",
+    "captureMode", "sourceClock", "configurationMode", "moduleOptions",
 }
 SESSION_FIELDS = {
     "schemaVersion", "kind", "startedAt", "completedAt", "status", "wallMs",
@@ -113,10 +114,18 @@ def main():
     }
     (destination / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     (destination / "coverage.json").write_text(json.dumps(coverage, indent=2) + "\n")
+    badge = {"schemaVersion": 1, "label": "source profile",
+             "message": session["completedAt"][:10], "color": "166a94"}
+    (destination / "badge.json").write_text(json.dumps(badge, indent=2) + "\n")
     repository = Path(inventory["repository"])
-    for source, target in [("LICENSE", "LEANPOOL-LICENSE"), ("NOTICE", "LEANPOOL-NOTICE"),
-                           ("LeanPool/projects.yml", "projects.yml")]:
+    for source, target in [("LICENSE", "LEANPOOL-LICENSE"), ("NOTICE", "LEANPOOL-NOTICE")]:
         shutil.copyfile(repository / source, destination / target)
+    registry = repository / "LeanPool/projects.yml"
+    if registry.exists():
+        shutil.copyfile(registry, destination / "projects.yml")
+    else:
+        shutil.copytree(repository / "LeanPool/projects", destination / "projects",
+                        dirs_exist_ok=True)
     print(json.dumps({"result": "PASS", "files": len(files),
                       "compressedBytes": sum(file["bytes"] for file in files) + overview["bytes"],
                       "sourceHashesVerified": len(files)}), flush=True)
