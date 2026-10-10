@@ -121,7 +121,7 @@ function renderDetail(){
   if(!file){detail.append(element('h2','Recording coverage'),element('p',`${overview.session.files.filter(f=>f.status==='ok').length} successful files of ${overview.session.plannedFileCount}. Captured files retain their declarations, source-line timing anchors and original source headers. All inventory groups remain visible.`));
     for(const f of overview.session.files.filter(f=>f.status==='error'))detail.append(element('p',f.path+': '+f.error,'error'));return;}
   detail.append(element('h2',file.path),element('p',`${duration(file.value)} frontend · ${duration(file.sourceValue)} source-attributed · ${duration(file.captureWallMs||0)} capture wall time`));
-  detail.append(element('p',`Internal operation threshold: ${file.thresholdMs ?? 1} ms. Source scopes are retained below this threshold.`));
+  detail.append(element('p',file.captureMode==='compact'?'Compact source capture: nested source scopes and declaration ranges are retained.':`Internal operation threshold: ${file.thresholdMs ?? 1} ms. Source scopes are retained below this threshold.`));
   if(file.profilingOptions?.maxHeartbeats)detail.append(element('p',`Profiling heartbeat allowance: ${file.profilingOptions.maxHeartbeats.toLocaleString()}. The uninstrumented file passed with its native Lake settings; this extra allowance covers profiling overhead.`));
   if(file.profilingOptions?.['synthInstance.maxHeartbeats'])detail.append(element('p',`Typeclass search allowance during profiling: ${file.profilingOptions['synthInstance.maxHeartbeats'].toLocaleString()}.`));
   if(current.inclusiveMs!==undefined)detail.append(element('p',`Original inclusive declaration timing: ${duration(current.inclusiveMs)}. Inclusive timings may overlap; bar widths use the allocation described above.`));
@@ -152,7 +152,8 @@ function renderRadarDetail(detail,file){
 function operations(file,line){
   const target=$('operations');if(!target)return;
   const value=file.children.flatMap(d=>d.children||[]).filter(n=>n.line===line).reduce((total,n)=>total+n.sourceValue,0);
-  target.replaceChildren(element('h2','Source line '+line),element('p',value?duration(value)+' of elapsed time is attributed to events anchored at this line.':'No elapsed time was attributed separately to this source line.'),element('p','Multiline operations are anchored at their first line. The complete internal operation traces are retained in the local recording; this public snapshot contains all source-level timings.'));
+  const recording=file.captureMode==='compact'?'Raw source-scope captures are retained in the local recording; this public snapshot contains all source-level timings.':'The complete internal operation traces are retained in the local recording; this public snapshot contains all source-level timings.';
+  target.replaceChildren(element('h2','Source line '+line),element('p',value?duration(value)+' of elapsed time is attributed to events anchored at this line.':'No elapsed time was attributed separately to this source line.'),element('p','Multiline operations are anchored at their first line. '+recording));
 }
 function showError(error){$('progress').textContent='Could not load recording: '+error.message;$('progress').className='error';}
 async function refresh(){
