@@ -209,7 +209,7 @@
     "test": "npm run build && node --test test/*.test.cjs",
     "test:extension": "node test/run-extension.cjs",
     "test:accuracy": "npm run build && node test/capture.integration.cjs",
-    "test:source-focused": "npm run build && node test/compact.integration.cjs && node test/setup.integration.cjs && node test/raw-clock.integration.cjs",
+    "test:source-focused": "npm run build && node test/compact.integration.cjs && node test/setup.integration.cjs && node test/heartbeat.integration.cjs && node test/build-recovery.integration.cjs && node test/raw-clock.integration.cjs",
     "package": "node scripts/package-release.mjs --vsix-only",
     "vscode:prepublish": "npm run build",
     "release": "node scripts/package-release.mjs"

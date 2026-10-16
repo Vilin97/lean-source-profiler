@@ -78,14 +78,8 @@ async function initialize(repository, output, signal) {
 
 async function buildProject(repository, output, project, lake, signal) {
   const marker = path.join(output, 'builds', project.name + '.json');
-  try {
-    const built = await readJson(marker);
-    for (const entry of project.files) {
-      await fs.access(path.join(repository, '.lake/build/lib/lean', entry.path.replace(/\.lean$/, '.olean')));
-      if (built[entry.path] !== await fileDigest(setupPath(repository, entry))) throw new Error('Native module setup changed.');
-    }
-    return;
-  } catch (error) { if (signal.aborted) throw error; }
+  // Only Lake can validate the transitive artifact graph. A saved source setup and
+  // root olean can remain unchanged after an imported artifact has disappeared.
   for (let index = 0; index < project.files.length; index += 128) {
     const targets = project.files.slice(index, index + 128).map(entry => '+' + entry.path.replace(/\.lean$/, '').replaceAll('/', '.') + ':olean');
     await run(lake, ['build', ...targets], repository, signal);
@@ -191,5 +185,5 @@ async function main() {
   await capturePool(path.resolve(args[0]), path.resolve(args[1]), process.env.LAKE || 'lake', controller.signal);
 }
 
-module.exports = { inventory, capturePool, audit, completed };
+module.exports = { inventory, capturePool, audit, completed, buildProject };
 if (require.main === module) main().catch(error => { console.error(error.message); process.exitCode ||= 1; });

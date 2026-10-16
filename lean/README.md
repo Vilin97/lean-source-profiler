@@ -86,6 +86,10 @@ duration must not be presented as the exclusive cost of unfolding that declarati
   native CPU stacks, heap allocations, or peak RSS.
 - Trace collection adds overhead. Use uninstrumented compiler wall time for final benchmark
   numbers, and compare recordings captured with the same settings.
+- Compact source scopes remove internal `trace.*` options while running the elaborator.
+  Merely setting profiling to false still activates Lean's internal trace checks and can
+  spend a typeclass search's heartbeat budget on instrumentation. Source timers and outer
+  command/async scopes are retained; proof limits and all other native options are preserved.
 - Formatting happens after the timed frontend interval. Large traces can take substantially
   longer to format/export than the proof took to elaborate.
 - Pretty printing is bounded to 500 steps/depth 12, details to 4,096 characters, and ordinary
