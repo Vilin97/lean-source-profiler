@@ -7,12 +7,13 @@ const radar=()=>overview?.kind==='radar-benchmark';
 const libraryName=()=>overview?.name||overview?.library||'LeanPool';
 const recordedName=()=>libraryName()==='LeanPool'?'pool':libraryName();
 function formatValue(n){
+  if(metric==='lines')return n.toLocaleString()+' LOC';
   if(!radar())return duration(n);
-  if(metric==='lines')return n.toLocaleString()+' lines';
   for(const [scale,unit] of [[1e12,'T'],[1e9,'G'],[1e6,'M'],[1e3,'K']])if(n>=scale)return (n/scale).toFixed(2)+' '+unit+' instructions';
   return n.toLocaleString()+' instructions';
 }
 const weight=n=>n[metric]||0;
+const childrenOf=n=>metric==='lines'&&n.kind==='file'?[]:n.children;
 function element(tag,text,className){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(className)el.className=className;return el;}
 async function api(route){
   const request=new URL(route,'https://snapshot.invalid/');
@@ -27,17 +28,17 @@ async function api(route){
 function attach(parent,child){child.parent=parent;parent.children.push(child);return child;}
 function buildTree(data){
   if(radar())return buildRadarTree(data);
-  const pool={name:libraryName(),kind:'pool',children:[],value:0,sourceValue:0};
+  const pool={name:libraryName(),kind:'pool',children:[],value:0,sourceValue:0,lines:0};
   const projects=new Map();
-  for(const item of data.inventory){const project=attach(pool,{name:item.name,kind:'project',children:[],value:0,sourceValue:0,planned:item.files,lines:item.lines,completed:0});projects.set(item.name,project);}
+  for(const item of data.inventory){const project=attach(pool,{name:item.name,kind:'project',children:[],value:0,sourceValue:0,planned:item.files,lines:0,completed:0});projects.set(item.name,project);}
   for(const [path,file] of Object.entries(data.files)){
     const fullPieces=path.split('/'),pieces=fullPieces.slice(1);
     const group=data.library==='Mathlib'&&fullPieces.length<=2?'Root':pieces[0]?.replace(/\.lean$/,'');
     const project=projects.get(group);if(!project)throw Error('Unknown inventory group for '+path);
     project.completed++;let parent=project;
-    for(const folder of pieces.slice(1,-1)){let next=parent.children.find(n=>n.kind==='folder'&&n.name===folder);if(!next)next=attach(parent,{name:folder,kind:'folder',children:[],value:0,sourceValue:0});parent=next;}
+    for(const folder of pieces.slice(1,-1)){let next=parent.children.find(n=>n.kind==='folder'&&n.name===folder);if(!next)next=attach(parent,{name:folder,kind:'folder',children:[],value:0,sourceValue:0,lines:0});parent=next;}
     const leaf=attach(parent,{...file,name:fullPieces.at(-1),kind:'file',path,children:[],loaded:false});
-    for(let ancestor=parent;ancestor;ancestor=ancestor.parent){ancestor.value+=leaf.value;ancestor.sourceValue+=leaf.sourceValue;}
+    for(let ancestor=parent;ancestor;ancestor=ancestor.parent){ancestor.value+=leaf.value;ancestor.sourceValue+=leaf.sourceValue;ancestor.lines+=leaf.lines||0;}
   }
   return pool;
 }
@@ -71,14 +72,14 @@ function drawFlame(){
     if(chart.clientWidth*width/100<3||level>6||weight(node)<=0)return;deepest=Math.max(deepest,level);
     const button=element('button',node.name+' · '+formatValue(weight(node)));button.dataset.kind=node.kind;button.setAttribute('aria-label',node.kind+' '+node.name+' '+formatValue(weight(node)));button.style.cssText=`left:${left}%;width:calc(${width}% - 2px);top:${level*36}px`;
     button.onclick=()=>navigate(node);button.onmousemove=e=>tip(e,node);button.onmouseleave=()=>{$('tooltip').hidden=true;};chart.append(button);
-    let x=left;for(const child of [...node.children].sort((a,b)=>weight(b)-weight(a))){const w=weight(node)?width*weight(child)/weight(node):0;draw(child,x,w,level+1);x+=w;}
+    let x=left;for(const child of [...childrenOf(node)].sort((a,b)=>weight(b)-weight(a))){const w=weight(node)?width*weight(child)/weight(node):0;draw(child,x,w,level+1);x+=w;}
   }
-  if(total>0)draw(current,0,100,0);else chart.append(element('p','No measured time at this level yet.'));
-  chart.style.height=(deepest+1)*36+'px';$('graph-note').textContent=radar()?'Click a bar to descend through folders to files. Radar measurements stop at files; narrow bars are also listed below.':'Click a bar to descend. Files load declarations and source lines on demand; narrow bars are also listed below.';
+  if(total>0)draw(current,0,100,0);else chart.append(element('p',metric==='lines'?'No source lines at this level.':'No measured time at this level yet.'));
+  chart.style.height=(deepest+1)*36+'px';$('graph-note').textContent=metric==='lines'?'Click a bar to descend through folders to files. LOC widths stop at files; narrow bars are also listed below.':radar()?'Click a bar to descend through folders to files. Radar measurements stop at files; narrow bars are also listed below.':'Click a bar to descend. Files load declarations and source lines on demand; narrow bars are also listed below.';
 }
 function renderList(){
   const filter=$('search').value.toLowerCase(),list=$('children');list.replaceChildren();
-  const children=[...current.children].filter(n=>n.name.toLowerCase().includes(filter)).sort((a,b)=>weight(b)-weight(a));
+  const children=[...childrenOf(current)].filter(n=>n.name.toLowerCase().includes(filter)).sort((a,b)=>weight(b)-weight(a));
   for(const node of children){
     const button=element('button',undefined,'row'),label=element('span',node.name,'label');
     if(node.kind==='project')label.append(element('small',`${node.completed.toLocaleString()} / ${node.planned.toLocaleString()} files · ${node.lines.toLocaleString()} source lines`));
@@ -86,16 +87,17 @@ function renderList(){
     if(node.kind==='file')label.append(element('small',node.path));
     const time=element('span',node.attributionStatus==='no-separate-timing'?'No separate timing':formatValue(weight(node)),'time');button.append(label,time);button.onclick=()=>navigate(node);list.append(button);
   }
-  if(!children.length)list.append(element('p',radar()?'Radar provides whole-file measurements; declarations and individual lines were not timed.':current.kind==='line'?'Selected source line.':current.kind==='project'?'This project is queued for capture.':'No child entries for this selection.','muted'));
-  $('children-title').textContent=current.kind==='pool'?(radar()?'Folders and root files':'Projects'):current.kind==='file'?(radar()?'File measurements':'Declarations'):current.kind==='declaration'?'Source lines':'Within '+current.name;
+  if(!children.length)list.append(element('p',metric==='lines'&&current.kind==='file'?'LOC counts the whole file. Switch to source-attributed time to explore declaration and line timings.':radar()?'Radar provides whole-file measurements; declarations and individual lines were not timed.':current.kind==='line'?'Selected source line.':current.kind==='project'?'This project is queued for capture.':'No child entries for this selection.','muted'));
+  $('children-title').textContent=current.kind==='pool'?(radar()?'Folders and root files':'Projects'):current.kind==='file'?(radar()||metric==='lines'?'File measurements':'Declarations'):current.kind==='declaration'?'Source lines':'Within '+current.name;
 }
 function render(){
+  if($('method'))$('method').textContent=metric==='lines'?'LOC counts physical source lines, including blank lines and comments. A final newline does not add an extra line. Folder and project widths sum their files; counts stop at files.':'Widths partition elapsed time without counting overlapping events twice. Concurrent source threads share overlapping time equally; the deepest active event in each thread is assigned to its source start line. This is an attribution view, not CPU sampling or an independent timer for each line.';
   $('tooltip').hidden=true;const breadcrumbs=$('breadcrumbs');breadcrumbs.replaceChildren();
   ancestry(current).forEach((node,i)=>{if(i)breadcrumbs.append(element('span','/'));const b=element('button',node.name);b.onclick=()=>navigate(node);breadcrumbs.append(b);});
   $('selection').replaceChildren(element('strong',current.name),element('span',current.attributionStatus==='no-separate-timing'?'No separate timing':`${formatValue(weight(current))} · ${weight(root)?(100*weight(current)/weight(root)).toFixed(2):0}% of recorded ${recordedName()}`));
   drawFlame();renderList();renderDetail();
 }
-async function navigate(node){const request=++sequence;try{if(node.kind==='file')await loadFile(node);if(request!==sequence)return;current=node;$('search').value='';render();}catch(error){if(request===sequence)showError(error);}}
+async function navigate(node){if(metric==='lines')node=sourceFile(node)||node;const request=++sequence;try{if(node.kind==='file')await loadFile(node);if(request!==sequence)return;current=node;$('search').value='';render();}catch(error){if(request===sequence)showError(error);}}
 function findFile(path){
   const pending=[root];while(pending.length){const node=pending.pop();if(node.kind==='file'&&node.path===path)return node;pending.push(...node.children);}
 }
@@ -105,7 +107,7 @@ async function initialSelection(request){
   const file=findFile(path);if(!file)throw Error('File is absent from this snapshot: '+path);
   if(!radar())await loadFile(file);if(request!==sequence)return;
   let selected=file;const sourceLine=parameters.get('line');
-  if(sourceLine!==null&&!radar()){
+  if(sourceLine!==null&&!radar()&&metric!=='lines'){
     const line=Number(sourceLine);
     if(!Number.isInteger(line)||line<1||line>file.source.split(/\r?\n/).length)throw Error('Source line is outside this file');
     const anchor=file.children.flatMap(d=>d.children).find(child=>child.line===line);
@@ -118,9 +120,9 @@ function sourceFile(node){return node.kind==='file'?node:node.file;}
 function renderDetail(){
   const detail=$('detail'),file=sourceFile(current);detail.replaceChildren();
   if(radar()){renderRadarDetail(detail,file);return;}
-  if(!file){detail.append(element('h2','Recording coverage'),element('p',`${overview.session.files.filter(f=>f.status==='ok').length} successful files of ${overview.session.plannedFileCount}. Captured files retain their declarations, source-line timing anchors and original source headers. All inventory groups remain visible.`));
+  if(!file){if(metric==='lines')detail.append(element('h2','Source line counts'),element('p',`${current.lines.toLocaleString()} LOC in ${current.name}. Counts include blank lines and comments and sum every captured file in this selection.`));detail.append(element('h2','Recording coverage'),element('p',`${overview.session.files.filter(f=>f.status==='ok').length} successful files of ${overview.session.plannedFileCount}. Captured files retain their declarations, source-line timing anchors and original source headers. All inventory groups remain visible.`));
     for(const f of overview.session.files.filter(f=>f.status==='error'))detail.append(element('p',f.path+': '+f.error,'error'));return;}
-  detail.append(element('h2',file.path),element('p',`${duration(file.value)} frontend · ${duration(file.sourceValue)} source-attributed · ${duration(file.captureWallMs||0)} capture wall time`));
+  detail.append(element('h2',file.path),element('p',`${file.lines.toLocaleString()} LOC · ${duration(file.value)} frontend · ${duration(file.sourceValue)} source-attributed · ${duration(file.captureWallMs||0)} capture wall time`));
   detail.append(element('p',file.captureMode==='compact'?'Compact source capture: nested source scopes and declaration ranges are retained.':`Internal operation threshold: ${file.thresholdMs ?? 1} ms. Source scopes are retained below this threshold.`));
   if(file.profilingOptions?.maxHeartbeats)detail.append(element('p',`Profiling heartbeat allowance: ${file.profilingOptions.maxHeartbeats.toLocaleString()}. The uninstrumented file passed with its native Lake settings; this extra allowance covers profiling overhead.`));
   if(file.profilingOptions?.['synthInstance.maxHeartbeats'])detail.append(element('p',`Typeclass search allowance during profiling: ${file.profilingOptions['synthInstance.maxHeartbeats'].toLocaleString()}.`));
@@ -174,6 +176,6 @@ async function refresh(){
     render();await initialSelection(request);
   }catch(error){if(request===sequence)showError(error);}
 }
-$('metric').onchange=()=>{metric=$('metric').value;if(current)render();};$('search').oninput=renderList;$('refresh').onclick=refresh;
+$('metric').onchange=()=>{metric=$('metric').value;if(current){if(metric==='lines')current=sourceFile(current)||current;render();}};$('search').oninput=renderList;$('refresh').onclick=refresh;
 new ResizeObserver(()=>{if(current)drawFlame();}).observe($('flame'));
 refresh();

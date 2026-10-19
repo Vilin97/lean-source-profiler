@@ -62,7 +62,8 @@ def export_file(base, destination, entry, expected_source):
     published["children"] = source_nodes(source["children"], entry["path"])
     asset = f"data/files/{entry['id']}.json.gz"
     metadata = write_compressed(destination / asset, published)
-    return {"id": entry["id"], "path": entry["path"], "sourceSha256": source_hash,
+    lines = source["source"].count("\n") + int(bool(source["source"]) and not source["source"].endswith("\n"))
+    return {"id": entry["id"], "path": entry["path"], "lines": lines, "sourceSha256": source_hash,
             "asset": asset, **metadata}
 
 
@@ -86,9 +87,10 @@ def export_dataset(base, destination):
     public_session = {key: value for key, value in session.items() if key in SESSION_FIELDS}
     public_session["files"] = [{"id": entry["id"], "path": entry["path"], "status": "ok"}
                                for entry in entries]
+    line_counts = {file["path"]: file["lines"] for file in manifests}
     public_overview = {**overview, "session": public_session,
-                       "files": {path: {key: value for key, value in file.items()
-                                        if key in FILE_FIELDS}
+                       "files": {path: {**{key: value for key, value in file.items()
+                                          if key in FILE_FIELDS}, "lines": line_counts[path]}
                                  for path, file in overview["files"].items()}}
     overview_asset = write_compressed(destination / "data/overview.json.gz", public_overview)
     return inventory, session, coverage, manifests, overview_asset

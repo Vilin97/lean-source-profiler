@@ -52,9 +52,15 @@ counted once, so sibling widths add to their parent. A source anchor is assigned
 to the smallest semantic declaration containing its range; remaining source
 scopes have their own group. Shared declaration ranges have a single bar.
 
-**Frontend time, including imports** also includes imports and unrecorded
-frontend time as a separate child. Files are captured sequentially and reload
-shared imports. Their sum is not the duration of a parallel pool build.
+**LOC** counts physical source lines, including blank lines and comments. A
+final newline does not add an extra line. Folder, project and pool widths sum
+their files. LOC stops at files; switch to source-attributed time to explore
+declarations and source-line timings. Counts are derived from the audited
+source snapshots and included in the overview for immediate navigation.
+
+File details also report frontend time, including imports and unrecorded time.
+Files are captured sequentially and reload shared imports. Their sum is not the
+duration of a parallel pool build.
 
 Multiline expressions can have timing on their first line without a separate
 timing on later lines. Declaration inclusive timings are shown separately and
