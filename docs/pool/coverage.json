@@ -1,16 +1,16 @@
 {
-  "checkedAt": "2026-10-17T21:21:14.765Z",
+  "checkedAt": "2026-10-20T18:10:09.292Z",
   "result": "PASS",
-  "expected": 25855,
-  "filesystemFiles": 25855,
-  "successful": 25855,
+  "expected": 28396,
+  "filesystemFiles": 28396,
+  "successful": 28396,
   "failed": 0,
   "missing": [],
   "unexpected": [],
   "allSourcesUnchanged": true,
   "allSummariesMatchRecordings": true,
   "allProjectBuildsPassed": true,
-  "projectGroups": 303,
-  "sessionCompletedAt": "2026-10-17T21:21:14.765Z",
-  "commit": "13797a368212c0ae5dca2185a31e1f5338c59821"
+  "projectGroups": 310,
+  "sessionCompletedAt": "2026-10-20T18:10:09.292Z",
+  "commit": "cef43c9dad38860a5c57245205f2299f92d76184"
 }
