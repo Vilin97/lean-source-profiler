@@ -61,6 +61,8 @@ Apache License, Version 2.0, and are redistributed here under the same license.
   LeanPool/Chudnovsky                https://github.com/ldct/lean-eval-chudnovsky
   LeanPool/CircuitComplexity         https://github.com/SamuelSchlesinger/circuit-complexity
   LeanPool/Circuitlib                https://github.com/matthunz/circuitlib
+  LeanPool/ClassicalGraphColouring   https://github.com/jtraverso/galvin-dinitz
+  LeanPool/ClassicalMatchingFactors  https://github.com/jtraverso/tutte-f-factor
   LeanPool/ClassificationOfSurfaces  https://github.com/mccorvie/classification-of-surfaces
   LeanPool/CompactSpectral           https://github.com/abenenson/compact-spectral
   LeanPool/CompactnessAndDegeneracy  https://github.com/openai/ten-proofs
@@ -93,6 +95,7 @@ Apache License, Version 2.0, and are redistributed here under the same license.
   LeanPool/EhrhartVolumeInequality   https://github.com/openai/ten-proofs
   LeanPool/EilenbergZilber           https://github.com/jeffrey-dot-li/lean-homology
   LeanPool/EllipticPDE               https://github.com/alejandro-soto-franco/EllipticPDE
+  LeanPool/Erdos111                  https://github.com/plasma-ai/erdos-111
   LeanPool/Erdos1196                 https://github.com/math-inc/Erdos1196
   LeanPool/Erdos132ConvexK3          https://github.com/lyfar/erdos-132-convex-k3-lean
   LeanPool/Erdos132N14               https://github.com/lyfar/erdos-132-moment-obstruction-lean
@@ -149,6 +152,7 @@ Apache License, Version 2.0, and are redistributed here under the same license.
   LeanPool/IsTranscendentalPi        https://github.com/samuelborza/IsTranscendentalPi
   LeanPool/IsoGraph                  https://github.com/Timeroot/IsoGraph
   LeanPool/Isoperimetric             https://github.com/hojonathanho/isoperimetric
+  LeanPool/IwaniecLinearSieve        https://github.com/jasondavies/iwaniec-linear-sieve
   LeanPool/JacobianDiffgeo           https://github.com/rkirov/jacobian-fable
   LeanPool/JohnsonLindenstraussLean  https://github.com/claytomode/johnson-lindenstrauss-lean
   LeanPool/KahnKalai                 https://github.com/dcposch/kahn-kalai-lean
@@ -173,6 +177,7 @@ Apache License, Version 2.0, and are redistributed here under the same license.
   LeanPool/ListEdgeColoringComplete  https://github.com/jtraverso/haggkvist-janssen
   LeanPool/LocalComplexGeometry      https://github.com/BochaoKong/nullstellensatz
   LeanPool/LongGapsBetweenPrimes     https://github.com/openai/LongGapsBetweenPrimes
+  LeanPool/LongTails                 https://github.com/k3nfalt/longtails
   LeanPool/LowDimSolvClassification  https://github.com/LieLean/LowDimSolvClassification
   LeanPool/LowWeightPauliDynamics    https://github.com/Jue-Xu/Lean4LPD
   LeanPool/MRiscX                    https://github.com/JulsDE/MRiscX
@@ -230,6 +235,7 @@ Apache License, Version 2.0, and are redistributed here under the same license.
   LeanPool/PhaseRetrieval            https://github.com/susannabertolini/PhaseRetrieval
   LeanPool/PoincareThreeBody         https://github.com/gersh/lean-pool
   LeanPool/PointwiseBirkhoff         https://github.com/lua-vr/pointwise-birkhoff
+  LeanPool/PointwiseComposition      https://github.com/flengyel/FailureOfComposition
   LeanPool/Polylean                  https://github.com/siddhartha-gadgil/Polylean
   LeanPool/PolylogIntegrals          https://github.com/rainrzk/LeanPolyLog
   LeanPool/PolynomialMethodRestrictedSums
@@ -250,6 +256,7 @@ Apache License, Version 2.0, and are redistributed here under the same license.
   LeanPool/RearrangementNumber       https://github.com/vo-rodrigues/rr-equals-nonmeager-paper
   LeanPool/RegtsSevenster            https://github.com/willwhistler/regts-sevenster
   LeanPool/RellichKondrachov         https://github.com/abenenson/rellich-kondrachov
+  LeanPool/RemovalExtremalStability  https://github.com/jtraverso/turan-stability
   LeanPool/RiemannMappingTheorem     https://github.com/vbeffara/RMT4
   LeanPool/RiemannRochFunctionFields https://github.com/vaca22/riemann-roch-function-fields
   LeanPool/RootSystem                https://github.com/Antoine-dSG/root_system
@@ -347,6 +354,7 @@ MIT permission notice that follows them.
   LeanPool/FourAP                    https://github.com/boonsuan/4ap
   LeanPool/GaussianMomentsCounterexamples
                                      https://github.com/long-mathematics/gaussian-moments-counterexamples
+  LeanPool/GrahamLPT                 https://github.com/JD-Jones-ASES/graham-lpt-lean
   LeanPool/HSDInteriorPointLP        https://github.com/makoto-yamashita/proof-on-a-homogeneous-self-dual-interior-point-method-for-linear-programming
   LeanPool/InflationTermination      https://github.com/williamjblair/inflation-termination
   LeanPool/KaltonPeck                https://github.com/adas1236/KaltonPeck
