@@ -40,6 +40,16 @@ def ClockMapping.at (clock : ClockMapping) (time : Float) : Float :=
 initialize registerTraceClass `Source.tactic
 initialize registerTraceClass `Source.term
 
+/-- Source timers collect their own traces. Leaving disabled `trace.*` options in scope
+still activates Lean's per-call tracing checks, charging proof heartbeat budgets for
+instrumentation inside typeclass search. Retain every non-trace proof option. -/
+def sourceOptions (opts : Options) : Options := Id.run do
+  let mut result := Options.empty
+  for (name, value) in opts do
+    unless (`trace).isPrefixOf name do
+      result := result.insert name value
+  return result
+
 /-- Source timers avoid constructing diagnostic contexts and timing every internal Meta call.
 The exception instance matches Lean's trace builder, so failed elaborator alternatives
 restore their parent trace state before rethrowing. -/
@@ -51,8 +61,7 @@ def withSourceTrace {m : Type → Type} {α : Type} [Monad m] [MonadTrace m]
   let _ := always.except
   if trace.profiler.useHeartbeats.get opts then
     throw <| Exception.error stx "Source profiler requires wall-clock traces."
-  let action := if trace.profiler.get opts then
-    withOptions (·.setBool `trace.profiler false) action else action
+  let action := withOptions sourceOptions action
   -- Generated, unlocated syntax is covered by its enclosing source timer.
   if stx.getRange? (canonicalOnly := true) |>.isNone then return ← action
   let oldTraces ← getTraces
