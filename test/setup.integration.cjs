@@ -47,6 +47,17 @@ const extensionRoot = path.resolve(__dirname, '..');
       await assert.rejects(capture({ file, extensionRoot, output, mode }), /\(kernel\) declaration type mismatch/);
       assert.deepEqual(await fs.readFile(output), previous);
     }
-    console.log('PASS setup: native/configured option parity, explicit async=false, heartbeat-clock rejection, kernel rejection in both modes and atomic failure.');
+    await fs.writeFile(setup, JSON.stringify({ name: 'Configured', isModule: false,
+      package: 'configured-fixture', options: { ...options, warningAsError: true },
+      plugins: [], dynlibs: [], importArts: {} }));
+    await fs.writeFile(file, 'theorem unusedHypothesis (h : True) : True := trivial\n');
+    await assert.rejects(native(), /not explicitly referenced|unused variable/);
+    for (const mode of ['compact', 'detailed']) {
+      const warned = await capture({ file, extensionRoot, output, mode });
+      assert.equal(warned.sourceText, await fs.readFile(file, 'utf8'));
+    }
+    const compact = await capture({ file, extensionRoot, output });
+    assert.equal(compact.moduleSetup.options.warningAsError, true, 'native configuration is still recorded');
+    console.log('PASS setup: native/configured option parity, explicit async=false, heartbeat-clock rejection, kernel rejection in both modes, atomic failure and warnings never aborting capture.');
   } finally { await fs.rm(project, { recursive: true, force: true }); }
 })().catch(error => { console.error(error); process.exitCode = 1; });
