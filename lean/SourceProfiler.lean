@@ -446,7 +446,11 @@ def run (inputFile outputFile : String) (threshold : Nat) (mode := "detailed") :
   if let some setup := setup? then
     unless setup.name == mainModule do throw <| IO.userError "Lake setup names a different module."
   -- Match runFrontend's command-line defaults without overriding explicit project options.
+  -- A profile measures elaboration; warnings must not abort it. Projects that build with
+  -- `warningAsError` would otherwise lose every file whose (possibly instrumentation-induced)
+  -- linter warnings become errors.
   let configuredOpts := setup?.map (·.options.toOptions) |>.getD Options.empty
+  let configuredOpts := configuredOpts.erase `warningAsError
   let baseOpts := Lean.Elab.async.setIfNotSet configuredOpts true
   let baseOpts := Lean.internal.cmdlineSnapshots.setIfNotSet baseOpts true
   let sourceOnly := mode == "compact" || mode == "verify"
