@@ -90,6 +90,12 @@ duration must not be presented as the exclusive cost of unfolding that declarati
   Merely setting profiling to false still activates Lean's internal trace checks and can
   spend a typeclass search's heartbeat budget on instrumentation. Source timers and outer
   command/async scopes are retained; proof limits and all other native options are preserved.
+- Lean's default `maxHeartbeats` budget is not enforced during capture. Outside source scopes
+  the retained command, header and async traces keep internal tracing active, and that work
+  counts against the budget: a declaration that builds natively close to the default limit
+  would fail only when profiled. Build the file natively first if the budget matters. A
+  `maxHeartbeats` value set by the project or by `set_option` in the source is preserved, as
+  are `synthInstance.maxHeartbeats` and every other limit.
 - Formatting happens after the timed frontend interval. Large traces can take substantially
   longer to format/export than the proof took to elaborate.
 - Pretty printing is bounded to 500 steps/depth 12, details to 4,096 characters, and ordinary
