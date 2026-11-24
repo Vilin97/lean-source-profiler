@@ -451,6 +451,12 @@ def run (inputFile outputFile : String) (threshold : Nat) (mode := "detailed") :
   -- linter warnings become errors.
   let configuredOpts := setup?.map (·.options.toOptions) |>.getD Options.empty
   let configuredOpts := configuredOpts.erase `warningAsError
+  -- Lean's default heartbeat budget is a build gate, and the caller has already built the file
+  -- natively. Outside source scopes the retained command, header and async traces keep Lean's
+  -- internal tracing active, and that work is charged to the same budget, so a declaration
+  -- that builds close to the default limit fails only when it is profiled. A budget the
+  -- project or the source sets explicitly is kept.
+  let configuredOpts := Lean.maxHeartbeats.setIfNotSet configuredOpts 0
   let baseOpts := Lean.Elab.async.setIfNotSet configuredOpts true
   let baseOpts := Lean.internal.cmdlineSnapshots.setIfNotSet baseOpts true
   let sourceOnly := mode == "compact" || mode == "verify"

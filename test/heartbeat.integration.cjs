@@ -41,6 +41,25 @@ example : Chain 80 := by
     await assert.rejects(native(), /maximum number of heartbeats/);
     await assert.rejects(capture({ file, extensionRoot, output }), /maximum number of heartbeats/);
     assert.deepEqual(await fs.readFile(output), previous, 'failed capture cannot replace a valid one');
-    console.log('PASS heartbeat: compact source timers preserve native internal-tracing fast path and typeclass limits.');
+    // Tracing kept outside source scopes is charged to Lean's default budget, so capture lifts
+    // that default. A budget the source sets explicitly stays in force.
+    const budget = path.join(project, 'Budget.lean');
+    await fs.writeFile(budget, `import Lean
+open Lean Elab Tactic
+elab "check_budget " n:num : tactic => do
+  let actual := (← readThe Core.Context).maxHeartbeats
+  unless actual == n.getNat * 1000 do throwError "The heartbeat budget is {actual}."
+example : True := by
+  check_budget 0
+  trivial
+set_option maxHeartbeats 400000 in
+example : True := by
+  check_budget 400000
+  trivial
+`);
+    await assert.rejects(runProcess(backend.leanExecutable, [budget], project, undefined, undefined, backend.env),
+      /The heartbeat budget is 200000000/);
+    await capture({ file: budget, extensionRoot, output: path.join(project, 'budget.json') });
+    console.log('PASS heartbeat: compact source timers preserve native internal-tracing fast path and typeclass limits; only the default budget is lifted.');
   } finally { await fs.rm(project, { recursive: true, force: true }); }
 })().catch(error => { console.error(error); process.exitCode = 1; });
