@@ -1,0 +1,210 @@
+slug: quillen-suslin
+title: The Quillen–Suslin theorem (Quillen patching, Horrocks and Bass)
+summary: The Quillen–Suslin theorem and the commutative algebra behind it, on Mathlib's carriers.
+  For a commutative ring A, the monic polynomials form a submonoid of A[X], and the
+  localisation A⟨X⟩ at them is a faithfully flat A-algebra; for a field k, k⟨X⟩ is a field,
+  and for a principal ideal domain k, k⟨X⟩ is a principal ideal domain (Quillen's Lemma 2).
+  Modules extended from a base ring are defined, and an A[X]-module is extended from A exactly
+  when it is A[X] ⊗ M(0); extended modules stay extended after base change, in one and in
+  several variables. Quillen's dilation lemma is proved for a not necessarily commutative
+  A-algebra R and f ∈ A; for a unit θ of R_f[X] there is k such that θ(g₁X) θ(g₂X)⁻¹ comes from
+  a unit of R[X] with constant term one whenever g₁ − g₂ ∈ fᵏA. Finitely generated
+  projective modules over two comaximal localisations R_f and R_g that are isomorphic over
+  R_fg glue to a finitely generated projective R-module with the given localisations.
+  For a finitely presented A-module N and an A-algebra B, the polynomials over B ⊗ End(N) act on
+  B[X] ⊗ N, bijectively for flat B, which turns automorphisms of extended modules into units
+  of a polynomial ring. With the dilation lemma this proves Quillen's patching theorem. For a
+  finitely presented A[X]-module M, the a ∈ A such that M becomes extended after inverting a
+  form an ideal (the Quillen ideal), and M is extended from A as soon as it is extended after
+  localising at every maximal ideal of A; the same holds for finitely presented modules over
+  A[X₁, …, Xₙ], by induction on n through A[X₁, …, Xₙ₊₁] ≅ A[X₁, …, Xₙ][X]. Horrocks'
+  theorem follows. Over a local ring, a finitely generated projective A[X]-module that becomes
+  free over A⟨X⟩ is free; over any ring, such a module that becomes extended from A over A⟨X⟩
+  is extended from A, and one that becomes free over A⟨X⟩ is free (Quillen's form). Bass's
+  theorem holds too. Finitely generated projective A-modules that become isomorphic over A⟨X⟩
+  are isomorphic. The Quillen–Suslin theorem follows by induction on n; over a principal ideal
+  domain k, every finitely generated projective k[X₁, …, Xₙ]-module is free. Over a Dedekind
+  domain B, every finitely generated projective B[X₁, …, Xₙ]-module is extended from B.
+  Suslin's completion theorem follows; over a principal ideal domain k, every unimodular vector
+  over k[X₁, …, Xₙ] is the first column of an invertible matrix. Little Horrocks' global theorem
+  holds too; a unimodular vector f over A[X] whose head coefficients, for formal degrees bounding
+  the degrees of its entries, generate the unit ideal of A is sent to f(0) by an invertible
+  matrix over A[X]. Suslin's r! theorem is proved for factorial-shaped exponents; for a
+  unimodular row (a₀, …, a_r), r ≥ 1, and exponents m such that max(r − i, 1) divides m(σ i) for
+  some permutation σ, the row (a₀^m₀, …, a_r^m_r) is the first row of a matrix of determinant
+  one. In particular (a₀, a₁, a₂², …, a_rʳ) is completable, and the full divisibility statement
+  r! ∣ ∏ mᵢ holds for r ≤ 2 (Swan–Towber for r = 2).
+branch: commutative algebra
+entry_module: LeanPool.QuillenSuslin
+authors:
+- Michel Hua
+source:
+  title: Projective modules over polynomial rings (D. Quillen)
+  doi: 10.1007/BF01390008
+  url: https://github.com/TauCetiProject/TauCetiRoadmap/pull/2295
+  github_repo: mycaule/lean-pool
+license: Apache-2.0
+status: verified
+provenance: AI
+main_declarations:
+- LeanPool.QuillenSuslin.isPrincipalIdealRing_monicLocalization
+- LeanPool.QuillenSuslin.isField_monicLocalization
+- LeanPool.QuillenSuslin.isExtendedFrom_iff_evalZero
+- LeanPool.QuillenSuslin.exists_unit_lift_dilation
+- LeanPool.QuillenSuslin.exists_finite_projective_glue
+- LeanPool.QuillenSuslin.exists_ideal_isExtendedAfter_away
+- LeanPool.QuillenSuslin.isExtendedFrom_of_forall_isMaximal
+- LeanPool.QuillenSuslin.isExtendedFrom_mvPolynomial_of_forall_isMaximal
+- LeanPool.QuillenSuslin.free_of_free_monicLocalization_of_isLocalRing
+- LeanPool.QuillenSuslin.isExtendedFrom_of_isExtendedFrom_monicLocalization
+- LeanPool.QuillenSuslin.nonempty_linearEquiv_of_monicLocalization
+- LeanPool.QuillenSuslin.free_of_free_monicLocalization
+- LeanPool.QuillenSuslin.free_mvPolynomial
+- LeanPool.QuillenSuslin.isExtendedFrom_mvPolynomial
+- LeanPool.QuillenSuslin.exists_generalLinearGroup_col_eq_of_isUnimodular
+- LeanPool.QuillenSuslin.exists_mulVec_eq_eval_zero
+- LeanPool.QuillenSuslin.exists_specialLinearGroup_row_pow_of_perm
+- LeanPool.QuillenSuslin.exists_specialLinearGroup_row_pow_of_le_two
+main_results:
+- declaration: LeanPool.QuillenSuslin.isPrincipalIdealRing_monicLocalization
+  informal: If k is a principal ideal domain, then the localisation k⟨X⟩ of k[X] at the monic
+    polynomials is a principal ideal domain (Quillen's Lemma 2).
+- declaration: LeanPool.QuillenSuslin.isField_monicLocalization
+  informal: If k is a field, then the localisation of k[X] at the monic polynomials is a field.
+- declaration: LeanPool.QuillenSuslin.isPrincipal_of_isPrime_of_disjoint
+  informal: Over a principal ideal domain k, every prime ideal of k[X] containing no monic
+    polynomial is principal.
+- declaration: LeanPool.QuillenSuslin.faithfullyFlat_monicLocalization
+  informal: For every commutative ring A, the localisation A⟨X⟩ of A[X] at the monic
+    polynomials is a faithfully flat A-algebra.
+- declaration: LeanPool.QuillenSuslin.isExtendedFrom_iff_evalZero
+  informal: An A[X]-module M is isomorphic to A[X] ⊗ N for some A-module N exactly when it is
+    isomorphic to A[X] ⊗ M(0), where M(0) = A ⊗ M along evaluation at zero.
+- declaration: LeanPool.QuillenSuslin.IsExtendedFrom.isExtendedAfter
+  informal: If an A[X]-module is extended from A, then for every A-algebra B its base change to
+    B[X] is extended from B.
+- declaration: LeanPool.QuillenSuslin.exists_unit_lift_dilate
+  informal: If ι is an algebra map S → S' behaving like the localisation away from f, then for
+    every unit u of S'[X] with constant term one there are s and a unit of S[X] with constant
+    term one whose image is u(fˢX).
+- declaration: LeanPool.QuillenSuslin.exists_unit_lift_dilation
+  informal: Quillen's dilation lemma. For an A-algebra R, not necessarily commutative, f ∈ A
+    and a unit θ of (A_f ⊗ R)[X], there is k such that whenever g₁ − g₂ ∈ fᵏA some unit ψ of
+    R[X] with ψ(0) = 1 satisfies ψ · θ(g₂X) = θ(g₁X) in (A_f ⊗ R)[X].
+- declaration: LeanPool.QuillenSuslin.glue_fst_isLocalizedModule
+  informal: For an isomorphism α between base changes of an S₁-module and an S₂-module, the
+    projection from the glued module {(x₁, x₂) | α(1 ⊗ x₁) = 1 ⊗ x₂} to the first factor is a
+    localisation away from f, when f is a unit of S₁ and the common ring is S₂ localised at f.
+- declaration: LeanPool.QuillenSuslin.exists_finite_projective_glue
+  informal: For comaximal f, g in R, a finitely generated projective R_f-module and a finitely
+    generated projective R_g-module that are isomorphic after base change to R_fg glue to a
+    finitely generated projective R-module whose base changes to R_f and R_g are the given
+    modules.
+- declaration: LeanPool.QuillenSuslin.endPoly_bijective
+  informal: For a finitely presented A-module N and a flat commutative A-algebra B, the
+    polynomials over B ⊗ End(N) act on B[X] ⊗ N, and this ring homomorphism to the
+    B[X]-linear endomorphisms of B[X] ⊗ N is bijective.
+- declaration: LeanPool.QuillenSuslin.exists_normalized_equiv
+  informal: If an A[X]-module M becomes extended after base change to an A-algebra B, there is
+    a B[X]-linear isomorphism B[X] ⊗ M(0) ≅ B[X] ⊗ M reducing to the identity at X = 0.
+- declaration: LeanPool.QuillenSuslin.nonempty_linearEquiv_of_glue
+  informal: For comaximal s, t in a commutative ring and finitely presented modules P, M,
+    isomorphisms P_s ≅ M_s and P_t ≅ M_t compatible with an isomorphism P_st ≅ M_st glue to an
+    isomorphism P ≅ M.
+- declaration: LeanPool.QuillenSuslin.nonempty_linearEquiv_fibre_of_isCoprime
+  informal: For comaximal a, b ∈ A, a finitely presented A[X]-module that becomes extended after
+    inverting a and after inverting b is isomorphic to A[X] ⊗ M(0).
+- declaration: LeanPool.QuillenSuslin.exists_ideal_isExtendedAfter_away
+  informal: For a finitely presented A[X]-module M, the elements a of A such that M becomes
+    extended after inverting a form an ideal of A (the Quillen ideal).
+- declaration: LeanPool.QuillenSuslin.isExtendedFrom_of_forall_isMaximal
+  informal: Quillen's patching theorem. A finitely presented A[X]-module that becomes extended
+    after localising at every maximal ideal of A is extended from A.
+- declaration: LeanPool.QuillenSuslin.isExtendedFrom_mvPolynomial_of_forall_isMaximal
+  informal: A finitely presented module over A[X₁, …, Xₙ] that becomes extended after
+    localising at every maximal ideal of A is extended from A (Quillen's Theorem 1′).
+- declaration: LeanPool.QuillenSuslin.isExtendedFrom_of_forall_isMaximal_algebra
+  informal: For an A-algebra B, a finitely presented B[X]-module is extended from B if, for
+    every maximal ideal m of A, it becomes extended after inverting the image in B of some
+    element outside m.
+- declaration: LeanPool.QuillenSuslin.free_of_free_monicLocalization_of_isLocalRing
+  informal: Local Horrocks. Over a local ring A, a finitely generated projective A[X]-module that
+    becomes free over A⟨X⟩ is free.
+- declaration: LeanPool.QuillenSuslin.isExtendedFrom_of_isExtendedFrom_monicLocalization
+  informal: Affine Horrocks. A finitely generated projective A[X]-module that becomes extended from A
+    over A⟨X⟩ is extended from A.
+- declaration: LeanPool.QuillenSuslin.nonempty_linearEquiv_of_monicLocalization
+  informal: Bass. Finitely generated projective A-modules that become isomorphic over A⟨X⟩ are
+    isomorphic.
+- declaration: LeanPool.QuillenSuslin.free_of_free_monicLocalization
+  informal: Quillen's form of Horrocks' theorem. Over any commutative ring A, a finitely generated
+    projective A[X]-module that becomes free over A⟨X⟩ is free.
+- declaration: LeanPool.QuillenSuslin.free_mvPolynomial
+  informal: The Quillen–Suslin theorem. Over a principal ideal domain k, every finitely generated
+    projective module over k[X₁, …, Xₙ] is free.
+- declaration: LeanPool.QuillenSuslin.isExtendedFrom_mvPolynomial
+  informal: Over a Dedekind domain B, every finitely generated projective module over
+    B[X₁, …, Xₙ] is isomorphic to B[X₁, …, Xₙ] ⊗ N for some B-module N.
+- declaration: LeanPool.QuillenSuslin.free_of_factor_monicLocalization
+  informal: If ring maps A[X] → B → A⟨X⟩ compose to the localisation map and every finitely
+    generated projective B-module is free, then every finitely generated projective A[X]-module
+    is free.
+- declaration: LeanPool.QuillenSuslin.fromMonicCoeff_comp_toMonicCoeff
+  informal: For A = k[X₁, …, Xₙ], the natural ring maps A[T] → k⟨T⟩[X₁, …, Xₙ] → A⟨T⟩ compose
+    to the localisation map of A[T] at the monic polynomials.
+- declaration: LeanPool.QuillenSuslin.exists_monic_eq_span
+  informal: Over a local ring, a finitely generated projective ideal of A[X] containing a monic
+    polynomial is generated by a single monic polynomial.
+- declaration: LeanPool.QuillenSuslin.eq_top_of_monic_mem_of_map_eq_one
+  informal: Over a local ring, an ideal of A[X] containing a monic polynomial and an element congruent
+    to 1 modulo the maximal ideal is the unit ideal.
+- declaration: LeanPool.QuillenSuslin.exists_generalLinearGroup_col_eq_of_isUnimodular
+  informal: Suslin's completion theorem. Over a principal ideal domain k, every unimodular vector
+    v over k[X₁, …, Xₙ] is the first column of an invertible matrix.
+- declaration: LeanPool.QuillenSuslin.exists_mulVec_eq_eval_zero
+  informal: Little Horrocks' global theorem. If f ∈ A[X]ⁿ is unimodular, deg fᵢ ≤ dᵢ and the
+    coefficients of the fᵢ in degree dᵢ generate the unit ideal of A, then g f = f(0) for some
+    invertible matrix g over A[X].
+- declaration: LeanPool.QuillenSuslin.exists_generalLinearGroup_col_eq_of_free_ker
+  informal: Over a nontrivial commutative ring, if a linear form φ on Rᵐ⁺¹ has φ(v) = 1 and a
+    free kernel, then v is the first column of an invertible matrix.
+- declaration: LeanPool.QuillenSuslin.exists_linearEquiv_apply_eq_of_kerEquiv
+  informal: If linear forms φ, φ' on M satisfy φ(v) = 1, φ'(v') = 1 and have isomorphic kernels,
+    then some automorphism of M sends v to v'.
+- declaration: LeanPool.QuillenSuslin.kerBaseChange
+  informal: For a linear form ψ on Rⁿ taking the value 1 at some vector and an R-algebra S, the
+    base change S ⊗ ker ψ is isomorphic to the kernel of the induced linear form on Sⁿ.
+- declaration: LeanPool.QuillenSuslin.isExtendedFrom_ker_dotForm
+  informal: If ψ · f = 1 in A[X] and the head coefficients of f generate the unit ideal, then the
+    kernel of ψ on A[X]ⁿ is extended from A.
+- declaration: LeanPool.QuillenSuslin.exists_specialLinearGroup_row_pow_of_perm
+  informal: Suslin's r! theorem for factorial-shaped exponents. If (a₀, …, a_r) is unimodular,
+    r ≥ 1, and max(r − i, 1) divides m(σ i) for some permutation σ, then (a₀^m₀, …, a_r^m_r) is
+    the first row of a matrix of determinant one.
+- declaration: LeanPool.QuillenSuslin.exists_specialLinearGroup_row_pow_max
+  informal: For a unimodular row (a₀, …, a_r) with r ≥ 1, the row (a₀, a₁, a₂², …, a_rʳ) is the
+    first row of a matrix of determinant one.
+- declaration: LeanPool.QuillenSuslin.exists_specialLinearGroup_row_pow_of_le_two
+  informal: Suslin's r! theorem for r ≤ 2. If (a₀, …, a_r) is unimodular, 1 ≤ r ≤ 2 and r!
+    divides the product of the exponents, then (a₀^m₀, …, a_r^m_r) is the first row of a matrix
+    of determinant one (Swan–Towber for r = 2).
+- declaration: LeanPool.QuillenSuslin.exists_row_pow_det
+  informal: For rows y and z of length k + 2, the row whose i-th entry is yᵢ to the power
+    max(k + 1 − i, 1) is the first row of a matrix of determinant (∑ yᵢ zᵢ)^(k + 1)!.
+- declaration: LeanPool.QuillenSuslin.exists_border
+  informal: Suslin's bordering step. If β is a square matrix of size n + 1 with first row b and
+    determinant δ, then for all X, τ and v the row (X, b) is the first row of a matrix of
+    determinant X τⁿ⁺¹ − δ ∑ⱼ τⁿ⁻ʲ δʲ vⱼ.
+- declaration: LeanPool.QuillenSuslin.det_border
+  informal: The matrix with first row (p, b) and lower block (u | Γ) has determinant
+    p det Γ − (b adj Γ) · u.
+tags:
+- projective-modules
+- polynomial-rings
+- quillen-suslin
+- quillen-patching
+- horrocks
+msc:
+- 13C10
+- 13B30
+- 19A13
